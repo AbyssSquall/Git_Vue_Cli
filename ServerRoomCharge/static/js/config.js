@@ -1,0 +1,1 @@
+var squall_all_url = "http://192.168.10.144:405";

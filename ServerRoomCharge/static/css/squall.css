@@ -1,0 +1,127 @@
+/* 全局样式 */
+body{
+    background-color: #e9dfe5;
+    margin: 0px;
+    font-family: 'YouYuan';
+}
+
+a{
+    text-decoration:none;
+    cursor:pointer;
+}
+
+/* 这里是头部样式 */
+
+.squall-header{
+    top: 0px;
+    position: fixed;
+    width: 100%;
+    height: 50px;
+}
+
+.squall-logo{
+    color: white;
+    top: 0px;
+    left: 0px;
+    position: fixed;
+    width: 200px;
+    height: 60px;
+    text-align: center;
+}
+
+.squall-logo>img{
+    height: 100%;
+}
+
+.squall-header>.squall-navbar{
+    text-align: right;
+    width: 100%;
+    display: inline-block;
+    height: 50px;
+}
+
+.squall-header>.squall-navbar>a{
+    background-color: #267ea3;
+    position: relative;
+    color: white;
+    top: 10px;
+    padding: 15px 10px;
+    font-size: 20px;
+}
+
+.squall-title{
+    margin-left: 40px;
+    font-size: 40px;
+    position: absolute;
+    top: 0px;
+    left: 200px;
+}
+
+.squall-title>a{    color: white;
+}
+/* .squall-header>.squall-navbar>ul{
+} 
+
+.squall-header>.squall-navbar>ul>li{
+    margin: 10px;
+    float: left;
+    list-style: none;
+    display: inline-block;
+}*/
+
+/* 这里是侧边栏样式 */
+
+.squall-side-nav{
+    color: white;
+    position: fixed;
+    top:60px;
+    height: 100%;
+    width: 200px;
+    /*background-color: #507ea4;*/
+}
+
+.squall-side-nav-item{
+    margin: 5px 5px;
+    background-color: #bbc8e6;
+    padding: 10px 10px;
+}
+
+.squall-side-nav-item>a{
+    padding: 15px 35px;
+    color: white;
+}
+
+
+/* 这里是内容物样式 */
+.squall-content{
+    margin-top: 10px;
+    width: 65%;
+    position: absolute;
+    top: 60px;
+    left: 400px;
+}
+
+.layui-form-item{
+    margin-top: 40px;
+}
+
+.squall-table>.squall-form-group{
+    text-align: left;
+    margin: 60px;
+}
+
+input{
+    border-radius: 5px;
+}
+
+.squall_block{
+    display: block;
+}
+
+td{
+    text-align: left;
+}
+
+.layui-input, .layui-textarea{
+    padding-left: 3px !important;
+}
