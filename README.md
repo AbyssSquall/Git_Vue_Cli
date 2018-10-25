@@ -4,6 +4,8 @@
 
 > this is a test file to check the change of file
 
+> when you pull down this porject .You must run "npm install" in cmd or orther powershell.I think you need node_modules right?
+
 ## Build Setup
 
 ``` bash
