@@ -35,3 +35,10 @@
 .squall-this>a{
     color: #ffffff; 
 }
+
+.squall_Map{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: 30px;
+}
