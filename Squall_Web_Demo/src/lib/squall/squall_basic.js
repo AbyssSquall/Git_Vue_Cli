@@ -1,0 +1,1 @@
+console.log("Squal基础js库已被加载！");
