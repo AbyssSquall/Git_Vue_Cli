@@ -7,7 +7,7 @@ import router from './router'
 import squall_basic from './lib/squall/js/squall_basic'
 import "./lib/squall/css/squall_basic.css"
 
-import "./lib/layui/layui-v2.3.0/layui.all.js"
+//import "./lib/layui/layui-v2.3.0/layui.all.js"
 import "./lib/layui/layui-v2.3.0/css/layui.css"
 import "./lib/layui/layui-v2.3.0/css/layui.mobile.css"
 
