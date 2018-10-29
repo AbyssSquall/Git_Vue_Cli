@@ -26,10 +26,11 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
+    //this.squall={};
     //初始化地图
-    squall_mapserver = "http://122.227.234.10:8515";
+    squall.MapServer = "http://122.227.234.10:8515";
     //console.log(L);
-    var squall_mapbase = L.tileLayer(squall_mapserver+'/map/nametest?level={z}&col={x}&row={y}&path={path}', {
+    var squall_mapbase = L.tileLayer(squall.MapServer+'/map/nametest?level={z}&col={x}&row={y}&path={path}', {
             maxZoom: 6,
             minZoom: 0,
             continuousWorld: true,
