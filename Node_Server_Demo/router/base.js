@@ -1,5 +1,4 @@
 var express = require('express');
-var fs = require('fs');
 var router = express.Router();
 
 //任何请求都会执行的中间件
