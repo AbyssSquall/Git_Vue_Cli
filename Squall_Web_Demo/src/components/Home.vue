@@ -17,6 +17,7 @@
           <li></li>
           <li></li>
         </ul>
+        <div id="wechat"></div>
         <foot-nav :page="page"></foot-nav>
     </div>
 </template>
@@ -36,6 +37,18 @@ export default {
   components: {
     'FootNav':FootNav,
     //'SideNav':SideNav,
+  },
+  mounted:function(){
+    // var obj = new WxLogin({
+    //     self_redirect:true,
+    //     id:"wechat", 
+    //     appid: "", 
+    //     scope: "", 
+    //     redirect_uri: "",
+    //     state: "",
+    //     style: "",
+    //     href: ""
+    //   });
   },
 }
 </script>
