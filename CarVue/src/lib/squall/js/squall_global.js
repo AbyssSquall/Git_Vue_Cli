@@ -1,4 +1,7 @@
-const colorListLength = 20;
+const Host_IP = "127.0.0.1";
+const Host_Port = "8046";
+const Map_IP = "122.227.234.10";
+const Map_Port = "8515";
 
 function getRandColor () {
     var tem = Math.round(Math.random() * colorListLength)
@@ -19,6 +22,7 @@ function squall_guid() {
 export default
 {
     guid,
-    colorListLength,
+    Host_IP,
     getRandColor,
+    Host_Port,
 }
