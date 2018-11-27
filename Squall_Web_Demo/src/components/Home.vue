@@ -1,6 +1,23 @@
 <template>
     <div>
-        <h1>僕はキミのこどが好きでした‼</h1>
+        <h1>任务列表</h1>
+        <ul>
+          <li>每个页面需要添加cookies验证或者sesions</li>
+          <li>测试微信接口</li>
+          <li>制作借车页面</li>
+          <li>获取定位信息</li>
+          <li>建立个人数据库</li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+          <li></li>
+        </ul>
+        <div id="wechat"></div>
         <foot-nav :page="page"></foot-nav>
     </div>
 </template>
@@ -20,6 +37,18 @@ export default {
   components: {
     'FootNav':FootNav,
     //'SideNav':SideNav,
+  },
+  mounted:function(){
+    // var obj = new WxLogin({
+    //     self_redirect:true,
+    //     id:"wechat", 
+    //     appid: "", 
+    //     scope: "", 
+    //     redirect_uri: "",
+    //     state: "",
+    //     style: "",
+    //     href: ""
+    //   });
   },
 }
 </script>

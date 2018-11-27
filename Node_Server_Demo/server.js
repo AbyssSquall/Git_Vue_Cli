@@ -2,8 +2,6 @@ var express = require('express');
 var app = express();
 var squall = require('./config/node_config');
 
-//console.log(squall.squall);
-
 //虚拟路径
 app.use(express.static('WebPage'));
 
