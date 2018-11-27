@@ -1,0 +1,3 @@
+var squall_alias={
+    
+}

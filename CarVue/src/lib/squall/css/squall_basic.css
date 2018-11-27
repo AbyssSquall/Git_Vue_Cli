@@ -1,0 +1,186 @@
+.leaflet-control>a{
+    display: none;
+}
+
+body{
+    height: 800px;
+    background-color: #e8ecef;
+}
+
+.squall_footer{
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
+}
+
+.squall_footer>ul{
+    list-style: none;
+}
+
+.squall_footer>ul>li{
+    background-color: #89c3eb;
+    border-style: solid;
+    border-width: 1px;
+    border-color: gray;
+    height: 45px;
+    float: left;
+    vertical-align: middle;
+}
+
+.squall_footer>ul>li>a{
+    position: absolute;
+    overflow: auto;
+    height: 40%;
+    width: 100%;
+    margin: auto;
+    top: 0; left: 0; bottom: 0; right: 0;
+}
+
+.squall-this{
+    background-color : #045da7 !important;
+}
+
+.squall-this>a{
+    color: #ffffff; 
+}
+
+.squall_Map{
+    height: 100%;
+    width: 100%;
+    position: absolute;
+    bottom: 45px;
+}
+
+div>.blank{
+    height: 100px;
+}
+
+.squall_wrappage{
+    top: 50px;
+}
+
+.squall_wrapblank{
+    height: 50px;
+}
+
+.squall_btn_submit{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color:#e8ecef; 
+    bottom: 50px;
+    position: fixed;
+    width: 100%;
+}
+
+.squall_btn_submit_up{
+    padding-top: 10px;
+    padding-bottom: 10px;
+    background-color:#e8ecef; 
+    position: fixed;
+    width: 100%;
+    bottom: 100px;
+}
+
+.squall_panel{
+    margin: 20px;
+}
+
+.squall_label{
+    height: 38px;
+    float: right;
+}
+
+.squall_show_body{
+    overflow: auto;
+    height: 500px;
+}
+
+.squall_item{
+    padding: 10px
+}
+
+.squall_item>div{
+    text-align: center;
+    height: 38px;
+    line-height: 38px;
+}
+
+.squall_personal_info{
+    height: 300px;
+}
+
+.squall_head{
+    margin: 10px;
+    height: 200px;
+    border-radius: 150px;
+}
+
+.squall_username{
+    height: 50px;
+    font-size: 30px;
+    text-align: center;
+}
+
+.squall_info_line{
+    height: 50px;
+    border-top: 1px solid;
+    border-bottom: 1px solid;
+    margin-top: -1px;
+    text-align: left;
+}
+
+.squall_info_line>div{
+    line-height: 50px;
+}
+
+.squall_info_line>div>a{
+    margin-left:10px; 
+    font-size: 20px;
+}
+
+.squall_info_line>div>span{
+    position: relative;
+    right: 0px;
+    font-size: 20px;
+}
+
+.squall_onuse_item{
+    height: 35px;
+}
+
+.squall_onuse_item>div{
+    font-size: 15px;
+    padding-left: 10px;
+    line-height: 35px;
+}
+
+.squall_pass{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;
+    background-color: green;
+    color: #fff;
+}
+
+.squall_unpass{
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border-radius: 5px;;
+    color: #000;
+}
+
+.squall_width_full{
+    width:100%;
+}
+
+.squall_top_gap{
+    margin-top: 10px;
+}
+
+.el-dialog__header{
+    display: none;
+}
+
+.el-textarea__inner{
+    resize: none;
+}

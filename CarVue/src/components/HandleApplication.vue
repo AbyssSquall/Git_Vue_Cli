@@ -1,0 +1,212 @@
+<template>
+    <div>
+        <h1>申请审核</h1>
+        <div class="layui-card squall_panel">
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">生产用车</div>
+                </div>
+                <el-row>
+                    <el-col :span="20" :offset="2">
+                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog('1')">查看详情</el-button>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+        <div class="layui-card squall_panel">
+            <div class="layui-card-body">
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">车牌号：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">公务用车</div>
+                </div>
+                <el-row>
+                    <el-col :span="20" :offset="2">
+                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog">查看详情</el-button>
+                    </el-col>
+                </el-row>
+            </div>
+        </div>
+        <foot-nav :page="page"></foot-nav>
+
+        <!--
+        -->
+        <el-dialog :visible.sync="dialogVisible" width="80%">
+            <div v-html="show_html"></div>
+            <el-row>
+                <el-col :span="20" :offset='2'>
+                    <div class="grid-content bg-purple">
+                        <el-button type="primary" class="squall_width_full" @click="squall_agree(guid)">{{squall_ok}}</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" :offset='2'>
+                    <div class="grid-content bg-purple">
+                        <el-button type="primary" class="squall_width_full squall_top_gap" @click="dialogVisible = false">{{squall_cencel}}</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-dialog>
+
+        <el-dialog :visible.sync="Driver_dialogVisible" width="80%">
+            <el-form :model="form">
+                <el-form-item label="驾驶员名称" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <el-form-item label="车牌号" :label-width="formLabelWidth">
+                    <el-select v-model="form.region" placeholder="请选择">
+                        <el-option label="浙B96C08" value="浙B96C08"></el-option>
+                        <el-option label="浙B96C08" value="浙B96C08"></el-option>
+                    </el-select>
+                </el-form-item>
+                <el-form-item label="等候地点" :label-width="formLabelWidth">
+                <el-input v-model="form.name" autocomplete="off"></el-input>
+                </el-form-item>
+                <!--<el-form-item label="活动区域" :label-width="formLabelWidth">
+                <el-select v-model="form.region" placeholder="请选择活动区域">
+                    <el-option label="区域一" value="shanghai"></el-option>
+                    <el-option label="区域二" value="beijing"></el-option>
+                </el-select>
+                </el-form-item>-->
+            </el-form>
+            <el-row>
+                <el-col :span="20" :offset='2'>
+                    <div class="grid-content bg-purple">
+                        <el-button type="primary" class="squall_width_full" @click="squall_agree(guid)">提交</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" :offset='2'>
+                    <div class="grid-content bg-purple">
+                        <el-button type="primary" class="squall_width_full squall_top_gap" @click="Driver_dialogVisible = false">取消</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-dialog>
+    </div>
+</template>
+<script>
+import FootNav from"@/components/Footer"
+
+export default {
+  name: 'Car',
+  data () {
+    return {
+        show_msg: '',
+        page: 'car',
+        dialogVisible: false,
+        Driver_dialogVisible : false,
+        show_html:'',
+        squall_ok:"通过",
+        squall_cencel:"拒绝",
+        guid:"1",
+        selectedInfo:{},
+        form: {
+          name: '',
+          region: '',
+          date1: '',
+          date2: '',
+          delivery: false,
+          type: [],
+          resource: '',
+          desc: ''
+        },
+        formLabelWidth: '120px',
+    }
+  },
+  components: {
+    'FootNav':FootNav,
+    //'SideNav':SideNav,
+  },
+  mounted:function(){
+    //console.log(this.Global.guid);
+    this.basic.squall_basic_http.GetInfo(this.Global.guid);
+
+    //最终执行
+    var vm = this;
+    vm.$nextTick(function(){
+        layui.use(['element','layer'], function(){
+        });
+    });
+    
+  },
+  methods:{
+        squall_agree:function(guid){
+            this.dialogVisible = false;
+            if(this.selectedInfo.车牌号)
+                return;
+            else
+                this.Driver_dialogVisible = true;
+            //console.log(guid);
+            //this.show_html = "<el-button>1111</el-button>";
+        },
+        squall_element_dialog:function(guid){
+            this.dialogVisible = true;
+            if(guid=="1")
+            {    
+                //弹出弹出层
+                    var squall_temp_data={
+                        "车牌号":"浙B96C08",
+                        "部门":"地理信息所",
+                        "姓名":"黄列禹",
+                        "目的地":"北仑",
+                        "事由":"北仑图库",
+                        "开始时间":"2018-11-11 9:00:00",
+                        "结束时间":"2018-11-11 16:00:00"
+                        };
+
+                this.selectedInfo = squall_temp_data;
+                var squall_html = "";
+                for(var index in squall_temp_data)
+                {
+                    squall_html += "<div class='layui-row squall_item'>";
+                    squall_html += '<div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">' + index + '：</span></div>';
+                    squall_html += '<div class="layui-col-xs9 layui-col-sm9 layui-col-md9">' + squall_temp_data[index] + '</div>';
+                    squall_html += "</div>";
+                }
+            }
+            else
+            {
+                
+                    var squall_temp_data={
+                            "部门":"地理信息所",
+                            "姓名":"黄列禹",
+                            "目的地":"北仑",
+                            "事由":"北仑图库",
+                            "开始时间":"2018-11-11 9:00:00",
+                            "结束时间":"2018-11-11 16:00:00"
+                        };
+
+                this.selectedInfo = squall_temp_data;
+                    var squall_html = "";
+                    for(var index in squall_temp_data)
+                    {
+                        squall_html += "<div class='layui-row squall_item'>";
+                        squall_html += '<div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">' + index + '：</span></div>';
+                        squall_html += '<div class="layui-col-xs9 layui-col-sm9 layui-col-md9">' + squall_temp_data[index] + '</div>';
+                        squall_html += "</div>";
+                    }
+            }
+            this.show_html = squall_html;
+      }
+  },
+}
+</script>
