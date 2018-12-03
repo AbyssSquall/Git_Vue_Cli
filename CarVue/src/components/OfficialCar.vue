@@ -61,7 +61,6 @@
                 </el-col>
             </el-row>
         </el-form>
-        <foot-nav :page="page"></foot-nav>
 
         
         <!--弹出层-->
@@ -78,7 +77,6 @@
     </div>
 </template>
 <script>
-import FootNav from"@/components/Footer"
 
 export default {
   name: 'Car',
@@ -125,7 +123,6 @@ export default {
     }
   },
   components: {
-    'FootNav':FootNav,
     //'SideNav':SideNav,
   },
   mounted:function(){

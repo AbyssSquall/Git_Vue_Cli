@@ -24,8 +24,6 @@
       <div class="layui-row squall_btn_submit">
         <button class="layui-btn layui-btn-danger layui-col-xs10 layui-col-sm10 layui-col-md10 layui-col-xs-offset1 layui-col-sm-offset1 layui-col-md-offset1">退出登录</button>
       </div>
-      -->
-      <foot-nav :page="page"></foot-nav>
 
         <!--弹出层-->
         <el-dialog :visible.sync="dialogVisible" width="80%">
@@ -41,7 +39,6 @@
     </div>
 </template>
 <script>
-import FootNav from"@/components/Footer"
 
 export default {
   name: 'Personal',
@@ -55,7 +52,6 @@ export default {
     }
   },
   components: {
-    'FootNav':FootNav,
     //'SideNav':SideNav,
   },
   methods:{

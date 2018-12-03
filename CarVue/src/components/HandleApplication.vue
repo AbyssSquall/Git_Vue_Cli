@@ -33,7 +33,7 @@
                     <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
                 </div>
                 <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">车牌号：</span></div>
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
                     <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">公务用车</div>
                 </div>
                 <el-row>
@@ -43,7 +43,6 @@
                 </el-row>
             </div>
         </div>
-        <foot-nav :page="page"></foot-nav>
 
         <!--
         -->
@@ -104,7 +103,6 @@
     </div>
 </template>
 <script>
-import FootNav from"@/components/Footer"
 
 export default {
   name: 'Car',
@@ -133,7 +131,6 @@ export default {
     }
   },
   components: {
-    'FootNav':FootNav,
     //'SideNav':SideNav,
   },
   mounted:function(){
@@ -162,6 +159,8 @@ export default {
             this.dialogVisible = true;
             if(guid=="1")
             {    
+                this.squall_ok = "同意";
+                this.squall_cencel = "退回";
                 //弹出弹出层
                     var squall_temp_data={
                         "车牌号":"浙B96C08",
@@ -194,6 +193,9 @@ export default {
                             "开始时间":"2018-11-11 9:00:00",
                             "结束时间":"2018-11-11 16:00:00"
                         };
+
+                this.squall_ok = "指派";
+                this.squall_cencel = "退回";
 
                 this.selectedInfo = squall_temp_data;
                     var squall_html = "";

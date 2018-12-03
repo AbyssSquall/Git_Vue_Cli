@@ -1,5 +1,3 @@
-const colorListLength = 20;
-
 function getRandColor () {
     var tem = Math.round(Math.random() * colorListLength)
     return colorList[tem]
@@ -19,6 +17,5 @@ function squall_guid() {
 export default
 {
     guid,
-    colorListLength,
     getRandColor,
 }

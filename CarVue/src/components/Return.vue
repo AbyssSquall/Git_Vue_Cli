@@ -1,19 +1,14 @@
 <template>
     <div>
-        <h1>生产用车</h1>
+        <h1>借车归还</h1>
         <img class="squall_wrapblank" src="static/blank.png">
         <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="使用范围" prop="range">
+            <el-form-item label="借车类型" prop="range">
                 <el-col :span="20">
-                <el-select class="squall_width_full" v-model="form.range" placeholder="请选择范围">
-                    <el-option label="大市区内" value="incity"></el-option>
-                    <el-option label="大市区外" value="outcity"></el-option>
+                <el-select class="squall_width_full" v-model="form.range" placeholder="请选择类型">
+                    <el-option label="生产用车" value="product"></el-option>
+                    <el-option label="公务用车" value="official"></el-option>
                 </el-select>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="驾驶员" prop="driver">
-                <el-col :span="20">
-                <el-input v-model="form.driver"></el-input>
                 </el-col>
             </el-form-item>
             <el-form-item label="车牌号" prop="carid">
@@ -24,49 +19,20 @@
                 </el-select>
                 </el-col>
             </el-form-item>
-            <el-form-item label="目的地" prop="aim">
-                <el-col :span="20">
-                <el-input v-model="form.aim"></el-input>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="开始日期" required>
-                <el-col :span="20">
-                <el-form-item prop="startdate">
-                    <el-date-picker id="startdate" type="date" placeholder="选择日期" v-model="form.startdate" style="width: 100%;"></el-date-picker>
-                </el-form-item>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="开始时间" required>
-                <el-col :span="20">
-                <el-form-item prop="starttime">
-                    <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="form.starttime" style="width: 100%;"></el-time-select>
-                </el-form-item>
-                </el-col>
-            </el-form-item>
-            <el-form-item label="结束日期" required>
+            <el-form-item label="归还日期" required>
                 <el-col :span="20">
                     <el-form-item prop="enddate">
                         <el-date-picker id="enddate" type="date" placeholder="选择日期" v-model="form.enddate" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="结束时间" required>
+            <el-form-item label="归还时间" required>
                 <el-col :span="20">
                     <el-form-item prop="endtime">
                         <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="form.endtime" style="width: 100%;"></el-time-select>
                     </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="事由" prop="reason">
-                <el-col :span="20">
-                <el-input style="resize:none;" type="textarea" v-model="form.reason"></el-input>
-                </el-col>
-            </el-form-item>
-            <el-row>
-                <el-col :span="20" :offset="2">
-                    <el-button class="squall_width_full" type="primary" @click="squall_show_onuse()">查看在用车辆</el-button>
-                </el-col>
-            </el-row>
             <el-row>
                 <el-col :span="20" :offset="2">
                     <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('form')">提交</el-button>
