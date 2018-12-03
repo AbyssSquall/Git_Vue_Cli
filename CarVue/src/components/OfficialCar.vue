@@ -149,7 +149,8 @@ export default {
             this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
         },
         submitForm:function(data){
-            var  squall_html = "http://" + this.Global.Host_IP + ":" + this.Global.Host_Port + "/table/submit";
+            //console.log(this.form);
+            var  squall_html = "http://192.168.10.144:8046/table/submit";
             this.$http.get(squall_html,{"params":this.form}).then(function(res){
                 console.log(res);
             },function(res){
