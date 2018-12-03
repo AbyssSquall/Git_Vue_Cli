@@ -7,7 +7,7 @@ var squall_start =function(){
     return "一个正常的函数返回！";
 }
 var squall_Server_Host_IP = "http://192.168.10.144";
-var squall_Database_Host_IP = "192.168.10.144";
+var squall_Database_Host_IP = "http://192.168.10.144:8047";
 var squall_Host_IP = "192.168.10.144";
 var squall_data_server = "http://oa.nbgis.com/";
 
@@ -28,6 +28,34 @@ var squall_basic_http = new Vue({
         GetInfo:function(guid){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
                 console.log(data.body);
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetGrant:function(xuhao,that){
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")").then(function(data){
+                //console.log(data.data);
+                for(var i=0;i<data.data.length;i++)
+                {
+                    //console.log(data.data[i].e_right);
+                    if(data.data[i].e_right=="公务用车")
+                    {
+                        that.ProductCar = true;
+                    }
+                    if(data.data[i].e_right=="生产用车")
+                    {
+                        that.OfficialCar = true;
+                    }
+                    if(data.data[i].e_right=="申请审核")
+                    {
+                        that.HandleApplication = true;
+                    }
+                    if(data.data[i].e_right=="历史记录")
+                    {
+                        that.History = true;
+                    }
+                }
+                //console.log(xuhao);
             }).catch(function(err){
                 console.log(err);
             })

@@ -8,6 +8,8 @@ import ProductCar from '@/components/ProductCar'
 import HandleApplication from '@/components/HandleApplication'
 import History from '@/components/History'
 import Return from '@/components/Return'
+import Regist from '@/components/regist'
+
 
 Vue.use(Router)
 
@@ -52,6 +54,11 @@ export default new Router({
       path: '/Return',
       name: 'Return',
       component: Return
+    },
+    {
+      path: '/Regist',
+      name: 'Regist',
+      component: Regist
     },
   ]
 })
