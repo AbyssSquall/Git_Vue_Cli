@@ -88,3 +88,5 @@ export default{
     "squall_user_info":squall_user_info,
     "squall_Host":squall_Server_Host_IP
 }
+
+//xmysql -h localhost -u root -p 123456 -d carrent
