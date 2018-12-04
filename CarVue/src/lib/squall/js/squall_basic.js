@@ -2,7 +2,7 @@ import Vue from 'vue'
 
 //基础变量
 var squall_Server_Host_IP = "http://192.168.10.144";
-var squall_Database_Host_IP = "http://192.168.10.144:8047";
+var squall_Database_Host_IP = "http://127.0.0.1:3000";//192.168.10.144:8047
 var squall_Host_IP = "192.168.10.144";
 var squall_data_server = "http://oa.nbgis.com/";
 
