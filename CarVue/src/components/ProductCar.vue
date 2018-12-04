@@ -59,7 +59,7 @@
             </el-form-item>
             <el-form-item label="事由" prop="task">
                 <el-col :span="20">
-                <el-input style="resize:none;" type="textarea" v-model="squall_form.reason"></el-input>
+                <el-input style="resize:none;" type="textarea" v-model="squall_form.task"></el-input>
                 </el-col>
             </el-form-item>
             <el-row>
@@ -69,7 +69,7 @@
             </el-row>
             <el-row>
                 <el-col :span="20" :offset="2">
-                    <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('squall_form',this)">提交</el-button>
+                    <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('squall_form')">提交</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -164,13 +164,22 @@ export default {
 
             this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
         },
-        submitForm:function(data,that){
-            var squall_data = this[data];
+        submitForm:function(data){
+            var squall_data = JSON.stringify(this[data]);
+            var squall_data_json = JSON.parse(squall_data);
+            squall_data_json.starttime = squall_data_json.startdate + " " + squall_data_json.starttime;
+            squall_data_json.endtime = squall_data_json.enddate + " " + squall_data_json.endtime;
+            squall_data_json.startdate = undefined;
+            squall_data_json.enddate = undefined;
+            squall_data_json.序号 = 178;
+            
+            var that = this;
             this.$refs[data].validate(function(squall_bool,squall_res){
                 if(squall_bool)
                 {
-                    //this.basic.
-                    console.log(squall_data);
+                    //console.log(that);
+                    that.basic.squall_basic_http.PostForm(JSON.stringify(squall_data_json),"product_application");
+                    //console.log(squall_data);
                 }
                 else
                 { 

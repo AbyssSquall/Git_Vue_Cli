@@ -69,9 +69,10 @@ var squall_basic_http = new Vue({
             })
         },
         PostForm:function(data,table){
-            console.log(data);
-            this.$http.post(squall_Database_Host_IP+"/api/" + table,{data}).then(function(data){
-                //console.log(xuhao);
+            //console.log(data,table);
+            var squall_data = JSON.parse(data);
+            this.$http.post(squall_Database_Host_IP+"/api/" + table,squall_data).then(function(data){
+                console.log(data.data);
             }).catch(function(err){
                 console.log(err);
             })
