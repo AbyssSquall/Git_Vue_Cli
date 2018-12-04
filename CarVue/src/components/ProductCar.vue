@@ -2,23 +2,23 @@
     <div>
         <h1>生产用车</h1>
         <img class="squall_wrapblank" src="static/blank.png">
-        <el-form :model="form" :rules="rules" ref="form" label-width="100px" class="demo-ruleForm">
-            <el-form-item label="使用范围" prop="range">
+        <el-form :model="squall_form" :rules="rules" ref="squall_form" label-width="100px">
+            <el-form-item label="使用范围" prop="region">
                 <el-col :span="20">
-                <el-select class="squall_width_full" v-model="form.range" placeholder="请选择范围">
-                    <el-option label="大市区内" value="incity"></el-option>
-                    <el-option label="大市区外" value="outcity"></el-option>
-                </el-select>
+                    <el-select class="squall_width_full" v-model="squall_form.region" placeholder="请选择范围">
+                        <el-option label="大市区内" value="incity"></el-option>
+                        <el-option label="大市区外" value="outcity"></el-option>
+                    </el-select>
                 </el-col>
             </el-form-item>
             <el-form-item label="驾驶员" prop="driver">
                 <el-col :span="20">
-                <el-input v-model="form.driver"></el-input>
+                <el-input v-model="squall_form.driver"></el-input>
                 </el-col>
             </el-form-item>
             <el-form-item label="车牌号" prop="carid">
                 <el-col :span="20">
-                <el-select class="squall_width_full" v-model="form.carid" placeholder="请选择车辆">
+                <el-select class="squall_width_full" v-model="squall_form.carid" placeholder="请选择车辆">
                     <el-option label="浙B96C08" value="100400"></el-option>
                     <el-option label="浙BH2B07" value="100427"></el-option>
                 </el-select>
@@ -26,40 +26,40 @@
             </el-form-item>
             <el-form-item label="目的地" prop="aim">
                 <el-col :span="20">
-                <el-input v-model="form.aim"></el-input>
+                <el-input v-model="squall_form.aim"></el-input>
                 </el-col>
             </el-form-item>
             <el-form-item label="开始日期" required>
                 <el-col :span="20">
                 <el-form-item prop="startdate">
-                    <el-date-picker id="startdate" type="date" placeholder="选择日期" v-model="form.startdate" style="width: 100%;"></el-date-picker>
+                    <el-date-picker id="startdate" type="date" placeholder="选择日期" v-model="squall_form.startdate" style="width: 100%;"></el-date-picker>
                 </el-form-item>
                 </el-col>
             </el-form-item>
             <el-form-item label="开始时间" required>
                 <el-col :span="20">
                 <el-form-item prop="starttime">
-                    <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="form.starttime" style="width: 100%;"></el-time-select>
+                    <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="squall_form.starttime" style="width: 100%;"></el-time-select>
                 </el-form-item>
                 </el-col>
             </el-form-item>
             <el-form-item label="结束日期" required>
                 <el-col :span="20">
                     <el-form-item prop="enddate">
-                        <el-date-picker id="enddate" type="date" placeholder="选择日期" v-model="form.enddate" style="width: 100%;"></el-date-picker>
+                        <el-date-picker id="enddate" type="date" placeholder="选择日期" v-model="squall_form.enddate" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-form-item>
             <el-form-item label="结束时间" required>
                 <el-col :span="20">
                     <el-form-item prop="endtime">
-                        <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="form.endtime" style="width: 100%;"></el-time-select>
+                        <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
                     </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="事由" prop="reason">
+            <el-form-item label="事由" prop="task">
                 <el-col :span="20">
-                <el-input style="resize:none;" type="textarea" v-model="form.reason"></el-input>
+                <el-input style="resize:none;" type="textarea" v-model="squall_form.reason"></el-input>
                 </el-col>
             </el-form-item>
             <el-row>
@@ -69,7 +69,7 @@
             </el-row>
             <el-row>
                 <el-col :span="20" :offset="2">
-                    <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('form')">提交</el-button>
+                    <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('squall_form',this)">提交</el-button>
                 </el-col>
             </el-row>
         </el-form>
@@ -95,39 +95,33 @@ export default {
   data () {
     return {
         msg: 'Welcome to Your Vue.js App',
+        RefreshPage:false,
         page: 'car',
-        form:{
-            range:"请选择范围",
+        squall_form:{
+            region:'',
             driver:"",
             carid:"",
             aim:"",
-            startdate:"2018-11-27",
-            starttime:"12:01:07",
-            enddate:"2018-11-27",
-            endtime:"12:01:07",
-            reason:'',
+            startdate:"",
+            starttime:"",
+            enddate:"",
+            endtime:"",
+            task:'',
         },
         rules: {
-            name: [
-                { required: true, message: '请输入活动名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
-            ],
             region: [
-                { required: true, message: '请选择活动区域', trigger: 'change' }
+                { required: true, message: '请选择使用范围', trigger: 'change'}// 
             ],
-            date1: [
-                { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+            driver: [
+                { required: true, message: '请输入驾驶员', trigger: 'blur' }
             ],
-            date2: [
-                { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+            carid: [
+                { required: true, message: '请选择使用车辆', trigger: 'change' }
             ],
-            type: [
-                { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
+            aim: [
+                { required: true, message: '请输入目的地', trigger: 'blur' }
             ],
-            resource: [
-                { required: true, message: '请选择活动资源', trigger: 'change' }
-            ],
-            reason: [
+            task: [
                 { required: true, message: '请填写事由', trigger: 'blur' }
             ]
         },
@@ -141,14 +135,18 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-    //console.log(this.Global.guid);
-    this.basic.squall_basic_http.GetInfo(this.Global.guid);
-    var Now = new Date();
+        console.log(this.basic.squall_user_info);
+        this.squall_form.driver = this.basic.squall_user_info.name;
+        this.basic.squall_basic_http.GetInfo(this.Global.guid);
+        var Now = new Date();
 
-    this.form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
-    this.form.starttime;
-    this.form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();
-    this.form.endtime; 
+        this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
+        this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
+        this.squall_form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();
+        this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
+
+
+        this.RefreshPage != this.RefreshPage;
   },
     methods:{
         squall_show_onuse:function(){
@@ -166,8 +164,19 @@ export default {
 
             this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
         },
-        submitForm:function(data){
-            console.log(this.form);
+        submitForm:function(data,that){
+            var squall_data = this[data];
+            this.$refs[data].validate(function(squall_bool,squall_res){
+                if(squall_bool)
+                {
+                    
+                    console.log(squall_data);
+                }
+                else
+                { 
+                    console.log(squall_res);
+                }
+            })
         }
   }
 }

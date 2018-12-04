@@ -1,29 +1,32 @@
 <template>
     <div>
         <h1>申请审核</h1>
-        <div class="layui-card squall_panel">
-            <div class="layui-card-body">
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">生产用车</div>
-                </div>
-                <el-row>
-                    <el-col :span="20" :offset="2">
-                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog('1')">查看详情</el-button>
-                    </el-col>
-                </el-row>
-            </div>
-        </div>
-        <div class="layui-card squall_panel">
-            <div class="layui-card-body">
+        <el-row class="squall_panel">
+            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
+                <el-card class="box-card">
+                        <div class="layui-row">
+                            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
+                            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
+                            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
+                        </div>
+                        <div class="layui-row">
+                            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
+                            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">生产用车</div>
+                        </div>
+                        <el-row>
+                            <el-col :span="20" :offset="2">
+                                <el-button type="primary" class="squall_width_full" @click="squall_element_dialog('1')">查看详情</el-button>
+                            </el-col>
+                        </el-row>
+                </el-card>
+            </el-col>
+        </el-row>
+        <el-row class="squall_panel">
+            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
+                <el-card class="box-card">
                 <div class="layui-row">
                     <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
                     <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
@@ -41,8 +44,9 @@
                         <el-button type="primary" class="squall_width_full" @click="squall_element_dialog">查看详情</el-button>
                     </el-col>
                 </el-row>
-            </div>
-        </div>
+                </el-card>
+            </el-col>
+        </el-row>
 
         <!--
         -->

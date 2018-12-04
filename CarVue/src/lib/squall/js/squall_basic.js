@@ -1,15 +1,21 @@
 import Vue from 'vue'
 
-console.log("Squal基础js库已被加载！");
+//基础变量
+var squall_Server_Host_IP = "http://192.168.10.144";
+var squall_Database_Host_IP = "http://192.168.10.144:8047";
+var squall_Host_IP = "192.168.10.144";
+var squall_data_server = "http://oa.nbgis.com/";
+
+//动态变量
+var squall_user_info = {};
+
+
 
 var squall_start =function(){
     console.log("Squall基础库已经可以正常使用！");
     return "一个正常的函数返回！";
 }
-var squall_Server_Host_IP = "http://192.168.10.144";
-var squall_Database_Host_IP = "http://192.168.10.144:8047";
-var squall_Host_IP = "192.168.10.144";
-var squall_data_server = "http://oa.nbgis.com/";
+
 
 //GUID生成
 function squall_guid() {
@@ -20,6 +26,7 @@ function squall_guid() {
     }).toUpperCase();
 }
 
+//用户权限相关的请求函数
 var squall_basic_http = new Vue({
     data:{
         "test":11111
@@ -28,6 +35,7 @@ var squall_basic_http = new Vue({
         GetInfo:function(guid){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
                 console.log(data.body);
+                squall_user_info = data.body;
             }).catch(function(err){
                 console.log(err);
             })
@@ -59,6 +67,14 @@ var squall_basic_http = new Vue({
             }).catch(function(err){
                 console.log(err);
             })
+        },
+        PostForm:function(data,table){
+            console.log(data);
+            this.$http.post(squall_Database_Host_IP+"/api/" + table,{data}).then(function(data){
+                //console.log(xuhao);
+            }).catch(function(err){
+                console.log(err);
+            })
         }
     }
 
@@ -69,5 +85,6 @@ export default{
     "test_function":squall_start,
     "squall_guid":squall_guid,
     "squall_basic_http":squall_basic_http,
+    "squall_user_info":squall_user_info,
     "squall_Host":squall_Server_Host_IP
 }

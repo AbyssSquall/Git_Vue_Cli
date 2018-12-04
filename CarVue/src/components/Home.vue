@@ -81,6 +81,10 @@ export default {
   mounted:function(){
     //获取权限
     this.basic.squall_basic_http.GetGrant(178,this);
+
+    //
+    this.basic.squall_user_info.name = "黄列禹";
+
     //this.History=true;
     //this.HandleApplication = true;
     
