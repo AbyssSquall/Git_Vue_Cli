@@ -169,7 +169,7 @@ export default {
             this.$refs[data].validate(function(squall_bool,squall_res){
                 if(squall_bool)
                 {
-                    
+                    //this.basic.
                     console.log(squall_data);
                 }
                 else
