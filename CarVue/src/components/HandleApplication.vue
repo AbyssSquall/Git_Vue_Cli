@@ -1,7 +1,7 @@
 <template>
     <div>
         <h1>申请审核</h1>
-        <el-row class="squall_panel">
+        <!-- <el-row class="squall_panel">
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
                         <div class="layui-row">
@@ -46,8 +46,30 @@
                 </el-row>
                 </el-card>
             </el-col>
+        </el-row> -->
+        <el-row class="squall_panel" v-for="Application in ApplicationList" :key="Application.guid">
+            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
+                <el-card class="box-card">
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Application.b_姓名}}</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Application.a_aim}}</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">公务用车</div>
+                </div>
+                <el-row>
+                    <el-col :span="20" :offset="2">
+                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog(Application)">查看详情</el-button>
+                    </el-col>
+                </el-row>
+                </el-card>
+            </el-col>
         </el-row>
-
         <!--
         -->
         <el-dialog :visible.sync="dialogVisible" width="80%">
@@ -132,6 +154,7 @@ export default {
           desc: ''
         },
         formLabelWidth: '120px',
+        ApplicationList: [],
     }
   },
   components: {
@@ -141,13 +164,9 @@ export default {
     //console.log(this.Global.guid);
     this.basic.squall_basic_http.GetInfo(this.Global.guid);
 
-    //最终执行
-    var vm = this;
-    vm.$nextTick(function(){
-        layui.use(['element','layer'], function(){
-        });
-    });
-    
+    //从服务器读取列表，进行渲染
+    this.basic.squall_basic_http.GetApplicationList("official_application",this);
+
   },
   methods:{
         squall_agree:function(guid){
@@ -188,26 +207,26 @@ export default {
             }
             else
             {
-                
+                console.log(guid);
                     var squall_temp_data={
-                            "部门":"地理信息所",
-                            "姓名":"黄列禹",
-                            "目的地":"北仑",
-                            "事由":"北仑图库",
-                            "开始时间":"2018-11-11 9:00:00",
-                            "结束时间":"2018-11-11 16:00:00"
+                            "部门":guid.b_部门,
+                            "姓名":guid.b_姓名,
+                            "目的地":guid.a_aim,
+                            "事由":guid.a_task,
+                            "开始时间":guid.a_starttime,
+                            "结束时间":guid.a_endtime
                         };
 
                 this.squall_ok = "指派";
                 this.squall_cencel = "退回";
 
-                this.selectedInfo = squall_temp_data;
+                this.selectedInfo = guid;
                     var squall_html = "";
                     for(var index in squall_temp_data)
                     {
                         squall_html += "<div class='layui-row squall_item'>";
-                        squall_html += '<div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">' + index + '：</span></div>';
-                        squall_html += '<div class="layui-col-xs9 layui-col-sm9 layui-col-md9">' + squall_temp_data[index] + '</div>';
+                        squall_html += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><span class=" squall_label">' + index + '：</span></div>';
+                        squall_html += '<div class="layui-col-xs8 layui-col-sm8 layui-col-md8">' + squall_temp_data[index] + '</div>';
                         squall_html += "</div>";
                     }
             }

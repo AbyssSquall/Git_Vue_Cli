@@ -6,9 +6,9 @@
             <el-form-item label="使用范围" prop="region">
                 <el-col :span="20">
                 <el-select class="squall_width_full" v-model="squall_form.region" placeholder="请选择范围">
-                    <el-option label="市区内" value="inScity"></el-option>
-                    <el-option label="大市区内" value="inBcity"></el-option>
-                    <el-option label="大市区外" value="outcity"></el-option>
+                    <el-option label="市区内" value="市区内"></el-option>
+                    <el-option label="大市区内" value="大市区内"></el-option>
+                    <el-option label="大市区外" value="大市区外"></el-option>
                 </el-select>
                 </el-col>
             </el-form-item>
@@ -85,32 +85,25 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       page: 'car',
         squall_form:{
-            region:"请选择范围",
+            region:"",
             driver:"",
-            startdate:"2018-11-27",
-            starttime:"12:01:07",
-            enddate:"2018-11-27",
-            endtime:"12:01:07",
+            startdate:"",
+            starttime:"",
+            enddate:"",
+            endtime:"",
         },
         rules: {
-            name: [
-                { required: true, message: '请输入活动名称', trigger: 'blur' },
-                { min: 3, max: 5, message: '长度在 3 到 5 个字符', trigger: 'blur' }
+            aim: [
+                { required: true, message: '请输入目的地', trigger: 'blur' }
             ],
             region: [
-                { required: true, message: '请选择活动区域', trigger: 'change' }
+                { required: true, message: '请选择范围', trigger: 'change' }
             ],
             date1: [
                 { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
             ],
             date2: [
                 { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
-            ],
-            type: [
-                { type: 'array', required: true, message: '请至少选择一个活动性质', trigger: 'change' }
-            ],
-            resource: [
-                { required: true, message: '请选择活动资源', trigger: 'change' }
             ],
             task: [
                 { required: true, message: '请填写事由', trigger: 'blur' }
@@ -126,8 +119,17 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-    //console.log(this.Global.guid);
-    this.basic.squall_basic_http.GetInfo(this.Global.guid);
+        //console.log(this.Global.guid);
+        this.basic.squall_basic_http.GetInfo(this.Global.guid);
+
+        console.log(this.basic.squall_user_info);
+
+        
+        var Now = new Date();
+        this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
+        this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
+        this.squall_form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();
+        this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
   },
   methods:{
         squall_show_onuse:function(){

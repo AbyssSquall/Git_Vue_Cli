@@ -6,8 +6,8 @@
             <el-form-item label="使用范围" prop="region">
                 <el-col :span="20">
                     <el-select class="squall_width_full" v-model="squall_form.region" placeholder="请选择范围">
-                        <el-option label="大市区内" value="incity"></el-option>
-                        <el-option label="大市区外" value="outcity"></el-option>
+                        <el-option label="大市区内" value="大市区内"></el-option>
+                        <el-option label="大市区外" value="大市区外"></el-option>
                     </el-select>
                 </el-col>
             </el-form-item>
@@ -135,11 +135,13 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-        console.log(this.basic.squall_user_info);
-        this.squall_form.driver = this.basic.squall_user_info.name;
         this.basic.squall_basic_http.GetInfo(this.Global.guid);
-        var Now = new Date();
 
+        console.log(this.basic.squall_user_info);
+
+        this.squall_form.driver = this.basic.squall_user_info.name;
+
+        var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
         this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
         this.squall_form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();

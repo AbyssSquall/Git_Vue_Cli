@@ -71,8 +71,20 @@ var squall_basic_http = new Vue({
         PostForm:function(data,table){
             //console.log(data,table);
             var squall_data = JSON.parse(data);
+            squall_data.guid = squall_guid();
             this.$http.post(squall_Database_Host_IP+"/api/" + table,squall_data).then(function(data){
                 console.log(data.data);
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetApplicationList:function(table,that){
+            //需要连表查询，需要申请人名
+            //squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")"
+
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
+                console.log(data.data);
+                that.ApplicationList = data.data;
             }).catch(function(err){
                 console.log(err);
             })
