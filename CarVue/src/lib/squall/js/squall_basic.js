@@ -88,6 +88,16 @@ var squall_basic_http = new Vue({
             }).catch(function(err){
                 console.log(err);
             })
+        },
+        PostOfficialInfo:function(data,that){
+            var squall_data = JSON.parse(data);
+            console.log(squall_data);
+            this.$http.patch(squall_Database_Host_IP+"/api/official_application/" + squall_data.guid,squall_data).then(function(data){
+                console.log(data.data);
+                that.Driver_dialogVisible = false;
+            }).catch(function(err){
+                console.log(err);
+            })
         }
     }
 

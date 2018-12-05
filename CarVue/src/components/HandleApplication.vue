@@ -91,20 +91,20 @@
         </el-dialog>
 
         <el-dialog :visible.sync="Driver_dialogVisible" width="80%">
-            <el-form :model="form">
-                <el-form-item label="驾驶员名称" :label-width="formLabelWidth">
-                <el-input v-model="form.name" autocomplete="off"></el-input>
+            <el-form :model="squall_form" ref="squall_form" :rules="rules" label-width="80px">
+                <el-form-item label="驾驶员"  prop="driver">
+                <el-input v-model="squall_form.driver" autocomplete="off"></el-input>
                 </el-form-item>
-                <el-form-item label="车牌号" :label-width="formLabelWidth">
-                    <el-select v-model="form.region" placeholder="请选择">
-                        <el-option label="浙B96C08" value="浙B96C08"></el-option>
-                        <el-option label="浙B96C08" value="浙B96C08"></el-option>
+                <el-form-item label="车牌号"  prop="carid">
+                    <el-select v-model="squall_form.carid" placeholder="请选择">
+                        <el-option label="浙B96C08" value="100400"></el-option>
+                        <el-option label="浙B96C08" value="100427"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="等候地点" :label-width="formLabelWidth">
-                <el-input v-model="form.name" autocomplete="off"></el-input>
+                <el-form-item label="等候地点" prop="waitpoint" >
+                <el-input v-model="squall_form.waitpoint" autocomplete="off"></el-input>
                 </el-form-item>
-                <!--<el-form-item label="活动区域" :label-width="formLabelWidth">
+                <!--<el-form-item label="活动区域" >
                 <el-select v-model="form.region" placeholder="请选择活动区域">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
@@ -114,7 +114,7 @@
             <el-row>
                 <el-col :span="20" :offset='2'>
                     <div class="grid-content bg-purple">
-                        <el-button type="primary" class="squall_width_full" @click="squall_agree(guid)">提交</el-button>
+                        <el-button type="primary" class="squall_width_full" @click="submitForm('squall_form')">提交</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -143,17 +143,22 @@ export default {
         squall_cencel:"拒绝",
         guid:"1",
         selectedInfo:{},
-        form: {
-          name: '',
-          region: '',
-          date1: '',
-          date2: '',
-          delivery: false,
-          type: [],
-          resource: '',
-          desc: ''
+        squall_form: {
+          driver: '',
+          carid: '',
+          waitpoint: ''
         },
-        formLabelWidth: '120px',
+        rules: {
+            driver: [
+                { required: true, message: '请输入驾驶员姓名', trigger: 'blur' }
+            ],
+            carid: [
+                { required: true, message: '请选择车辆', trigger: 'change' }
+            ],
+            waitpoint: [
+                { required: true, message: '请输入等候地点', trigger: 'blur' }
+            ]
+        },
         ApplicationList: [],
     }
   },
@@ -231,6 +236,25 @@ export default {
                     }
             }
             this.show_html = squall_html;
+      },
+      submitForm:function(formname){
+            var squall_data = JSON.stringify(this[formname]);
+            var squall_data_json = JSON.parse(squall_data);
+            squall_data_json.guid = this.selectedInfo.a_guid;
+            
+            
+            var that = this;
+            this.$refs[formname].validate(function(squall_bool,squall_res){
+                if(squall_bool)
+                {
+                    //console.log(squall_data_json);
+                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that);
+                }
+                else
+                { 
+                    console.log(squall_res);
+                }
+            })
       }
   },
 }
