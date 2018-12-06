@@ -248,7 +248,7 @@ export default {
                 if(squall_bool)
                 {
                     //console.log(squall_data_json);
-                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that);
+                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that,that.basic.squall_user_info.id);
                 }
                 else
                 { 

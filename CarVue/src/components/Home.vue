@@ -104,6 +104,7 @@ export default {
 
     //
     this.basic.squall_user_info.name = "黄列禹";
+    this.basic.squall_user_info.id = 178;
 
     if(this.$route.params.success)
     {

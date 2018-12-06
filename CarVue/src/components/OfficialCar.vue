@@ -160,7 +160,7 @@ export default {
             this.$refs[data].validate(function(squall_bool,squall_res){
                 if(squall_bool)
                 {
-                    that.basic.squall_basic_http.PostForm(JSON.stringify(squall_data_json),"official_application");
+                    that.basic.squall_basic_http.PostForm(JSON.stringify(squall_data_json),"official_application",that);
                 }
                 else
                 { 

@@ -63,12 +63,8 @@ export default {
         msg: 'Welcome to Your Vue.js App',
         page: 'car',
         form:{
-            range:"请选择范围",
-            driver:"",
+            range:"",
             carid:"",
-            aim:"",
-            startdate:"2018-11-27",
-            starttime:"12:01:07",
             enddate:"2018-11-27",
             endtime:"12:01:07",
             reason:'',
@@ -109,8 +105,10 @@ export default {
   mounted:function(){
     //console.log(this.Global.guid);
     this.basic.squall_basic_http.GetInfo(this.Global.guid);
-    var Now = new Date();
 
+    //从数据中读取数据，主要是绑定guid
+
+    var Now = new Date();
     this.form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
     this.form.starttime;
     this.form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();

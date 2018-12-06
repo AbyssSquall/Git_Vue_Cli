@@ -93,8 +93,9 @@ var squall_basic_http = new Vue({
                 console.log(err);
             })
         },
-        PostOfficialInfo:function(data,that){
+        PostOfficialInfo:function(data,that,id){
             var squall_data = JSON.parse(data);
+            squall_data.charger序号 = id;
             console.log(squall_data);
             this.$http.patch(squall_Database_Host_IP+"/api/official_application/" + squall_data.guid,squall_data).then(function(data){
                 console.log(data.data);
@@ -117,7 +118,7 @@ var squall_basic_http = new Vue({
                 var squall_history_list = []
                 var this_that = this;
                 //获取全部的历史记录
-                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,c.姓名",{}).then(function(data){
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,c.姓名&_where=(a.charger序号,ne,null)",{}).then(function(data){
                     console.log(data.data);
                     //分配一下
                     var squall_temp_official = [];
@@ -170,6 +171,65 @@ var squall_basic_http = new Vue({
                     console.log(err);
                 })
             }
+        },
+        GetHistoryItem:function(that,info){
+            //console.log(info);
+            //squall_Database_Host_IP+"/api/xjoin
+            if(info.table=="official_application")
+                var squall_option = {
+                    "_join":"a." + info.table + ",_j,b.personlist,_j,c.personlist,_j,d.car",
+                    "_on1":"(a.序号,eq,b.序号)",
+                    "_on2":"(a.charger序号,eq,c.序号)",
+                    "_on3":"(a.carid,eq,d.carid)",
+                    "_fields":"a.driver,a.aim,a.task,a.starttime,a.endtime,a.waitpoint,a.region,b.姓名,c.姓名,d.车牌号,d.部门",
+                    "_where":"(a.guid,eq," + info.guid + ")"
+                };
+            else
+                var squall_option = {
+                    "_join":"a." + info.table + ",_j,b.personlist,_j,d.car",
+                    "_on1":"(a.序号,eq,b.序号)",
+                    "_on2":"(a.carid,eq,d.carid)",
+                    "_fields":"a.driver,a.aim,a.task,a.starttime,a.endtime,a.region,b.姓名,d.车牌号,d.部门",
+                    "_where":"(a.guid,eq," + info.guid + ")"
+                };
+                
+//squall_Database_Host_IP+"/api/" + info.table,{params:{"_where":"(guid,eq," + info.guid + ")"}}
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin",{params:squall_option}).then(function(data){
+                console.log(data.data);
+
+                //渲染详情
+                var squall_temp_data={
+                    "车牌号":data.data[0].d_车牌号,
+                    "部门":data.data[0].d_部门,
+                    "姓名":data.data[0].b_姓名,//info.姓名
+                    "驾驶员":data.data[0].a_driver,
+                    "目的地":data.data[0].a_aim,
+                    "事由":data.data[0].a_task,
+                    "开始时间":data.data[0].a_starttime,
+                    "结束时间":data.data[0].a_endtime,
+                    "等候地点":data.data[0].a_waitpoint,
+                    "审核人":data.data[0].c_姓名,
+                    "使用范围":data.data[0].a_region,
+                    };
+
+                var squall_test_json = JSON.parse(JSON.stringify(squall_temp_data));
+                //console.log(squall_test_json);
+
+                that.selectedInfo = squall_test_json;
+                var squall_html = "";
+                for(var index in squall_test_json)
+                {
+                    squall_html += "<div class='layui-row squall_item'>";
+                    squall_html += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><span class=" squall_label">' + index + '：</span></div>';
+                    squall_html += '<div class="layui-col-xs8 layui-col-sm8 layui-col-md8">' + squall_temp_data[index] + '</div>';
+                    squall_html += "</div>";
+                }
+                that.show_html = squall_html;
+                that.dialogVisible = true;
+
+            }).catch(function(err){
+                console.log(err);
+            })
         }
     }
 
