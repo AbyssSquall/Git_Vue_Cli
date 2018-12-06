@@ -26,7 +26,7 @@
                 </el-card>
             </el-col>
         </el-row>
-        <el-row class="squall_panel">
+        <!-- <el-row class="squall_panel">
             <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card>
                     <div class="layui-row">
@@ -71,6 +71,30 @@
                     </el-row>
                 </el-card>
             </el-col>
+        </el-row> -->
+        
+        <el-row class="squall_panel" v-for="History in HistoryList" :key="History.guid">
+            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
+                <el-card class="box-card">
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{History.姓名}}</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{History.aim}}</div>
+                </div>
+                <div class="layui-row">
+                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{History.table_alias}}</div>
+                </div>
+                <el-row>
+                    <el-col :span="20" :offset="2">
+                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog(History)">查看详情</el-button>
+                    </el-col>
+                </el-row>
+                </el-card>
+            </el-col>
         </el-row>
 
         <!--
@@ -111,7 +135,7 @@ export default {
           desc: ''
         },
         outputInfo:{},
-        formLabelWidth: '120px',
+        HistoryList:[],
     }
   },
   components: {
@@ -121,12 +145,8 @@ export default {
     //console.log(this.Global.guid);
     this.basic.squall_basic_http.GetInfo(this.Global.guid);
 
-    //最终执行
-    var vm = this;
-    vm.$nextTick(function(){
-        layui.use(['element','layer'], function(){
-        });
-    });
+    //查询全部历史记录
+    this.basic.squall_basic_http.GetHistory(this);
     
   },
   methods:{

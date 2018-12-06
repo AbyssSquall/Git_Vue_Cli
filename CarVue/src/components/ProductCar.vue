@@ -180,7 +180,7 @@ export default {
                 if(squall_bool)
                 {
                     //console.log(that);
-                    that.basic.squall_basic_http.PostForm(JSON.stringify(squall_data_json),"product_application");
+                    that.basic.squall_basic_http.PostForm(JSON.stringify(squall_data_json),"product_application",that);
                     //console.log(squall_data);
                 }
                 else

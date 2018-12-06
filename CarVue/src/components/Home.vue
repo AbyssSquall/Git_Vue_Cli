@@ -55,6 +55,25 @@
           </el-card>
         </el-col>
       </el-row>
+        <el-dialog :visible.sync="Success_visible" width="80%">
+            <el-row>
+                <el-col :span="16" :offset='4'>
+                  <img class="squall_width_full" src="static/asset/zan_green.png">
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" :offset='2'>
+                  <div class="squall_width_full">提交成功！！！</div>
+                </el-col>
+            </el-row>
+            <el-row>
+                <el-col :span="20" :offset='2' class=" squall_top_gap">
+                    <div class="grid-content bg-purple squall_top_gap">
+                        <el-button type="primary" class="squall_width_full squall_top_gap" @click="Success_visible = false">确定</el-button>
+                    </div>
+                </el-col>
+            </el-row>
+        </el-dialog>
     </div>
 </template>
 <script>
@@ -71,6 +90,7 @@ export default {
       History:false,
       Return:true,
       Regist:true,
+      Success_visible:false,
     }
   },
   components: {
@@ -85,10 +105,14 @@ export default {
     //
     this.basic.squall_user_info.name = "黄列禹";
 
+    if(this.$route.params.success)
+    {
+      this.Success_visible = this.$route.params.success;
+    }
     //this.History=true;
     //this.HandleApplication = true;
     
-    //console.log(this.Global.guid);
+    //console.log(this.success);
     //this.basic.squall_basic_http.GetInfo(this.Global.guid);
   }
 }
