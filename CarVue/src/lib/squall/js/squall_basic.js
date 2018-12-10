@@ -86,9 +86,22 @@ var squall_basic_http = new Vue({
             //需要连表查询，需要申请人名
             //squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")"
 
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
-                console.log(data.data);
-                that.ApplicationList = data.data;
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
+                //console.log(data.data[0].a_passtime==null);
+                var squall_list = [];
+
+                var squall_now_value = new Date().valueOf();
+
+                for(var index in data.data)
+                {
+                    var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
+                    if((data.data[index].a_passtime==null||data.data[index].a_passtime=="")&&squall_now_value<squall_endtime_value)
+                    {
+                        squall_list.push(data.data[index]);
+                    }
+                }
+                //that.ApplicationList = data.data;
+                that.ApplicationList = squall_list;
             }).catch(function(err){
                 console.log(err);
             })
@@ -100,6 +113,22 @@ var squall_basic_http = new Vue({
             this.$http.patch(squall_Database_Host_IP+"/api/official_application/" + squall_data.guid,squall_data).then(function(data){
                 console.log(data.data);
                 that.Driver_dialogVisible = false;
+                if(data.data.affectedRows>0)
+                {
+                    that.$router.push({name:"Home",params:{type:"official_application",success:true}});
+                }
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        PostReturn:function(data,that,table,guid){
+            var squall_data = JSON.parse(data);
+            var Now = new Date();
+            squall_data.endtime = Now.getFullYear() + "-" +(Now.getMonth()+1) + "-" + Now.getDate() + " " + Now.getHours() + ":" + Now.getMinutes() + ":" + Now.getSeconds();
+            //squall_data._where = "(guid,eq," + squall_data.guid + ")"
+            console.log(squall_data);
+            this.$http.patch(squall_Database_Host_IP+"/api/" + table + "/" + squall_data.guid,squall_data).then(function(data){
+                console.log(data.data);
                 if(data.data.affectedRows>0)
                 {
                     that.$router.push({name:"Home",params:{type:"official_application",success:true}});
@@ -230,10 +259,90 @@ var squall_basic_http = new Vue({
             }).catch(function(err){
                 console.log(err);
             })
+        },
+        GetOnUseList:function(id,that){
+            //当前时间
+            var squall_now_value = new Date().valueOf();
+
+            var squall_on_use_list = []
+            var this_that = this;
+            //获取全部的历史记录
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime&_where=(a.序号,eq," + id + ")",{}).then(function(data){
+                //console.log(data.data);
+                //分配一下
+                var squall_temp_official = [];
+                var squall_temp_车牌号 = [];
+                var squall_temp_carid = [];
+                for(var i=0;i<data.data.length;i++)
+                {
+                    var squall_endtime_value = new Date(data.data[i].a_endtime).valueOf();
+                    if(squall_now_value<squall_endtime_value)
+                    {
+                        squall_temp_official.push(data.data[i].a_guid);
+                        squall_temp_车牌号.push(data.data[i].b_车牌号);
+                        squall_temp_carid.push(data.data[i].a_carid);
+                    }     
+                }
+                for(var i=0;i<squall_temp_official.length;i++)
+                {
+                    squall_on_use_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
+                }
+
+                if(squall_temp_official.length>0)
+                    that.OfficialCar = false;
+
+
+                this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名",{}).then(function(data){
+                    //console.log(data.data);
+                    var squall_temp_product = [];
+                    var squall_temp_车牌号 = [];
+                    var squall_temp_carid = [];
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        var squall_endtime_value = new Date(data.data[i].a_endtime).valueOf();
+                        if(squall_now_value<squall_endtime_value)
+                        {
+                            squall_temp_product.push(data.data[i].a_guid);
+                            squall_temp_车牌号.push(data.data[i].b_车牌号);
+                            squall_temp_carid.push(data.data[i].a_carid);
+                        }   
+                    }
+                    for(var i=0;i<squall_temp_product.length;i++)
+                    {
+                        squall_on_use_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
+                    }
+
+                    if(squall_temp_product.length>0)
+                        that.ProductCar = false;
+
+                    console.log(squall_on_use_list);
+                    that.OnUseList = squall_on_use_list;
+
+                    if(that.form)
+                    {
+                        that.form.carid=squall_on_use_list[0].车牌号;
+                        that.form.type=squall_on_use_list[0].table_alias;
+                        that.SelectedInfo = squall_on_use_list[0];
+                    }
+
+                }).catch(function(err){
+                    console.log(err);
+                })
+
+
+
+            }).catch(function(err){
+                console.log(err);
+            })
         }
     }
 
 })
+
+//时间戳
+var squall_now = function(){
+    return new Date();
+}
 
 export default{
     "test_string":"一个正常的变量测试",
@@ -241,7 +350,8 @@ export default{
     "squall_guid":squall_guid,
     "squall_basic_http":squall_basic_http,
     "squall_user_info":squall_user_info,
-    "squall_Host":squall_Server_Host_IP
+    "squall_Host":squall_Server_Host_IP,
+    "Now":squall_now
 }
 
 //xmysql -h localhost -u root -p 123456 -d carrent

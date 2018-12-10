@@ -91,6 +91,7 @@ export default {
       Return:true,
       Regist:true,
       Success_visible:false,
+      OnUseList:[],
     }
   },
   components: {
@@ -105,6 +106,8 @@ export default {
     //
     this.basic.squall_user_info.name = "黄列禹";
     this.basic.squall_user_info.id = 178;
+    this.basic.squall_user_info.department = "地信所";
+    //this.basic.squall_user_info.id = 178;
 
     if(this.$route.params.success)
     {
@@ -115,6 +118,9 @@ export default {
     
     //console.log(this.success);
     //this.basic.squall_basic_http.GetInfo(this.Global.guid);
+
+    //是否有已经在借的生产车辆
+    this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.id,this);
   }
 }
 </script>

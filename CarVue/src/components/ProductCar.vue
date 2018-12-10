@@ -169,8 +169,11 @@ export default {
         submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);
             var squall_data_json = JSON.parse(squall_data);
-            squall_data_json.starttime = squall_data_json.startdate + " " + squall_data_json.starttime;
-            squall_data_json.endtime = squall_data_json.enddate + " " + squall_data_json.endtime;
+            var squall_temp_start = new Date(squall_data_json.startdate);
+            var squall_temp_end = new Date(squall_data_json.enddate);
+
+            squall_data_json.starttime = squall_temp_start.getFullYear() + '-' + (squall_temp_start.getMonth()+1) + '-' + squall_temp_start.getDate() + " " + squall_data_json.starttime;
+            squall_data_json.endtime = squall_temp_end.getFullYear() + '-' + (squall_temp_end.getMonth()+1) + '-' + squall_temp_end.getDate() + " " + squall_data_json.endtime;
             squall_data_json.startdate = undefined;
             squall_data_json.enddate = undefined;
             squall_data_json.序号 = 178;

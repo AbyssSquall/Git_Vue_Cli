@@ -172,6 +172,8 @@ export default {
     //从服务器读取列表，进行渲染
     this.basic.squall_basic_http.GetApplicationList("official_application",this);
 
+    //console.log(this.basic.Now());
+
   },
   methods:{
         squall_agree:function(guid){
@@ -212,14 +214,20 @@ export default {
             }
             else
             {
-                console.log(guid);
-                    var squall_temp_data={
+
+                var squall_starttime = new Date(guid.a_starttime);
+                var squall_endtime = new Date(guid.a_endtime);
+                //console.log(guid);
+                guid.a_starttime_1 = squall_starttime.getFullYear() + "/" + (squall_starttime.getMonth()+1) + "/" + squall_starttime.getDate() + " " + squall_starttime.getHours() + ":" + squall_starttime.getMinutes();
+                guid.a_endtime_1 = squall_endtime.getFullYear() + "/" + (squall_endtime.getMonth()+1) + "/" + squall_endtime.getDate() + " " + squall_endtime.getHours() + ":" + squall_endtime.getMinutes();
+
+                var squall_temp_data={
                             "部门":guid.b_部门,
                             "姓名":guid.b_姓名,
                             "目的地":guid.a_aim,
                             "事由":guid.a_task,
-                            "开始时间":guid.a_starttime,
-                            "结束时间":guid.a_endtime
+                            "开始时间":guid.a_starttime_1,
+                            "结束时间":guid.a_endtime_1
                         };
 
                 this.squall_ok = "指派";
@@ -241,6 +249,7 @@ export default {
             var squall_data = JSON.stringify(this[formname]);
             var squall_data_json = JSON.parse(squall_data);
             squall_data_json.guid = this.selectedInfo.a_guid;
+            squall_data_json.passtime = this.basic.Now().getFullYear() + '-' + (this.basic.Now().getMonth()+1) + '-' + this.basic.Now().getDate() + ' ' + this.basic.Now().getHours() + ':' + this.basic.Now().getMinutes() + ':' + this.basic.Now().getSeconds();
             
             
             var that = this;
