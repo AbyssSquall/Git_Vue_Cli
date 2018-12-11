@@ -31,14 +31,14 @@
                 </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="结束日期" required>
+            <el-form-item label="结束日期" required style="display:none;">
                 <el-col :span="20">
                     <el-form-item prop="enddate">
                         <el-date-picker id="enddate" type="date" placeholder="选择日期" v-model="squall_form.enddate" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="结束时间" required>
+            <el-form-item label="结束时间" required style="display:none;">
                 <el-col :span="20">
                     <el-form-item prop="endtime">
                         <el-time-select :picker-options="{start: '00:00',step: '01:0',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
@@ -128,7 +128,7 @@ export default {
         var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
         this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
-        this.squall_form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();
+        this.squall_form.enddate = "9999-12-1";
         this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
   },
   methods:{
