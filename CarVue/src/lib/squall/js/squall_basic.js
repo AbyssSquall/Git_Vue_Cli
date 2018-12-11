@@ -147,48 +147,53 @@ var squall_basic_http = new Vue({
                 var squall_history_list = []
                 var this_that = this;
                 //获取全部的历史记录
-                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,c.姓名&_where=(a.charger序号,ne,null)",{}).then(function(data){
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,c.姓名&_where=(a.charger序号,ne,null)",{}).then(function(data){
                     console.log(data.data);
                     //分配一下
                     var squall_temp_official = [];
                     var squall_temp_official_aim = [];
                     var squall_temp_official_姓名 = [];
+                    var squall_temp_official_starttime = [];
                     for(var i=0;i<data.data.length;i++)
                     {
                         if(squall_temp_official.indexOf(data.data[i].a_guid)==-1)
                         {
                             squall_temp_official.push(data.data[i].a_guid);
                             squall_temp_official_aim.push(data.data[i].a_aim);
+                            squall_temp_official_starttime.push(data.data[i].a_starttime);
                             squall_temp_official_姓名.push(data.data[i].c_姓名);
                         }     
                     }
                     for(var i=0;i<squall_temp_official.length;i++)
                     {
-                        squall_history_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],aim:squall_temp_official_aim[i],"姓名":squall_temp_official_姓名[i]});
+                        squall_history_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],aim:squall_temp_official_aim[i],"姓名":squall_temp_official_姓名[i],"开始时间":squall_temp_official_starttime[i]});
                     }
 
 
-                    this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,c.姓名",{}).then(function(data){
+                    this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,c.姓名",{}).then(function(data){
                         console.log(data.data);
                         var squall_temp_product = [];
                         var squall_temp_product_aim = [];
                         var squall_temp_product_姓名 = [];
+                        var squall_temp_official_starttime = [];
                         for(var i=0;i<data.data.length;i++)
                         {
                             if(squall_temp_product.indexOf(data.data[i].a_guid)==-1)
                             {
                                 squall_temp_product.push(data.data[i].a_guid);
                                 squall_temp_product_aim.push(data.data[i].a_aim);
+                                squall_temp_official_starttime.push(data.data[i].a_starttime);
                                 squall_temp_product_姓名.push(data.data[i].c_姓名);
                             }   
                         }
                         for(var i=0;i<squall_temp_product.length;i++)
                         {
-                            squall_history_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],aim:squall_temp_product_aim[i],"姓名":squall_temp_product_姓名[i]});
+                            squall_history_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],aim:squall_temp_product_aim[i],"姓名":squall_temp_product_姓名[i],"开始时间":squall_temp_official_starttime[i]});
                         }
 
                         console.log(squall_history_list);
                         that.HistoryList = squall_history_list;
+                        that.TotalHistoryList = squall_history_list;
 
                     }).catch(function(err){
                         console.log(err);

@@ -139,6 +139,7 @@ export default {
                 if(this.OnUseList[item].carid==Item)
                 {
                     this.SelectedInfo = this.OnUseList[item];
+                    this.form.type = this.OnUseList[item].table_alias;
                 }
             }
         }

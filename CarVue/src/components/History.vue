@@ -17,10 +17,10 @@
                     </el-row>
                     <el-row class="squall_panel">
                         <el-col :xs="9" :sm="9" :md="9" :lg="9" :xl="9" :offset="2">
-                            <el-button type="success" class="squall_width_full">查询</el-button>
+                            <el-button type="success" class="squall_width_full" @click="squall_search">查询</el-button>
                         </el-col>
                         <el-col :xs="9" :sm="9" :md="9" :lg="9" :xl="9" :offset="2">
-                            <el-button type="success" class="squall_width_full">导出</el-button>
+                            <el-button type="success" class="squall_width_full" @click="squall_output">导出</el-button>
                         </el-col>
                     </el-row>
                 </el-card>
@@ -90,6 +90,7 @@ export default {
         },
         outputInfo:{},
         HistoryList:[],
+        TotalHistoryList:[],
     }
   },
   components: {
@@ -106,11 +107,39 @@ export default {
   methods:{
         squall_element_dialog:function(Info){
             //根据guid检索用车信息
-            console.log(Info);
+            //console.log(Info);
 
             var that = this;
             this.basic.squall_basic_http.GetHistoryItem(this,Info);
-      }
+        },
+        squall_search:function(){
+            //console.log(this.TotalHistoryList);
+            if(this.outputInfo.time)
+            {
+                var squall_liter_time = new Date(this.outputInfo.time);
+                this.HistoryList = [];
+
+                var squall_liter_start = squall_liter_time.valueOf();
+                var squall_liter_end = squall_liter_start + 31*24*60*60*1000;
+
+                console.log(squall_liter_start,squall_liter_end);
+
+                for(var i=0;i<this.TotalHistoryList.length;i++)
+                {
+                    if(new Date(this.TotalHistoryList[i].开始时间).valueOf()>squall_liter_start&&new Date(this.TotalHistoryList[i].开始时间).valueOf()<squall_liter_end)
+                        this.HistoryList.push(this.TotalHistoryList[i]);
+                }
+
+                console.log("search!!!");
+            }
+            else
+            {
+                alert("请选择日期！");
+            }
+        },
+        squall_output:function(){
+            console.log("output!!!");
+        }
   },
 }
 </script>
