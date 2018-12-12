@@ -46,17 +46,25 @@ var squall_basic_http = new Vue({
                 }
                 else
                 {
-                    squall_user_info.guid = squall_guid();
-                    //从微信端获取用户信息
-                    
 
-                    //创新的session
-                    this.$http.jsonp(squall_data_server+'/login/newsession',{params:{"guid":squall_user_info.guid}}).then(function(data){
+                    //从微信端获取用户信息
+                    this.$http.jsonp("https://api.weixin.qq.com/sns/oauth2/access_token?appid=wxacd53fdd7ccbe9f7&secret=e273507b519d97de890dbf6b8b88fa80&code=" + that.$route.query.code + "&grant_type=authorization_code").then(function(data){
                         console.log(data.body);
                         squall_user_info = data.body;
+                        squall_user_info.guid = squall_guid();
+
+                        //创新的session
+                        this.$http.jsonp(squall_data_server+'/login/newsession',{params:{"attributes":squall_user_info}}).then(function(data){
+                            console.log(data.body);
+                            //squall_user_info = data.body;
+                        }).catch(function(err){
+                            console.log(err);
+                        })
                     }).catch(function(err){
                         console.log(err);
                     })
+                    
+
                 }
             }
             else

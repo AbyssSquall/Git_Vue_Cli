@@ -100,7 +100,7 @@ export default {
   create:function(){
   },
   mounted:function(){
-    //判断是否注册
+    //判断是否注册并生成session
     this.basic.squall_basic_http.LoginTest(this);
 
     //获取用户信息和权限
