@@ -47,6 +47,9 @@ var squall_basic_http = new Vue({
                 else
                 {
                     squall_user_info.guid = squall_guid();
+                    //从微信端获取用户信息
+                    
+
                     //创新的session
                     this.$http.jsonp(squall_data_server+'/login/newsession',{params:{"guid":squall_user_info.guid}}).then(function(data){
                         console.log(data.body);
