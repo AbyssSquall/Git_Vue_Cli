@@ -76,7 +76,14 @@
 
     <!--弹出层-->
         <el-dialog :visible.sync="dialogVisible" width="80%">
-            <div class="" v-html="show_html"></div>
+            <el-row class="squall_panel" v-for="Item in OnUseList" :key="Item.guid">
+                <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11" :offset="1">
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.车牌号}}</div>
+                </el-col>
+                <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11">
+                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.姓名}}</div>
+                </el-col>
+            </el-row>
             <el-row>
                 <el-col :span="20" :offset='2'>
                     <div class="grid-content bg-purple">
@@ -129,6 +136,7 @@ export default {
         squall_ok:"确定",
         squall_cencel:"关闭",
         show_html:"",
+        OnUseList:[],
     }
   },
   components: {
@@ -156,15 +164,17 @@ export default {
             var squall_html = "";
             //squall_html+="<div class='layui-row'></div>"
 
-            for(var i=0;i<20;i++)
-            {
-                squall_html += "<div class='layui-row squall_onuse_item'>";
-                squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">浙B96C08</div>';
-                squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">黄列禹' + i + '</div>';
-                squall_html += "</div>";
-            }
+            this.basic.squall_basic_http.GetSingleOnUseList(this,"product_application");
 
-            this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
+            // for(var i=0;i<20;i++)
+            // {
+            //     squall_html += "<div class='layui-row squall_onuse_item'>";
+            //     squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">浙B96C08</div>';
+            //     squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">黄列禹' + i + '</div>';
+            //     squall_html += "</div>";
+            // }
+
+            // this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
         },
         submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);

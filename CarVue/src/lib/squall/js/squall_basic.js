@@ -31,6 +31,36 @@ var squall_basic_http = new Vue({
         "test":11111
     },
     methods:{
+        LoginTest:function(that){
+            console(that.$route.query);
+            if(that.$route.query.state="chy178")
+            {
+                if(that.$route.query.guid)
+                {
+                    this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":that.$route.query.guid}}).then(function(data){
+                        console.log(data.body);
+                        squall_user_info = data.body;
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+                }
+                else
+                {
+                    squall_user_info.guid = squall_guid();
+                    //创新的session
+                    this.$http.jsonp(squall_data_server+'/login/newsession',{params:{"guid":squall_user_info.guid}}).then(function(data){
+                        console.log(data.body);
+                        squall_user_info = data.body;
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+                }
+            }
+            else
+            {
+                window.open("https://www.baidu.com");
+            }
+        },
         GetInfo:function(guid){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
                 console.log(data.body);
@@ -101,6 +131,30 @@ var squall_basic_http = new Vue({
                 }
                 //that.ApplicationList = data.data;
                 that.ApplicationList = squall_list;
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetSingleOnUseList:function(that,table){
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名",{}).then(function(data){
+                //console.log(data.data);
+                var squall_temp_product = [];
+                var squall_temp_车牌号 = [];
+                var squall_temp_姓名 = [];
+                for(var i=0;i<data.data.length;i++)
+                {
+                        squall_temp_product.push(data.data[i].a_guid);
+                        squall_temp_车牌号.push(data.data[i].b_车牌号);
+                        squall_temp_姓名.push(data.data[i].c_姓名);
+                }
+                for(var i=0;i<squall_temp_product.length;i++)
+                {
+                    squall_on_use_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"姓名":squall_temp_姓名[i]});
+                }
+
+                console.log(squall_on_use_list);
+                that.OnUseList = squall_on_use_list;
+
             }).catch(function(err){
                 console.log(err);
             })

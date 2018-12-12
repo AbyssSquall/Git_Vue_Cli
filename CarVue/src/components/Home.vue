@@ -100,7 +100,10 @@ export default {
   create:function(){
   },
   mounted:function(){
-    //获取权限
+    //判断是否注册
+    this.basic.squall_basic_http.LoginTest(this);
+
+    //获取用户信息和权限
     this.basic.squall_basic_http.GetGrant(178,this);
 
     //
