@@ -127,11 +127,7 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-        //console.log(this.Global.guid);
-        this.basic.squall_basic_http.GetInfo(this.Global.guid);
-
-        console.log(this.basic.squall_user_info);
-
+        this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
         
         var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 

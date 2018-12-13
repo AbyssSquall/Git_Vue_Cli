@@ -166,8 +166,7 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-    //console.log(this.Global.guid);
-    this.basic.squall_basic_http.GetInfo(this.Global.guid);
+    this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
 
     //从服务器读取列表，进行渲染
     this.basic.squall_basic_http.GetApplicationList("official_application",this);
@@ -257,7 +256,7 @@ export default {
                 if(squall_bool)
                 {
                     //console.log(squall_data_json);
-                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that,that.basic.squall_user_info.id);
+                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that,that.basic.squall_user_info.序号);
                 }
                 else
                 { 

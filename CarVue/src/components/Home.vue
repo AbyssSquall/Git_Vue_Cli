@@ -103,27 +103,11 @@ export default {
     //判断是否注册
     this.basic.squall_basic_http.LoginTest(this);
 
-    //获取用户信息和权限
-    this.basic.squall_basic_http.GetGrant(178,this);
-
-    //
-    this.basic.squall_user_info.name = "黄列禹";
-    this.basic.squall_user_info.id = 178;
-    this.basic.squall_user_info.department = "地信所";
-    //this.basic.squall_user_info.id = 178;
-
     if(this.$route.params.success)
     {
       this.Success_visible = this.$route.params.success;
     }
-    //this.History=true;
-    //this.HandleApplication = true;
-    
-    //console.log(this.success);
-    //this.basic.squall_basic_http.GetInfo(this.Global.guid);
 
-    //是否有已经在借的生产车辆
-    this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.id,this);
   }
 }
 </script>

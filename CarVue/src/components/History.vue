@@ -97,8 +97,7 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-    //console.log(this.Global.guid);
-    this.basic.squall_basic_http.GetInfo(this.Global.guid);
+    this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
 
     //查询全部历史记录
     this.basic.squall_basic_http.GetHistory(this);

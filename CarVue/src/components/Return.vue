@@ -84,10 +84,8 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-    //this.basic.squall_basic_http.GetInfo(this.Global.guid);
-
     //从数据中读取数据，主要是绑定guid
-    this.basic.squall_basic_http.GetOnUseList(parseInt(this.basic.squall_user_info.id),this);
+    this.basic.squall_basic_http.GetOnUseList(parseInt(this.basic.squall_user_info.序号),this);
 
 
     var Now = new Date();

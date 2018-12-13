@@ -1,9 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Server_Host_IP = "http://192.168.10.144";
-var squall_Database_Host_IP = "http://192.168.10.144:8047";//http://127.0.0.1:3000
-var squall_data_server = "http://oa.nbgis.com/";
+var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000
+var squall_data_server = "http://oa.nbgis.com/page";
 
 //动态变量
 var squall_user_info = {};
@@ -32,8 +31,8 @@ var squall_basic_http = new Vue({
     },
     methods:{
         LoginTest:function(that){
-            console(that.$route.query);
-            if(that.$route.query.state="chy178")
+            console.log(that.$route.query);
+            if(that.$route.query.state=="chy178")
             {
                 if(that.$route.query.guid)
                 {
@@ -46,27 +45,32 @@ var squall_basic_http = new Vue({
                 }
                 else
                 {
-                    squall_user_info.guid = squall_guid();
-                    //从微信端获取用户信息
-                    
-
+                    var this_that = this
                     //创新的session
-                    this.$http.jsonp(squall_data_server+'/login/newsession',{params:{"guid":squall_user_info.guid}}).then(function(data){
-                        console.log(data.body);
+                    squall_user_info.code = that.$route.query.code;
+                    squall_user_info.guid = squall_guid();
+                    this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:squall_user_info}).then(function(data){
                         squall_user_info = data.body;
+                        //获取用户信息和权限
+                        that.basic.squall_basic_http.GetGrant(squall_user_info.序号,that);
+                        //是否有已经在借的生产车辆
+                        that.basic.squall_basic_http.GetOnUseList(squall_user_info.序号,that);
                     }).catch(function(err){
                         console.log(err);
                     })
+
+
                 }
             }
             else
             {
-                window.open("https://www.baidu.com");
+                //alert(JSON.stringify(that.$route.query));
+                window.location.href ="https://www.baidu.com";
             }
         },
         GetInfo:function(guid){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
-                console.log(data.body);
+                alert(JSON.stringify(data.body));
                 squall_user_info = data.body;
             }).catch(function(err){
                 console.log(err);
@@ -96,6 +100,23 @@ var squall_basic_http = new Vue({
                     }
                 }
                 //console.log(xuhao);
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        ExistUser:function(unionid,that){
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.person,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=b.序号,a.unionid,a.departmentid,b.部门,b.姓名",{}).then(function(data){
+                if(data.body.length>0)
+                {
+                    that.form.序号 = data.body[0].b_序号;
+                    that.form.departmentid = data.body[0].a_departmentid;
+                    that.bind = false;
+                    that.unbind = true;
+                }
+                else{
+                    that.bind = true;
+                    that.unbind = false;
+                }
             }).catch(function(err){
                 console.log(err);
             })
@@ -411,7 +432,7 @@ export default{
     "squall_guid":squall_guid,
     "squall_basic_http":squall_basic_http,
     "squall_user_info":squall_user_info,
-    "squall_Host":squall_Server_Host_IP,
+    "squall_Host":squall_data_server,
     "Now":squall_now
 }
 

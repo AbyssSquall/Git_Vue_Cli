@@ -143,11 +143,9 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-        this.basic.squall_basic_http.GetInfo(this.Global.guid);
+        this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
 
-        console.log(this.basic.squall_user_info);
-
-        this.squall_form.driver = this.basic.squall_user_info.name;
+        this.squall_form.driver = this.basic.squall_user_info.姓名;
 
         var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
