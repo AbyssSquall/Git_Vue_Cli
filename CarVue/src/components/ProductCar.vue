@@ -139,13 +139,10 @@ export default {
         OnUseList:[],
     }
   },
-  components: {
-    //'SideNav':SideNav,
-  },
   mounted:function(){
-        this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
+        this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
 
-        this.squall_form.driver = this.basic.squall_user_info.姓名;
+
 
         var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
@@ -160,19 +157,8 @@ export default {
         squall_show_onuse:function(){
             this.dialogVisible = true;
             var squall_html = "";
-            //squall_html+="<div class='layui-row'></div>"
 
             this.basic.squall_basic_http.GetSingleOnUseList(this,"product_application");
-
-            // for(var i=0;i<20;i++)
-            // {
-            //     squall_html += "<div class='layui-row squall_onuse_item'>";
-            //     squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">浙B96C08</div>';
-            //     squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">黄列禹' + i + '</div>';
-            //     squall_html += "</div>";
-            // }
-
-            // this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
         },
         submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);
@@ -184,7 +170,7 @@ export default {
             squall_data_json.endtime = squall_temp_end.getFullYear() + '-' + (squall_temp_end.getMonth()+1) + '-' + squall_temp_end.getDate() + " " + squall_data_json.endtime;
             squall_data_json.startdate = undefined;
             squall_data_json.enddate = undefined;
-            squall_data_json.序号 = 178;
+            squall_data_json.序号 = this.basic.squall_user_info.序号;
             
             var that = this;
             this.$refs[data].validate(function(squall_bool,squall_res){

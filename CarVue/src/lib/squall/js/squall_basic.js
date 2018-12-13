@@ -37,8 +37,7 @@ var squall_basic_http = new Vue({
                 if(that.$route.query.guid)
                 {
                     this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":that.$route.query.guid}}).then(function(data){
-                        console.log(data.body);
-                        squall_user_info = data.body;
+                        that.basic.squall_user_info = JSON.parse(data.bodyText);
                     }).catch(function(err){
                         console.log(err);
                     })
@@ -47,14 +46,15 @@ var squall_basic_http = new Vue({
                 {
                     var this_that = this
                     //创新的session
-                    squall_user_info.code = that.$route.query.code;
-                    squall_user_info.guid = squall_guid();
-                    this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:squall_user_info}).then(function(data){
-                        squall_user_info = data.body;
+                    that.basic.squall_user_info.code = that.$route.query.code;
+                    that.basic.squall_user_info.guid = squall_guid();
+                    this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:that.basic.squall_user_info}).then(function(data){
+                        that.basic.squall_user_info = JSON.parse(data.bodyText);
                         //获取用户信息和权限
-                        that.basic.squall_basic_http.GetGrant(squall_user_info.序号,that);
+                        that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
                         //是否有已经在借的生产车辆
-                        that.basic.squall_basic_http.GetOnUseList(squall_user_info.序号,that);
+                        that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
+
                     }).catch(function(err){
                         console.log(err);
                     })
@@ -64,14 +64,16 @@ var squall_basic_http = new Vue({
             }
             else
             {
-                //alert(JSON.stringify(that.$route.query));
                 window.location.href ="https://www.baidu.com";
             }
         },
-        GetInfo:function(guid){
+        GetInfo:function(guid,that){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
-                alert(JSON.stringify(data.body));
-                squall_user_info = data.body;
+                that.basic.squall_user_info = JSON.parse(data.bodyText);
+                if(that.squall_form)
+                {
+                    that.squall_form.driver = that.basic.squall_user_info.姓名;
+                }
             }).catch(function(err){
                 console.log(err);
             })
@@ -186,11 +188,9 @@ var squall_basic_http = new Vue({
         PostOfficialInfo:function(data,that,id){
             var squall_data = JSON.parse(data);
             squall_data.charger序号 = id;
-            console.log(squall_data);
-            this.$http.patch(squall_Database_Host_IP+"/api/official_application/" + squall_data.guid,squall_data).then(function(data){
-                console.log(data.data);
+            this.$http.get(squall_data_server+"/table/update?table=official_application&updateparams=" + encodeURIComponent(JSON.stringify(squall_data)),{}).then(function(data){
                 that.Driver_dialogVisible = false;
-                if(data.data.affectedRows>0)
+                if(data.data=="true")
                 {
                     that.$router.push({name:"Home",params:{type:"official_application",success:true}});
                 }
@@ -202,16 +202,13 @@ var squall_basic_http = new Vue({
             var squall_data = JSON.parse(data);
             var Now = new Date();
             squall_data.endtime = Now.getFullYear() + "-" +(Now.getMonth()+1) + "-" + Now.getDate() + " " + Now.getHours() + ":" + Now.getMinutes() + ":" + Now.getSeconds();
-            //squall_data._where = "(guid,eq," + squall_data.guid + ")"
-            console.log(squall_data);
-            this.$http.patch(squall_Database_Host_IP+"/api/" + table + "/" + squall_data.guid,squall_data).then(function(data){
-                console.log(data.data);
-                if(data.data.affectedRows>0)
+            this.$http.get(squall_data_server+"/table/update?table=" + table + "&updateparams=" + encodeURIComponent(JSON.stringify(squall_data)),{}).then(function(data){
+                if(data.data=="true")
                 {
                     that.$router.push({name:"Home",params:{type:"official_application",success:true}});
                 }
-            }).catch(function(err){
-                console.log(err);
+            },function(err){
+                alert(JSON.stringify(err));
             })
         },
         GetHistory:function(that,option){
@@ -350,7 +347,7 @@ var squall_basic_http = new Vue({
             var this_that = this;
             //获取全部的历史记录
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime&_where=(a.序号,eq," + id + ")",{}).then(function(data){
-                //console.log(data.data);
+                
                 //分配一下
                 var squall_temp_official = [];
                 var squall_temp_车牌号 = [];
@@ -364,12 +361,15 @@ var squall_basic_http = new Vue({
                         squall_temp_车牌号.push(data.data[i].b_车牌号);
                         squall_temp_carid.push(data.data[i].a_carid);
                     }     
+                    else
+                    {
+                    }
                 }
                 for(var i=0;i<squall_temp_official.length;i++)
                 {
                     squall_on_use_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
                 }
-
+                
                 if(squall_temp_official.length>0)
                     that.OfficialCar = false;
 
@@ -397,7 +397,6 @@ var squall_basic_http = new Vue({
                     if(squall_temp_product.length>0)
                         that.ProductCar = false;
 
-                    console.log(squall_on_use_list);
                     that.OnUseList = squall_on_use_list;
 
                     if(that.form)

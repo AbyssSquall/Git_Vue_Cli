@@ -101,7 +101,15 @@ export default {
   },
   mounted:function(){
     //判断是否注册
-    this.basic.squall_basic_http.LoginTest(this);
+    if(!this.basic.squall_user_info.guid)
+      this.basic.squall_basic_http.LoginTest(this);
+    else
+    {
+      //获取用户信息和权限
+      this.basic.squall_basic_http.GetGrant(this.basic.squall_user_info.序号,this);
+      //是否有已经在借的生产车辆
+      this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
+    }
 
     if(this.$route.params.success)
     {

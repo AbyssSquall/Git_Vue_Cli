@@ -153,7 +153,7 @@ export default {
             squall_data_json.endtime = squall_temp_end.getFullYear() + '-' + (squall_temp_end.getMonth()+1) + '-' + squall_temp_end.getDate() + " " + squall_data_json.endtime;
             squall_data_json.startdate = undefined;
             squall_data_json.enddate = undefined;
-            squall_data_json.序号 = 178;
+            squall_data_json.序号 = this.basic.squall_user_info.序号;
             
             var that = this;
             this.$refs[data].validate(function(squall_bool,squall_res){
