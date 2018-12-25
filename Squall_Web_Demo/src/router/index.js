@@ -5,10 +5,12 @@ import Home from '@/components/Home'
 import Car from '@/components/Car'
 import Map from '@/components/Map'
 import Personal from '@/components/Personal'
+import err from '@/components/err'
 
 Vue.use(Router)
 
 export default new Router({
+  mode: 'history',
   routes: [
     {
       path: '/',
@@ -29,6 +31,11 @@ export default new Router({
       path: '/personal',
       name: 'Personal',
       component: Personal
+    },
+    {
+      path: '*',
+      name: 'err',
+      component: err
     },
   ]
 })
