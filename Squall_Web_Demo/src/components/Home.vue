@@ -1,5 +1,6 @@
 <template>
     <div>
+        <side-nav></side-nav>
         <h1>任务列表</h1>
         <ul>
           <li>每个页面需要添加cookies验证或者sesions</li>
@@ -18,13 +19,12 @@
           <li></li>
         </ul>
         <div id="wechat"></div>
-        <foot-nav :page="page"></foot-nav>
     </div>
 </template>
 <script>
 //import HeaderNav from"@/components/Header"
-//import SideNav from"@/components/Sider"
-import FootNav from"@/components/Footer"
+import SideNav from"@/components/Sider"
+//import FootNav from"@/components/Footer"
 
 export default {
   name: 'Home',
@@ -35,8 +35,7 @@ export default {
     }
   },
   components: {
-    'FootNav':FootNav,
-    //'SideNav':SideNav,
+    'SideNav':SideNav,
   },
   mounted:function(){
     // var obj = new WxLogin({
