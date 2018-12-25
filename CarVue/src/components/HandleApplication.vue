@@ -1,52 +1,6 @@
 <template>
     <div>
         <h1>申请审核</h1>
-        <!-- <el-row class="squall_panel">
-            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
-                <el-card class="box-card">
-                        <div class="layui-row">
-                            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
-                            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
-                        </div>
-                        <div class="layui-row">
-                            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
-                            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
-                        </div>
-                        <div class="layui-row">
-                            <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
-                            <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">生产用车</div>
-                        </div>
-                        <el-row>
-                            <el-col :span="20" :offset="2">
-                                <el-button type="primary" class="squall_width_full" @click="squall_element_dialog('1')">查看详情</el-button>
-                            </el-col>
-                        </el-row>
-                </el-card>
-            </el-col>
-        </el-row>
-        <el-row class="squall_panel">
-            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
-                <el-card class="box-card">
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">黄列禹</div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">北仑</div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">公务用车</div>
-                </div>
-                <el-row>
-                    <el-col :span="20" :offset="2">
-                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog">查看详情</el-button>
-                    </el-col>
-                </el-row>
-                </el-card>
-            </el-col>
-        </el-row> -->
         <el-row class="squall_panel" v-for="Application in ApplicationList" :key="Application.guid">
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
@@ -84,7 +38,7 @@
             <el-row>
                 <el-col :span="20" :offset='2'>
                     <div class="grid-content bg-purple">
-                        <el-button type="primary" class="squall_width_full squall_top_gap" @click="dialogVisible = false">{{squall_cencel}}</el-button>
+                        <el-button type="primary" class="squall_width_full squall_top_gap" @click="squall_disagree(guid)">{{squall_cencel}}</el-button>
                     </div>
                 </el-col>
             </el-row>
@@ -97,8 +51,7 @@
                 </el-form-item>
                 <el-form-item label="车牌号"  prop="carid">
                     <el-select v-model="squall_form.carid" placeholder="请选择">
-                        <el-option label="浙B96C08" value="100400"></el-option>
-                        <el-option label="浙B96C08" value="100427"></el-option>
+                      <el-option v-for="Item in CarList" :key="Item.carid" :label="Item.车牌号" :value="Item.carid"></el-option>
                     </el-select>
                 </el-form-item>
                 <el-form-item label="等候地点" prop="waitpoint" >
@@ -160,21 +113,26 @@ export default {
             ]
         },
         ApplicationList: [],
+        CarList:[],
     }
   },
   components: {
     //'SideNav':SideNav,
   },
   mounted:function(){
+      //alert("JSON.stringfy(this.basic.squall_right_info)");
     this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
+    this.basic.squall_basic_http.GetDepartmentCarList("1002",this);
 
     //从服务器读取列表，进行渲染
     this.basic.squall_basic_http.GetApplicationList("official_application",this);
 
-    //console.log(this.basic.Now());
-
   },
   methods:{
+        squall_disagree:function(guid){
+            //alert(JSON.stringify(this.selectedInfo));
+            this.basic.squall_basic_http.disagree(this.selectedInfo.a_guid,this);
+        },
         squall_agree:function(guid){
             this.dialogVisible = false;
             if(this.selectedInfo.车牌号)
@@ -186,33 +144,6 @@ export default {
         },
         squall_element_dialog:function(guid){
             this.dialogVisible = true;
-            if(guid=="1")
-            {    
-                this.squall_ok = "同意";
-                this.squall_cencel = "退回";
-                //弹出弹出层
-                    var squall_temp_data={
-                        "车牌号":"浙B96C08",
-                        "部门":"地理信息所",
-                        "姓名":"黄列禹",
-                        "目的地":"北仑",
-                        "事由":"北仑图库",
-                        "开始时间":"2018-11-11 9:00:00",
-                        "结束时间":"2018-11-11 16:00:00"
-                        };
-
-                this.selectedInfo = squall_temp_data;
-                var squall_html = "";
-                for(var index in squall_temp_data)
-                {
-                    squall_html += "<div class='layui-row squall_item'>";
-                    squall_html += '<div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">' + index + '：</span></div>';
-                    squall_html += '<div class="layui-col-xs9 layui-col-sm9 layui-col-md9">' + squall_temp_data[index] + '</div>';
-                    squall_html += "</div>";
-                }
-            }
-            else
-            {
 
                 var squall_starttime = new Date(guid.a_starttime);
                 var squall_endtime = new Date(guid.a_endtime);
@@ -241,7 +172,6 @@ export default {
                         squall_html += '<div class="layui-col-xs8 layui-col-sm8 layui-col-md8">' + squall_temp_data[index] + '</div>';
                         squall_html += "</div>";
                     }
-            }
             this.show_html = squall_html;
       },
       submitForm:function(formname){
@@ -249,13 +179,13 @@ export default {
             var squall_data_json = JSON.parse(squall_data);
             squall_data_json.guid = this.selectedInfo.a_guid;
             squall_data_json.passtime = this.basic.Now().getFullYear() + '-' + (this.basic.Now().getMonth()+1) + '-' + this.basic.Now().getDate() + ' ' + this.basic.Now().getHours() + ':' + this.basic.Now().getMinutes() + ':' + this.basic.Now().getSeconds();
-            
+            squall_data_json.charger序号 = this.basic.squall_user_info.序号;
             
             var that = this;
             this.$refs[formname].validate(function(squall_bool,squall_res){
                 if(squall_bool)
                 {
-                    //console.log(squall_data_json);
+                    //alert(JSON.stringify(squall_data_json),JSON.stringify(that.basic.squall_user_info));
                     that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that,that.basic.squall_user_info.序号);
                 }
                 else

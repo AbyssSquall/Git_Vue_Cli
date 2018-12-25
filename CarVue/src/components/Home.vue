@@ -85,7 +85,7 @@ export default {
       msg: 'Welcome to Your Vue.js App',
       page: 'car',
       ProductCar:true,
-      OfficialCar:true,
+      OfficialCar:false,
       HandleApplication:false,
       History:false,
       Return:true,
@@ -101,15 +101,22 @@ export default {
   },
   mounted:function(){
     //判断是否注册
-    if(!this.basic.squall_user_info.guid)
+    if(!this.basic.squall_user_info.openid)
+    {
       this.basic.squall_basic_http.LoginTest(this);
+    }  
     else
     {
-      //获取用户信息和权限
-      this.basic.squall_basic_http.GetGrant(this.basic.squall_user_info.序号,this);
-      //是否有已经在借的生产车辆
-      this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
+      this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
     }
+      
+    //else
+    //{
+      //获取用户信息和权限
+      //this.basic.squall_basic_http.GetGrant(this.basic.squall_user_info.序号,this);
+      //是否有已经在借的生产车辆
+      //this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
+    //}
 
     if(this.$route.params.success)
     {

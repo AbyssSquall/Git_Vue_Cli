@@ -31,14 +31,14 @@
                 </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="结束日期" required style="display:none;">
+            <el-form-item label="结束日期" required>
                 <el-col :span="20">
                     <el-form-item prop="enddate">
                         <el-date-picker id="enddate" type="date" placeholder="选择日期" v-model="squall_form.enddate" style="width: 100%;"></el-date-picker>
                     </el-form-item>
                 </el-col>
             </el-form-item>
-            <el-form-item label="结束时间" required style="display:none;">
+            <el-form-item label="结束时间" required>
                 <el-col :span="20">
                     <el-form-item prop="endtime">
                         <el-time-select :picker-options="{start: '00:00',step: '01:0',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
@@ -50,11 +50,11 @@
                 <el-input style="resize:none;" type="textarea" v-model="squall_form.task"></el-input>
                 </el-col>
             </el-form-item>
-            <el-row>
+            <!-- <el-row>
                 <el-col :span="20" :offset="2">
                     <el-button class="squall_width_full" type="primary" @click="squall_show_onuse()">查看在用车辆</el-button>
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-row>
                 <el-col :span="20" :offset="2">
                     <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('squall_form')">提交</el-button>
@@ -65,14 +65,15 @@
         
         <!--弹出层-->
             <el-dialog :visible.sync="dialogVisible" width="80%">
-                <el-row class="squall_panel" v-for="Item in OnUseList" :key="Item.guid">
+                <div v-html="show_html"></div>
+                <!-- <el-row class="squall_panel" v-for="Item in OnUseList" :key="Item.guid">
                     <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11" :offset="1">
                         <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.车牌号}}</div>
                     </el-col>
                     <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11">
                         <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.姓名}}</div>
                     </el-col>
-                </el-row>
+                </el-row> -->
                 <el-row>
                     <el-col :span="20" :offset='2'>
                         <div class="grid-content bg-purple">
@@ -132,7 +133,7 @@ export default {
         var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
         this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
-        this.squall_form.enddate = "9999-12-1";
+        this.squall_form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();;
         this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
   },
   methods:{

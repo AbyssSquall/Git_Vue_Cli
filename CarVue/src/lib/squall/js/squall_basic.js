@@ -6,6 +6,7 @@ var squall_data_server = "http://oa.nbgis.com/page";
 
 //动态变量
 var squall_user_info = {};
+var squall_right_info = {};
 
 
 
@@ -32,7 +33,7 @@ var squall_basic_http = new Vue({
     methods:{
         LoginTest:function(that){
             console.log(that.$route.query);
-            if(that.$route.query.state=="chy178")
+            if(that.$route.query.state=="chy178"||that.$route.params.table=="person")
             {
                 if(that.$route.query.guid)
                 {
@@ -49,27 +50,47 @@ var squall_basic_http = new Vue({
                     that.basic.squall_user_info.code = that.$route.query.code;
                     that.basic.squall_user_info.guid = squall_guid();
                     this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:that.basic.squall_user_info}).then(function(data){
-                        that.basic.squall_user_info = JSON.parse(data.bodyText);
-                        //获取用户信息和权限
-                        that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
-                        //是否有已经在借的生产车辆
-                        that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
+                        if(!JSON.parse(data.bodyText).序号)
+                        {
+                            that.basic.squall_user_info = JSON.parse(data.bodyText);
+                            that.$router.push({name:"Regist",params:{data:JSON.parse(data.bodyText),success:true}});
+                        }
+                        else
+                        {
+                            that.basic.squall_user_info = JSON.parse(data.bodyText);
+                            //获取用户信息和权限
+                            that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
+                            //是否有已经在借的生产车辆
+                            that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
+                        }
+
 
                     }).catch(function(err){
                         console.log(err);
                     })
 
-
                 }
             }
             else
             {
-                window.location.href ="https://www.baidu.com";
+                if(!that.basic.squall_user_info)
+                    window.location.href ="https://www.baidu.com";
             }
         },
         GetInfo:function(guid,that){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
                 that.basic.squall_user_info = JSON.parse(data.bodyText);
+                if(!JSON.parse(data.bodyText).序号)
+                {
+                    that.$router.push({name:"Regist",params:{data:JSON.parse(data.bodyText),success:true}});
+                }
+                else
+                {
+                    //获取用户信息和权限
+                    that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
+                    //是否有已经在借的生产车辆
+                    that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
+                }
                 if(that.squall_form)
                 {
                     that.squall_form.driver = that.basic.squall_user_info.姓名;
@@ -81,14 +102,25 @@ var squall_basic_http = new Vue({
         GetGrant:function(xuhao,that){
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")").then(function(data){
                 //console.log(data.data);
+                var squall_right_temp = JSON.stringify(data.data);
+                //that.basic.squall_right_info = squall_right_temp;
+                
+                // for(var index in data.data)
+                // {
+                //     that.basic.squall_right_info[data.data[index].e_right] = data.data[index].e_right;
+                // }
+
+                //alert(JSON.stringify(that.basic.squall_right_info));
+
                 for(var i=0;i<data.data.length;i++)
                 {
                     //console.log(data.data[i].e_right);
-                    if(data.data[i].e_right=="公务用车")
+                    if(data.data[i].e_right=="生产用车")
                     {
                         that.ProductCar = true;
                     }
-                    if(data.data[i].e_right=="生产用车")
+                    if(data.data[i].e_right=="公务用车")
+                    
                     {
                         that.OfficialCar = true;
                     }
@@ -106,12 +138,12 @@ var squall_basic_http = new Vue({
                 console.log(err);
             })
         },
-        ExistUser:function(unionid,that){
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.person,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=b.序号,a.unionid,a.departmentid,b.部门,b.姓名",{}).then(function(data){
+        ExistUser:function(openid,that){
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.person,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=b.序号,a.openid,a.departmentid,b.部门,b.姓名&_where=(a.序号,eq," + openid + ")",{}).then(function(data){
                 if(data.body.length>0)
                 {
-                    that.form.序号 = data.body[0].b_序号;
-                    that.form.departmentid = data.body[0].a_departmentid;
+                    //that.form.序号 = data.body[0].b_序号;
+                    //that.form.departmentid = data.body[0].a_departmentid;
                     that.bind = false;
                     that.unbind = true;
                 }
@@ -126,7 +158,8 @@ var squall_basic_http = new Vue({
         PostForm:function(data,table,that){
             //console.log(data,table);
             var squall_data = JSON.parse(data);
-            squall_data.guid = squall_guid();
+            if(table!="person")
+                squall_data.guid = squall_guid();
             this.$http.post(squall_Database_Host_IP+"/api/" + table,squall_data).then(function(data){
                 console.log(data.data.affectedRows);
                 if(data.data.affectedRows>0)
@@ -139,7 +172,6 @@ var squall_basic_http = new Vue({
         },
         GetApplicationList:function(table,that){
             //需要连表查询，需要申请人名
-            //squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")"
 
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
                 //console.log(data.data[0].a_passtime==null);
@@ -157,32 +189,57 @@ var squall_basic_http = new Vue({
                 }
                 //that.ApplicationList = data.data;
                 that.ApplicationList = squall_list;
-            }).catch(function(err){
-                console.log(err);
+            },function(err){
+                alert(JSON.stringify(err));
             })
         },
         GetSingleOnUseList:function(that,table){
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名",{}).then(function(data){
-                //console.log(data.data);
+                //当前时间
+                var squall_now_value = new Date().valueOf();
                 var squall_temp_product = [];
                 var squall_temp_车牌号 = [];
                 var squall_temp_姓名 = [];
                 for(var i=0;i<data.data.length;i++)
                 {
+                    if(squall_now_value<new Date(data.data[i].a_endtime).valueOf())
+                    {
                         squall_temp_product.push(data.data[i].a_guid);
                         squall_temp_车牌号.push(data.data[i].b_车牌号);
                         squall_temp_姓名.push(data.data[i].c_姓名);
+                    }    
                 }
+
                 for(var i=0;i<squall_temp_product.length;i++)
                 {
-                    squall_on_use_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"姓名":squall_temp_姓名[i]});
+
+                    that.OnUseList.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"姓名":squall_temp_姓名[i]});
+                    //that.show_html += "<p class='squall_panel'>"+squall_temp_车牌号[i]+squall_temp_姓名[i]+"</p>";
+                    
+                    that.show_html += "<div class='layui-row squall_panel'>";
+                    that.show_html += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><span class=" squall_label">' + squall_temp_姓名[i] + '</span></div>';
+                    that.show_html += '<div class="layui-col-xs8 layui-col-sm8 layui-col-md8">' + squall_temp_车牌号[i] + '</div>';
+                    that.show_html += "</div>";
                 }
 
-                console.log(squall_on_use_list);
-                that.OnUseList = squall_on_use_list;
+                var squall_Carlist = []
+                for(var i=0;i<that.CarList.length;i++)
+                {
+                    var flag = -1;
+                    for(var j=0;j<squall_temp_车牌号.length;j++)
+                    {
+                        if(that.CarList[i].车牌号==squall_temp_车牌号[j])
+                            flag=j;
+                    }
+                    if(flag==-1)
+                    {
+                        squall_Carlist.push(that.CarList[i]);
+                    }
+                }
+                that.CarList = squall_Carlist;
 
-            }).catch(function(err){
-                console.log(err);
+            },function(err){
+                alert(JSON.stringify(err));
             })
         },
         PostOfficialInfo:function(data,that,id){
@@ -198,7 +255,7 @@ var squall_basic_http = new Vue({
                 console.log(err);
             })
         },
-        PostReturn:function(data,that,table,guid){
+        PostReturn:function(data,that,table){
             var squall_data = JSON.parse(data);
             var Now = new Date();
             squall_data.endtime = Now.getFullYear() + "-" +(Now.getMonth()+1) + "-" + Now.getDate() + " " + Now.getHours() + ":" + Now.getMinutes() + ":" + Now.getSeconds();
@@ -206,6 +263,31 @@ var squall_basic_http = new Vue({
                 if(data.data=="true")
                 {
                     that.$router.push({name:"Home",params:{type:"official_application",success:true}});
+                }
+            },function(err){
+                alert(JSON.stringify(err));
+            })
+        },
+        Unbind:function(data,that){
+            this.$http.get(squall_data_server+"/table/delete?table=person&updateparams=" + encodeURIComponent(data) + "&index=openid",{}).then(function(data){
+                if(data.data=="true")
+                {
+                    that.bind = true;
+                    that.unbind = false;
+                    that.basic.squall_user_info.序号 = undefined;
+                    that.basic.squall_user_info.姓名 = undefined;
+                }
+            },function(err){
+                alert(err);
+            })
+        },
+        disagree:function(guid,that){
+            var squall_temp_json = {'guid':guid};
+            this.$http.get(squall_data_server+"/table/delete?table=official_application&updateparams=" + encodeURIComponent(JSON.stringify(squall_temp_json),{})).then(function(data){
+                if(data.data=="true")
+                {
+                    that.dialogVisible = false;
+                    that.basic.squall_basic_http.GetApplicationList("official_application",that);
                 }
             },function(err){
                 alert(JSON.stringify(err));
@@ -265,7 +347,6 @@ var squall_basic_http = new Vue({
                             squall_history_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],aim:squall_temp_product_aim[i],"姓名":squall_temp_product_姓名[i],"开始时间":squall_temp_official_starttime[i]});
                         }
 
-                        console.log(squall_history_list);
                         that.HistoryList = squall_history_list;
                         that.TotalHistoryList = squall_history_list;
 
@@ -344,6 +425,7 @@ var squall_basic_http = new Vue({
             var squall_now_value = new Date().valueOf();
 
             var squall_on_use_list = []
+            var squall_on_application_list = []
             var this_that = this;
             //获取全部的历史记录
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime&_where=(a.序号,eq," + id + ")",{}).then(function(data){
@@ -370,11 +452,24 @@ var squall_basic_http = new Vue({
                     squall_on_use_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
                 }
                 
+                // if(squall_temp_official.length>0)
+                //     that.OfficialCar = false;
                 if(squall_temp_official.length>0)
-                    that.OfficialCar = false;
+                    alert("您已借用" + squall_temp_official.length + "辆公务用车");
 
+                //获取全部的正在申请的记录
+                this.$http.get(squall_Database_Host_IP+"/api/official_application?_where=(passtime,eq,null)",{}).then(function(data){
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        squall_on_application_list.push(data.data[i]);
+                    }
+                },function(err){
+                    console.log(JSON.stringify(err));
+                })
+                if(squall_temp_official.length>0)
+                    alert("您有" + squall_temp_official.length + "条公务用车申请还未审核");
 
-                this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名",{}).then(function(data){
+                this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名&_where=(a.序号,eq," + id + ")",{}).then(function(data){
                     //console.log(data.data);
                     var squall_temp_product = [];
                     var squall_temp_车牌号 = [];
@@ -405,12 +500,96 @@ var squall_basic_http = new Vue({
                         that.form.type=squall_on_use_list[0].table_alias;
                         that.SelectedInfo = squall_on_use_list[0];
                     }
+                    if(that.ProductCar&&that.OfficialCar)
+                        that.Return = false;
 
                 }).catch(function(err){
                     console.log(err);
                 })
 
 
+
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetDepartmentCarList:function(departmentid,that){
+            //当前时间
+            var squall_now_value = new Date().valueOf();
+
+            var squall_on_use_list = []
+            var this_that = this;
+            //获取全部的历史记录
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.department,_j,b.car&_on1=(a.部门,eq,b.部门)&_fields=b.车牌号,b.carid&_where=(a.departmentid,eq," + departmentid + ")",{}).then(function(data){
+                
+                //分配一下
+                var squall_car_list = [];
+
+                for(var i=0;i<data.data.length;i++)
+                {
+                    var squall_temp_car = {};
+                    squall_temp_car.车牌号 = data.data[i].b_车牌号;
+                    squall_temp_car.carid = data.data[i].b_carid;
+
+                    squall_car_list.push(squall_temp_car);
+                }
+                
+                that.CarList = squall_car_list;
+                
+                that.basic.squall_basic_http.GetSingleOnUseList(that,"product_application");
+
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetDepartmentList:function(that){
+            var squall_department_list_temp = []
+            //获取全部的历史记录
+            this.$http.get(squall_Database_Host_IP+"/api/department",{}).then(function(data){
+                
+                for(var i=0;i<data.data.length;i++)
+                {
+                    squall_department_list_temp.push(data.data[i]);
+                }
+                
+                if(squall_department_list_temp.length>0)
+                    that.DepartmentList = squall_department_list_temp;
+
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetPersonList:function(departmentid,that){
+            
+            var squall_number_list_temp = [];
+            //获取已注册记录
+            this.$http.get(squall_Database_Host_IP+"/api/person?_size=500",{}).then(function(data){
+
+                var squall_url = squall_Database_Host_IP+"/api/personlist?_where=";
+                for(var i=0;i<data.data.length;i++)
+                {
+                    if(data.data[i].序号!=that.basic.squall_user_info.序号)
+                        squall_url += "(序号,ne," + data.data[i].序号 + ")~and";
+                }
+                squall_url += "(departmentid,eq," + departmentid + ")";
+                //squall_url = squall_url.substr(0,squall_url.length-4);
+                squall_url += "&_size=100";
+                
+                //alert(squall_url);
+                //获取全部的历史记录
+                this.$http.get(squall_url,{}).then(function(data){
+                    
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        squall_number_list_temp.push(data.data[i]);
+                    }
+                    
+                    if(squall_number_list_temp.length>0)
+                        that.NumberList = squall_number_list_temp;
+
+                }).catch(function(err){
+                    console.log(err);
+                })
 
             }).catch(function(err){
                 console.log(err);
@@ -431,6 +610,7 @@ export default{
     "squall_guid":squall_guid,
     "squall_basic_http":squall_basic_http,
     "squall_user_info":squall_user_info,
+    "squall_right_info":squall_right_info,
     "squall_Host":squall_data_server,
     "Now":squall_now
 }

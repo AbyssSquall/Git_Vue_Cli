@@ -5,6 +5,8 @@ function getRandColor () {
 
 const guid = squall_guid();
 
+var openid = "";
+
 //GUID生成
 function squall_guid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -18,4 +20,5 @@ export default
 {
     guid,
     getRandColor,
+    openid
 }

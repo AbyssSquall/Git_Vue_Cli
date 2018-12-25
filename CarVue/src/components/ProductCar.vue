@@ -19,8 +19,7 @@
             <el-form-item label="车牌号" prop="carid">
                 <el-col :span="20">
                 <el-select class="squall_width_full" v-model="squall_form.carid" placeholder="请选择车辆">
-                    <el-option label="浙B96C08" value="100400"></el-option>
-                    <el-option label="浙BH2B07" value="100427"></el-option>
+                      <el-option v-for="Item in CarList" :key="Item.carid" :label="Item.车牌号" :value="Item.carid"></el-option>
                 </el-select>
                 </el-col>
             </el-form-item>
@@ -76,14 +75,15 @@
 
     <!--弹出层-->
         <el-dialog :visible.sync="dialogVisible" width="80%">
-            <el-row class="squall_panel" v-for="Item in OnUseList" :key="Item.guid">
+            <div v-html="show_html"></div>
+            <!-- <el-row class="squall_panel" v-for="Item in OnUseList" :key="Item.guid">
                 <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11" :offset="1">
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.车牌号}}</div>
+                    {{Item.车牌号}}
                 </el-col>
                 <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11">
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.姓名}}</div>
+                    {{Item.姓名}}
                 </el-col>
-            </el-row>
+            </el-row> -->
             <el-row>
                 <el-col :span="20" :offset='2'>
                     <div class="grid-content bg-purple">
@@ -137,12 +137,12 @@ export default {
         squall_cencel:"关闭",
         show_html:"",
         OnUseList:[],
+        CarList:[],
     }
   },
   mounted:function(){
         this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
-
-
+        this.basic.squall_basic_http.GetDepartmentCarList(this.basic.squall_user_info.departmentid,this);
 
         var Now = new Date();
         this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
@@ -151,27 +151,29 @@ export default {
         this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
 
 
-        this.RefreshPage != this.RefreshPage;
   },
     methods:{
         squall_show_onuse:function(){
             this.dialogVisible = true;
-            var squall_html = "";
 
-            this.basic.squall_basic_http.GetSingleOnUseList(this,"product_application");
         },
         submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);
             var squall_data_json = JSON.parse(squall_data);
             var squall_temp_start = new Date(squall_data_json.startdate);
             var squall_temp_end = new Date(squall_data_json.enddate);
+            var squall_temp_pass;
 
             squall_data_json.starttime = squall_temp_start.getFullYear() + '-' + (squall_temp_start.getMonth()+1) + '-' + squall_temp_start.getDate() + " " + squall_data_json.starttime;
-            squall_data_json.endtime = squall_temp_end.getFullYear() + '-' + (squall_temp_end.getMonth()+1) + '-' + squall_temp_end.getDate() + " " + squall_data_json.endtime;
+            squall_data_json.endtime = '9999-12-1 ' + squall_data_json.endtime;
             squall_data_json.startdate = undefined;
             squall_data_json.enddate = undefined;
             squall_data_json.序号 = this.basic.squall_user_info.序号;
+            squall_temp_pass = new Date(squall_temp_start.valueOf()+Math.floor(Math.random()*10)*Math.floor(Math.random()*10)*Math.floor(Math.random()*10)*1239*79);
+            squall_data_json.passtime = squall_temp_pass.getFullYear() + '-' + (squall_temp_pass.getMonth()+1) + '-' + squall_temp_pass.getDate() + " " + (squall_temp_pass.getHours()+3) + ":" + squall_temp_pass.getMinutes() + ":" + squall_temp_pass.getSeconds();
             
+            //alert(squall_data_json.passtime);
+
             var that = this;
             this.$refs[data].validate(function(squall_bool,squall_res){
                 if(squall_bool)
