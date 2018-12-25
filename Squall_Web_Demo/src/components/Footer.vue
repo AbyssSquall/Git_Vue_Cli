@@ -3,22 +3,22 @@
         <el-row>
             <el-col id="Home" :span='6' v-bind:class="{'squall-this':home1}">
                 <el-button class="squall_full_width">
-                    <router-link :to="{ path: '/' }" class="layui-icon" >home</router-link>
+                    <router-link :to="{ path: '/' }" class="squall_foot_item" >home</router-link>
                 </el-button>
             </el-col>
             <el-col id="CarCgarge" :span='6' v-bind:class="{'squall-this':car1}">
                 <el-button class="squall_full_width">
-                <router-link :to="{ path: '/car' }" class="layui-icon">car</router-link>
+                <router-link :to="{ path: '/car' }" class="squall_foot_item">car</router-link>
                 </el-button>
             </el-col>
             <el-col id="Map" :span='6' v-bind:class="{'squall-this':map1}">
                 <el-button class="squall_full_width">
-                <router-link :to="{ path: '/map' }" class="layui-icon">map</router-link>
+                <router-link :to="{ path: '/map' }" class="squall_foot_item">map</router-link>
                 </el-button>
             </el-col>
             <el-col id="Personal" :span='6' v-bind:class="{'squall-this':personal1}">
                 <el-button class="squall_full_width">
-                <router-link :to="{ path: '/personal' }" class="layui-icon">personal</router-link>
+                    <router-link :to="{ path: '/personal' }" class="squall_foot_item">personal</router-link>
                 </el-button>
             </el-col>
         </el-row>

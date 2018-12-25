@@ -1,3 +1,7 @@
+body{
+    margin: 0px;
+}
+
 .squall_footer{
     width: 100%;
     float: fix;
@@ -45,4 +49,8 @@
 
 .squall_full_width{
     width: 100%
+}
+
+.squall_foot_item{
+    padding: 10px;
 }
