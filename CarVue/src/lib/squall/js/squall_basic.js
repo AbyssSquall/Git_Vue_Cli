@@ -71,6 +71,34 @@ var squall_basic_http = new Vue({
 
                 }
             }
+            else if(that.$route.query.state.length==6)
+            {
+                var this_that = this
+                //创新的session
+                that.basic.squall_user_info.code = that.$route.query.code;
+                that.basic.squall_user_info.guid = squall_guid();
+                this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:that.basic.squall_user_info}).then(function(data){
+                    if(!JSON.parse(data.bodyText).序号)
+                    {
+                        that.basic.squall_user_info = JSON.parse(data.bodyText);
+                        that.$router.push({name:"Regist",params:{data:JSON.parse(data.bodyText),success:true}});
+                    }
+                    else
+                    {
+                        that.basic.squall_user_info = JSON.parse(data.bodyText);
+                        that.basic.squall_user_info.UseCarID = that.$route.query.state;
+                        //获取用户信息和权限
+                        that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
+                        //是否有已经在借的生产车辆
+                        that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
+                    }
+
+
+                }).catch(function(err){
+                    console.log(err);
+                })
+                //that.$router.push({name:"Product",params:{CarID:that.$route.query.state,success:true}});
+            }
             else
             {
                 if(!that.basic.squall_user_info)
@@ -490,7 +518,11 @@ var squall_basic_http = new Vue({
                     }
 
                     if(squall_temp_product.length>0)
+                    {
                         that.ProductCar = false;
+                        if(that.basic.squall_user_info.UseCarID)
+                            that.$router.push({name:"Return",params:{data:JSON.parse(data.bodyText),success:true}});
+                    }
 
                     that.OnUseList = squall_on_use_list;
 

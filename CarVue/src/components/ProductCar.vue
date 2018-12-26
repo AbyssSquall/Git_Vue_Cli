@@ -103,7 +103,7 @@ export default {
     return {
         msg: 'Welcome to Your Vue.js App',
         RefreshPage:false,
-        page: 'car',
+        page: 'ProductCar',
         squall_form:{
             region:'',
             driver:"",
