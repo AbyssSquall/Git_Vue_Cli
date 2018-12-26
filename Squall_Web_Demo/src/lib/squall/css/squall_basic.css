@@ -51,6 +51,20 @@ body{
     width: 100%
 }
 
+.squall_full_height{
+    height: 100%
+}
+
 .squall_foot_item{
     padding: 10px;
+}
+
+.squall_nav{
+    position: fixed;
+    top: 0px;
+    bottom: 0px;
+    float: left;
+}
+
+.el-menu-item{
 }
