@@ -64,7 +64,5 @@ body{
     top: 0px;
     bottom: 0px;
     float: left;
-}
-
-.el-menu-item{
+    text-align: left;
 }

@@ -4,7 +4,7 @@
         <el-col :span="5" class="squall_nav" >
           <side-nav></side-nav>
         </el-col>
-        <el-col :span="20" :offset="5">
+        <el-col :span="19" :offset="5">
           <h1>任务列表</h1>
           <ul>
             <li>每个页面需要添加cookies验证或者sesions</li>

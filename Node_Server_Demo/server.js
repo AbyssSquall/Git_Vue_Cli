@@ -42,33 +42,33 @@ var table = require('./router/table');
 app.use('/table',table);
 
 //路由转发,目的是将外部的访问转发到本地
-// app.use('/',function(req,res,next){
-//     //console.log(req.url);
-//     var squall_chunk = "";
+app.use('/',function(req,res,next){
+    //console.log(req.url);
+    var squall_chunk = "";
 
-//     var squall_res = res;
-// 	squall_HttpGet.hostname = "localhost";
-// 	squall_HttpGet.port = "8516";
-// 	squall_HttpGet.path = req.url.toString();
+    var squall_res = res;
+	squall_HttpGet.hostname = "localhost";
+	squall_HttpGet.port = "8516";
+	squall_HttpGet.path = req.url.toString();
 
-// 	//发送请求
-// 	var squall_req = http.request(squall_HttpGet,function(res){
-// 		res.on('data', function (chunk) { 
-//             //squall_res.write(chunk); 
-//             squall_chunk+=chunk;
-// 		}); 
-// 		res.on('end', function (chunk) { 
-// 			squall_res.end(squall_chunk);
-// 		}); 
-// 	})
+	//发送请求
+	var squall_req = http.request(squall_HttpGet,function(res){
+		res.on('data', function (chunk) { 
+            //squall_res.write(chunk); 
+            squall_chunk+=chunk;
+		}); 
+		res.on('end', function (chunk) { 
+			squall_res.end(squall_chunk);
+		}); 
+	})
 
-// 	squall_req.on('error', function(e) { 
-//         console.log('problem with request: ' + e.message); 
-//         squall_req.end();
-//         next();
-// 	}); 
-//     //squall_req.write('data\n'); 
-//     squall_req.end();
+	squall_req.on('error', function(e) { 
+        console.log('problem with request: ' + e.message); 
+        squall_req.end();
+        next();
+	}); 
+    //squall_req.write('data\n'); 
+    squall_req.end();
 
-// 	// write data to request body 
-// })
+	// write data to request body 
+})

@@ -7,6 +7,7 @@
                 @open="handleOpen"
                 @close="handleClose"
                 background-color="#000000"
+                
                 text-color="#fff"
                 active-text-color="#6040FF">
                 <el-submenu index="1">
@@ -50,7 +51,8 @@ export default {
             "home1":false,
             "car1":false,
             "map1":false,
-            "personal1":false
+            "personal1":false,
+            "background-color":"#000000",
         }
     },
     props:['page'],

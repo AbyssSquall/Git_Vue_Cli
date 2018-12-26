@@ -18,7 +18,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/OfficialCar' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/qichezhan.png">  
-              <a class="squall_width_full">公务用车</a>
+              <a class="squall_width_full">经营用车</a>
             </router-link>
           </el-card>
         </el-col>
