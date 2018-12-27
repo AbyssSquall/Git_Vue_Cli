@@ -35,6 +35,7 @@ var squall_basic_http = new Vue({
             console.log(that.$route.query);
             if(that.$route.query.state=="chy178"||that.$route.params.table=="person")
             {
+                //alert(that.$route.query.state)
                 if(that.$route.query.guid)
                 {
                     this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":that.$route.query.guid}}).then(function(data){
@@ -45,7 +46,7 @@ var squall_basic_http = new Vue({
                 }
                 else
                 {
-                    var this_that = this
+                    var this_that = this;
                     //创新的session
                     that.basic.squall_user_info.code = that.$route.query.code;
                     that.basic.squall_user_info.guid = squall_guid();
@@ -73,6 +74,8 @@ var squall_basic_http = new Vue({
             }
             else if(that.$route.query.state.length==6)
             {
+                //alert(that.$route.query.state)
+                //alert(that.$route.query.state.length)
                 var this_that = this
                 //创新的session
                 that.basic.squall_user_info.code = that.$route.query.code;
@@ -87,6 +90,7 @@ var squall_basic_http = new Vue({
                     {
                         that.basic.squall_user_info = JSON.parse(data.bodyText);
                         that.basic.squall_user_info.UseCarID = that.$route.query.state;
+                        //alert(JSON.stringify(that.basic.squall_user_info));
                         //获取用户信息和权限
                         that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
                         //是否有已经在借的生产车辆
@@ -101,13 +105,19 @@ var squall_basic_http = new Vue({
             }
             else
             {
-                if(!that.basic.squall_user_info)
+                //if(!that.basic.squall_user_info)
                     window.location.href ="https://www.baidu.com";
             }
         },
         GetInfo:function(guid,that){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
+                var squall_squall_temp_UseCarID;
+                if(that.basic.squall_user_info.UseCarID)
+                    squall_squall_temp_UseCarID = that.basic.squall_user_info.UseCarID;
+
                 that.basic.squall_user_info = JSON.parse(data.bodyText);
+                if(squall_squall_temp_UseCarID)
+                    that.basic.squall_user_info.UseCarID = squall_squall_temp_UseCarID;
                 if(!JSON.parse(data.bodyText).序号)
                 {
                     that.$router.push({name:"Regist",params:{data:JSON.parse(data.bodyText),success:true}});
@@ -130,7 +140,7 @@ var squall_basic_http = new Vue({
         GetGrant:function(xuhao,that){
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")").then(function(data){
                 //console.log(data.data);
-                var squall_right_temp = JSON.stringify(data.data);
+                //var squall_right_temp = JSON.stringify(data.data);
                 //that.basic.squall_right_info = squall_right_temp;
                 
                 // for(var index in data.data)
@@ -163,7 +173,7 @@ var squall_basic_http = new Vue({
                 }
                 //console.log(xuhao);
             }).catch(function(err){
-                console.log(err);
+                alert(JSON.stringify(err));
             })
         },
         ExistUser:function(openid,that){
@@ -523,6 +533,8 @@ var squall_basic_http = new Vue({
                         if(that.basic.squall_user_info.UseCarID)
                             that.$router.push({name:"Return",params:{data:JSON.parse(data.bodyText),success:true}});
                     }
+                    else if(that.basic.squall_user_info.UseCarID)
+                        that.$router.push({name:"ProductCar",params:{UseCarID:that.basic.squall_user_info.UseCarID,success:true}});
 
                     that.OnUseList = squall_on_use_list;
 

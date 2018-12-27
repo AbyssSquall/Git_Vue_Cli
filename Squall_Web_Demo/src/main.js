@@ -13,6 +13,9 @@ import "./lib/squall/css/squall_basic.css"
 import "./lib/leaflet/leaflet.css"
 //import './lib/proj4leaflet/proj4.js'
 //import './lib/proj4leaflet/proj4leaflet.js'
+import VueResource from 'vue-resource'
+
+Vue.use(VueResource)
 
 Vue.use(ElementUI);
 

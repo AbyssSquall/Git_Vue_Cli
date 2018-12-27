@@ -150,6 +150,10 @@ export default {
         this.squall_form.enddate = "9999-12-1";
         this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
 
+        if(this.$route.params.UseCarID)
+        {
+            this.squall_form.carid = this.$route.params.UseCarID;
+        }
 
   },
     methods:{

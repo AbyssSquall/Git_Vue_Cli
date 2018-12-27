@@ -10,7 +10,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/ProductCar' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/chuzuche.png">  
-              <a class="squall_width_full">生产用车</a>
+              <div class="squall_width_full">生产用车</div>
             </router-link>
           </el-card>
         </el-col>
@@ -18,7 +18,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/OfficialCar' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/qichezhan.png">  
-              <a class="squall_width_full">经营用车</a>
+              <div class="squall_width_full">经营用车</div>
             </router-link>
           </el-card>
         </el-col>
@@ -26,7 +26,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/HandleApplication' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/duigou.png">  
-              <a class="squall_width_full">申请审核</a>
+              <div class="squall_width_full">申请审核</div>
             </router-link>
           </el-card>
         </el-col>
@@ -34,7 +34,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/History' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/qingdan.png">  
-              <a class="squall_width_full">历史记录</a>
+              <div class="squall_width_full">历史记录</div>
             </router-link>
           </el-card>
         </el-col>
@@ -42,7 +42,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/Return' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/shuaxin.png">  
-              <a class="squall_width_full">借车归还</a>
+              <div class="squall_width_full">借车归还</div>
             </router-link>
           </el-card>
         </el-col>
@@ -50,7 +50,7 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/Regist' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/yonghu.png">  
-              <a class="squall_width_full">注册绑定</a>
+              <div class="squall_width_full">注册绑定</div>
             </router-link>
           </el-card>
         </el-col>
@@ -120,6 +120,8 @@ export default {
 
     if(this.$route.params.success)
     {
+      if(this.basic.squall_user_info.UseCarID)
+        this.$router.push({name:"ProductCar",params:{UseCarID:this.basic.squall_user_info.UseCarID,success:true}});
       this.Success_visible = this.$route.params.success;
     }
 

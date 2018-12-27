@@ -19,8 +19,8 @@
             <li></li>
             <li></li>
             <li></li>
-            <li></li>
-            <li></li>
+            <li><el-button type="primary" @click="squall_SelectTest">检索测试</el-button></li>
+            <li><el-button type="primary" @click="squall_UpdateTest">更新测试</el-button></li>
           </ul>
         </el-col>
       </el-row>
@@ -54,6 +54,15 @@ export default {
     //     href: ""
     //   });
   },
+  methods:{
+    squall_UpdateTest(){
+      //console.log("update test!");
+      this.basic.squall_basic_http.TestUpdate(this);
+    },
+    squall_SelectTest(){
+      this.basic.squall_basic_http.TestSelect(this);
+    }
+  }
 }
 </script>
 

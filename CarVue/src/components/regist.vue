@@ -72,8 +72,6 @@ export default {
   },
   methods:{
         submitForm:function(data){
-            //this.basic.squall_user_info.序号 = 
-            //this.basic.squall_user_info.departmentid = 
 
             var squall_data = JSON.stringify(this[data]);
             var squall_data_json = JSON.parse(squall_data);

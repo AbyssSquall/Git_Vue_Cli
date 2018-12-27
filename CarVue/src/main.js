@@ -11,7 +11,7 @@ Vue.use(VueResource)
 Vue.use(ElementUI);
 //Vue.use(Element, { size: 'small', zIndex: 3000 });
 
-import "./lib/layui/layui-v2.3.0/css/layui.css"
+//import "./lib/layui/layui-v2.3.0/css/layui.css"
 import "./lib/leaflet/leaflet.css"
 import 'element-ui/lib/theme-chalk/index.css';
 
