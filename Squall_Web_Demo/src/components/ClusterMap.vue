@@ -1,14 +1,13 @@
 <template>
     <div>
         <div id="myJSMap" class="squall_Map" ></div>
-        <foot-nav :page="page"></foot-nav>
     </div>
 </template>
 
 <script>
 //import HeaderNav from"@/components/Header"
 //import SideNav from"@/components/Sider"
-import FootNav from"@/components/Footer"
+//import FootNav from"@/components/Footer"
 //import "leaflet"
 //import "proj4"
 import "proj4leaflet"
@@ -22,7 +21,7 @@ export default {
     }
   },
   components: {
-    'FootNav':FootNav,
+    //'FootNav':FootNav,
     //'SideNav':SideNav,
   },
   mounted:function(){

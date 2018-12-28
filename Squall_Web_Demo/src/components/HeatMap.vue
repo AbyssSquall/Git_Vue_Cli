@@ -88,10 +88,6 @@ export default {
   name: 'HelloWorld',
   mounted:function(){
     console.log("组件加载完成！");
-    console.log(this.basic.test_string);
-    console.log(this.basic.test_function());
-    
-    //squall_bisic.squall_start();
   },
   data () {
     return {

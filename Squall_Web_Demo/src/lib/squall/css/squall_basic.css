@@ -65,4 +65,9 @@ body{
     bottom: 0px;
     float: left;
     text-align: left;
+    background-color: #466F99;
+}
+
+a {
+    text-decoration: none;
 }
