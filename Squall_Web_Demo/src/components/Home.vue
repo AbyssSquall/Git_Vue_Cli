@@ -5,18 +5,7 @@
           <side-nav v-on:pagechange="PageChange"></side-nav>
         </el-col>
         <el-col :span="21" :offset="3">
-          <div v-if="PageControler.Home">
-            <el-row style="height:100px">
-              <el-col :span="24">
-                <h1>基础地图页</h1>
-              </el-col>
-            </el-row>
-            <el-row>
-              <div class="squall_Map">
-                <div id="map" style="height:100%"></div>
-              </div>
-            </el-row>
-          </div>
+          <base-map v-if="PageControler.Home"></base-map>
           <base-graph v-if="PageControler.BaseGraph"></base-graph>
           <heat-map v-if="PageControler.HeatMap"></heat-map>
           <cluster-map v-if="PageControler.ClusterMap"></cluster-map>
@@ -33,6 +22,7 @@
 import SideNav from"@/components/Sider"
 //import FootNav from"@/components/Footer"
 
+import BaseMap from"@/components/BaseMap"
 import BaseGraph from"@/components/BaseGraph"
 import HeatMap from"@/components/HeatMap"
 import ClusterMap from"@/components/ClusterMap"
@@ -63,6 +53,7 @@ export default {
   },
   components: {
     'SideNav':SideNav,
+    'BaseMap':BaseMap,
     'BaseGraph':BaseGraph,
     'HeatMap':HeatMap,
     'ClusterMap':ClusterMap,
@@ -72,16 +63,6 @@ export default {
     'Custom':Custom,
   },
   mounted:function(){
-    // var obj = new WxLogin({
-    //     self_redirect:true,
-    //     id:"wechat", 
-    //     appid: "", 
-    //     scope: "", 
-    //     redirect_uri: "",
-    //     state: "",
-    //     style: "",
-    //     href: ""
-    //   });
     var map_option = {"id":"map"};
     LeafletBase.leaflet_base.map(map_option);
   },

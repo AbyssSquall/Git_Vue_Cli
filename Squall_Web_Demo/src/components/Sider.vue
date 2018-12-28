@@ -12,7 +12,7 @@
                 active-text-color="#5CADFF">
                 <el-submenu index="1">
                     <template slot="title">
-                    <i class="el-icon-location"></i>
+                    <i class="el-icon-picture"></i>
                     <span>地图</span>
                     </template>
                     <el-menu-item-group>
@@ -30,15 +30,15 @@
                     </el-submenu> -->
                 </el-submenu>
                 <el-menu-item index="2" @click="ItemRouter('MapDraw')">
-                    <i class="el-icon-menu"></i>
+                    <i class="el-icon-edit"></i>
                     <span slot="title">地图绘制</span>
                 </el-menu-item>
                 <el-menu-item index="3" @click="ItemRouter('GPS')" disabled>
-                    <i class="el-icon-document"></i>
+                    <i class="el-icon-location-outline"></i>
                     <span slot="title">GPS相关</span>
                 </el-menu-item>
                 <el-menu-item index="4" @click="ItemRouter('Document')">
-                    <i class="el-icon-setting"></i>
+                    <i class="el-icon-document"></i>
                     <span slot="title">开发文档</span>
                 </el-menu-item>
                 <el-menu-item index="5" @click="ItemRouter('Custom')">

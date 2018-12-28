@@ -2,7 +2,7 @@
     <div>
       <el-row style="height:100px">
           <el-col :span="24">
-            <h1>基本矢量图形的加载</h1>
+            <h1>基础地图页</h1>
           </el-col>
       </el-row>
       <el-row>
@@ -31,4 +31,3 @@ export default {
   },
 }
 </script>
-
