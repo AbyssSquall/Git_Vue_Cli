@@ -63,8 +63,6 @@ export default {
     'Custom':Custom,
   },
   mounted:function(){
-    var map_option = {"id":"map"};
-    LeafletBase.leaflet_base.map(map_option);
   },
   methods:{
     PageChange(Option){

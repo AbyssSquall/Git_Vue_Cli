@@ -4,6 +4,7 @@ import leaflet_config from "@/lib/squall_map/map_config"
 console.log("Squal基础地图库已被加载！");
 
 var squall_map_base = {
+    Layers:[],
     map(Option){
         //参数
         Option.zoom = 16;

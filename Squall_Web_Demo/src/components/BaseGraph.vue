@@ -27,7 +27,14 @@ export default {
   },
   mounted:function(){
     var map_option = {"id":"map"};
-    LeafletBase.leaflet_base.map(map_option);
+    var squall_map = LeafletBase.leaflet_base.map(map_option);
+
+    var latlngs = [[29.836183856215246,121.40231098683739],[29.836419890612962,121.41754593432614],[29.823116133650935,121.41615118561236],[29.82382423684408,121.40005793122283]];
+    var polygon = L.polygon(latlngs, {color: 'red'}).addTo(squall_map);
+
+    squall_map.on('click',function(e1){
+      console.log(e1);
+    })
   },
 }
 </script>
