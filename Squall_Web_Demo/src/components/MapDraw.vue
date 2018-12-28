@@ -1,7 +1,6 @@
 <template>
     <div>
-        <h1>听说这是个人主页？</h1>
-        <foot-nav :page="page"></foot-nav>
+        <h1>地图绘制</h1>
     </div>
 </template>
 <script>

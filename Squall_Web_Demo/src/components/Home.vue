@@ -6,23 +6,20 @@
         </el-col>
         <el-col :span="21" :offset="3">
           <div v-if="PageControler.Home">
-            <h1>任务列表</h1>
-            <ul>
-              <li>每个页面需要添加cookies验证或者sesions</li>
-              <li>测试微信接口</li>
-              <li>制作借车页面</li>
-              <li>获取定位信息</li>
-              <li>建立个人数据库</li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li></li>
-              <li><el-button type="primary" @click="squall_SelectTest">检索测试</el-button></li>
-              <li><el-button type="primary" @click="squall_UpdateTest">更新测试</el-button></li>
-            </ul>
+            <el-row style="height:100px">
+              <el-col :span="24">
+                <h1>基础地图页</h1>
+              </el-col>
+            </el-row>
+            <el-row>
+              <div style="position: absolute;
+    top: 0px;
+    left: 0;
+    right: 0px;
+    bottom: 0px;width: auto;height:1000px">
+                <div id="map" style="height:100%"></div>
+              </div>
+            </el-row>
           </div>
           <base-graph v-if="PageControler.BaseGraph"></base-graph>
           <heat-map v-if="PageControler.HeatMap"></heat-map>
@@ -30,6 +27,7 @@
           <map-draw v-if="PageControler.MapDraw"></map-draw>
           <G-p-s v-if="PageControler.GPS"></G-p-s>
           <document v-if="PageControler.Document"></document>
+          <custom v-if="PageControler.Custom"></custom>
         </el-col>
       </el-row>
     </div>
@@ -45,6 +43,9 @@ import ClusterMap from"@/components/ClusterMap"
 import MapDraw from"@/components/MapDraw"
 import GPS from"@/components/GPS"
 import _Document from"@/components/Document"
+import Custom from"@/components/Custom"
+
+import LeafletBase from "@/lib/squall_map/leaflet_base"
 
 export default {
   name: 'Home',
@@ -60,6 +61,7 @@ export default {
         MapDraw:false,
         GPS:false,
         Document:false,
+        Custom:false,
       },
     }
   },
@@ -71,6 +73,7 @@ export default {
     'MapDraw':MapDraw,
     'GPS':GPS,
     'Document':_Document,
+    'Custom':Custom,
   },
   mounted:function(){
     // var obj = new WxLogin({
@@ -83,16 +86,12 @@ export default {
     //     style: "",
     //     href: ""
     //   });
+    var map_option = {"id":"map"};
+    LeafletBase.leaflet_base.map(map_option);
   },
   methods:{
-    squall_UpdateTest(){
-      //console.log("update test!");
-      this.basic.squall_basic_http.TestUpdate(this);
-    },
-    squall_SelectTest(){
-      this.basic.squall_basic_http.TestSelect(this);
-    },
     PageChange(Option){
+      //console.log(Option);
       for(var item in this.PageControler)
       {
         if(item==Option.key)

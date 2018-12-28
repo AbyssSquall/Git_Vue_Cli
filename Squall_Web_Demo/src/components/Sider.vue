@@ -29,17 +29,21 @@
                     <el-menu-item index="1-4-1">选项1</el-menu-item>
                     </el-submenu> -->
                 </el-submenu>
-                <el-menu-item index="2">
+                <el-menu-item index="2" @click="ItemRouter('MapDraw')">
                     <i class="el-icon-menu"></i>
-                    <span slot="title" @click="ItemRouter('MapDraw')">地图绘制</span>
+                    <span slot="title">地图绘制</span>
                 </el-menu-item>
-                <el-menu-item index="3" disabled>
+                <el-menu-item index="3" @click="ItemRouter('GPS')" disabled>
                     <i class="el-icon-document"></i>
-                    <span slot="title" @click="ItemRouter('GPS')">GPS相关</span>
+                    <span slot="title">GPS相关</span>
                 </el-menu-item>
-                <el-menu-item index="4">
+                <el-menu-item index="4" @click="ItemRouter('Document')">
                     <i class="el-icon-setting"></i>
-                    <span slot="title" @click="ItemRouter('Document')">开发文档</span>
+                    <span slot="title">开发文档</span>
+                </el-menu-item>
+                <el-menu-item index="5" @click="ItemRouter('Custom')">
+                    <i class="el-icon-setting"></i>
+                    <span slot="title">自定义页面</span>
                 </el-menu-item>
                 </el-menu>
         </el-row>

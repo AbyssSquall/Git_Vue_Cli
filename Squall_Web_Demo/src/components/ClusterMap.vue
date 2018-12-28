@@ -1,5 +1,6 @@
 <template>
     <div>
+      <h1>聚合图</h1>
         <div id="myJSMap" class="squall_Map" ></div>
     </div>
 </template>
