@@ -5,16 +5,16 @@
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
                 <el-row>
-                    <div  :xs="6" :sm="6" :md="6" :lg="6" :xl="6"><span class=" squall_label">申请人：</span></div>
-                    <div :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.b_姓名}}</div>
+                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">申请人：</span></el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.b_姓名}}</el-col>
                 </el-row>
                 <el-row>
-                    <div :xs="6" :sm="6" :md="6" :lg="6" :xl="6"><span class=" squall_label">目的地：</span></div>
-                    <div :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</div>
+                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">目的地：</span></el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</el-col>
                 </el-row>
                 <el-row>
-                    <div :xs="6" :sm="6" :md="6" :lg="6" :xl="6"><span class=" squall_label">用车类型：</span></div>
-                    <div :xs="18" :sm="18" :md="18" :lg="18" :xl="18">公务用车</div>
+                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">公务用车</el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="20" :offset="2">
