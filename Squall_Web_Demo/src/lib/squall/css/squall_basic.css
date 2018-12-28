@@ -41,10 +41,10 @@ body{
 }
 
 .squall_Map{
-    height: 100%;
+    top:100px;
     width: 100%;
-    position: absolute;
-    bottom: 30px;
+    position: fixed;
+    bottom: 0px;
 }
 
 .squall_full_width{

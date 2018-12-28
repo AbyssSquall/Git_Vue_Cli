@@ -6,21 +6,21 @@ console.log("Squal基础地图库已被加载！");
 var squall_map_base = {
     map(Option){
         //参数
-        Option.zoom = 3;
+        Option.zoom = 16;
         Option.lat = 29.8313129;
         Option.lng = 121.408887;
         
         //基础天地图
         var squall_mapbase_ZT = L.tileLayer('http://t0.tianditu.com/vec_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f', {
             //http://t0.tianditu.com/vec_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f
-            maxZoom: 13,
+            maxZoom: 18,
             minZoom: 0,
             continuousWorld: true,
             //path:"MapSrc//Layers//DZ_Basic//Layers"
         });
         var squall_mapbase_BZ = L.tileLayer('http://t0.tianditu.com/cva_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=cva&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f', {
             //http://t0.tianditu.com/cva_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=cva&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f
-            maxZoom: 13,
+            maxZoom: 18,
             minZoom: 0,
             continuousWorld: true,
             //path:"MapSrc//Layers//DZ_Basic//Layers"

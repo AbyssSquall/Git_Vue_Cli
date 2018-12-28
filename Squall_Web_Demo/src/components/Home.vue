@@ -12,11 +12,7 @@
               </el-col>
             </el-row>
             <el-row>
-              <div style="position: absolute;
-    top: 0px;
-    left: 0;
-    right: 0px;
-    bottom: 0px;width: auto;height:1000px">
+              <div class="squall_Map">
                 <div id="map" style="height:100%"></div>
               </div>
             </el-row>
