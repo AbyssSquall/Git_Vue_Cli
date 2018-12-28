@@ -4,18 +4,18 @@
         <el-row class="squall_panel" v-for="Application in ApplicationList" :key="Application.guid">
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">申请人：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Application.b_姓名}}</div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">目的地：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Application.a_aim}}</div>
-                </div>
-                <div class="layui-row">
-                    <div class="layui-col-xs3 layui-col-sm3 layui-col-md3"><span class=" squall_label">用车类型：</span></div>
-                    <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">公务用车</div>
-                </div>
+                <el-row>
+                    <div  :xs="6" :sm="6" :md="6" :lg="6" :xl="6"><span class=" squall_label">申请人：</span></div>
+                    <div :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.b_姓名}}</div>
+                </el-row>
+                <el-row>
+                    <div :xs="6" :sm="6" :md="6" :lg="6" :xl="6"><span class=" squall_label">目的地：</span></div>
+                    <div :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</div>
+                </el-row>
+                <el-row>
+                    <div :xs="6" :sm="6" :md="6" :lg="6" :xl="6"><span class=" squall_label">用车类型：</span></div>
+                    <div :xs="18" :sm="18" :md="18" :lg="18" :xl="18">公务用车</div>
+                </el-row>
                 <el-row>
                     <el-col :span="20" :offset="2">
                         <el-button type="primary" class="squall_width_full" @click="squall_element_dialog(Application)">查看详情</el-button>
