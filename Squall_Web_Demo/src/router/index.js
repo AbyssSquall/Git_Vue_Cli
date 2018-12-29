@@ -13,26 +13,6 @@ export default new Router({
       name: 'Home',
       component: Home
     },
-    // {
-    //   path: '/basegraph',
-    //   name: 'BaseGraph',
-    //   component: BaseGraph
-    // },
-    // {
-    //   path: '/heatmap',
-    //   name: 'HeatMap',
-    //   component: HeatMap
-    // },
-    // {
-    //   path: '/map',
-    //   name: 'Map',
-    //   component: Map
-    // },
-    // {
-    //   path: '/personal',
-    //   name: 'Personal',
-    //   component: Personal
-    // },
     {
       path: '*',
       name: 'err',

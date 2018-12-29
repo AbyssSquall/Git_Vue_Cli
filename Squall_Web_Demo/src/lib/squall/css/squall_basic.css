@@ -71,3 +71,7 @@ body{
 a {
     text-decoration: none;
 }
+
+.el-menu-item{
+    min-width: 100px !important;
+}
