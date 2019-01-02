@@ -4,8 +4,9 @@ import { OptionGroup } from "element-ui";
 
 console.log("Squal基础地图库已被加载！");
 
-var squall_map_base = {
-    map(Option){
+class Map{
+    constructor(Option){
+        this.ID = Option.id;
         //参数
         Option.zoom = 16;
         Option.lat = 29.8313129;
@@ -50,11 +51,12 @@ var squall_map_base = {
         });  
 
         //map的全局寄存变量
-        map.global = {};
-        map.global.layers = {};
+        this.map = map;
+        this.global = {};
+        this.global.layers = {};
 
         //map的基础点图标
-        map.MarkerIconList={};
+        this.MarkerIconList={};
         var LeafIconPrimary = L.Icon.extend({
             options: {
                 iconSize:[20, 25],
@@ -62,13 +64,43 @@ var squall_map_base = {
             }
         })
         var squall_IconPrimary = new LeafIconPrimary({iconUrl:'/static/asset/marker_primary.png'});
-        map.MarkerIconList['primary'] = squall_IconPrimary;
+        this.MarkerIconList['primary'] = squall_IconPrimary;
+        
+        map.invalidateSize();
 
-
-        //为map定义函数
-        map.AddGraph = function(Option,OnclickReturnFunction){
-            if(Option.Type=='polygon')
+        //判断并加入插件
+        if(Option.Pub_Plugin)
+        {
+            for(var item in Option.Pub_Plugin)
             {
+                //console.log(Option.Pub_Plugin[item]);
+                //import("./" + Option.Pub_Plugin[item] + ".js");
+                import(`./${Option.Pub_Plugin[item]}.js`)//)
+                  .then(module => {
+                    //module.loadPageInto(main);
+                    console.log("加载" + Option.Pub_Plugin[item] + "成功");
+                    for(var func in module.default)
+                    {
+                        //console.log(func);
+                        module.default[func]({"map":this.map})
+                        this[func] = module.default[func];
+                    }    
+                    //console.log(module.default.Squall());
+                  })
+                  .catch(err => {
+                    alert(err.message);
+                });
+            }
+        }
+
+
+    }
+
+    //公有方法
+    AddGraph(Option,OnclickReturnFunction){
+        //为map定义函数
+        if(Option.Type=='polygon')
+        {
                 //polygon属性
                 var squall_border_Option = Option.PolygonStyle;
                 var squall_rings = Option.PointArray;//注意是[[[[]]]]的形式，因为支持挖空的
@@ -85,7 +117,7 @@ var squall_map_base = {
 
                 var squall_PolygonLayer = L.layerGroup(squall_PolygonList);
         
-                map.addLayer(squall_PolygonLayer);
+                this.map.addLayer(squall_PolygonLayer);
 
                 this.global.layers[Option.LayerID] = squall_PolygonLayer;
             }
@@ -106,7 +138,7 @@ var squall_map_base = {
 
                 var squall_LineLayer = L.layerGroup(squall_LineList);
         
-                map.addLayer(squall_LineLayer);
+                this.map.addLayer(squall_LineLayer);
 
                 this.global.layers[Option.LayerID] = squall_LineLayer;
             }
@@ -154,7 +186,7 @@ var squall_map_base = {
 
                 var squall_PointLayer = L.layerGroup(squall_PointList);
         
-                map.addLayer(squall_PointLayer);
+                this.map.addLayer(squall_PointLayer);
 
                 this.global.layers[Option.LayerID] = squall_PointLayer;
             }
@@ -162,17 +194,17 @@ var squall_map_base = {
             {
                 console.log("Wrong Type!");
             }
+    }
 
+    GetID(){
+        console.log(this.ID)
+    }
 
-        }
-    
-        map.invalidateSize();
-        
-        return map;
+    static AddFunction(FunID,func){
+        this[FunID] = func;
     }
 }
 
-export default{
-    "test_string":"一个变量测试",
-    "leaflet_base":squall_map_base,
+export {
+    Map
 }

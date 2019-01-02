@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-import LeafletBase from "@/lib/squall_map/leaflet_base"
+import {Map} from "@/lib/squall_map/leaflet_base"
 
 export default {
   name: 'Car',
@@ -27,25 +27,25 @@ export default {
   },
   mounted:function(){
     var map_option = {"id":"map"};
-    var squall_map = LeafletBase.leaflet_base.map(map_option);
+    var squall_map = new Map(map_option);
 
 
     var squall_graph_option_polygon = {
-      LayerID:"PolygonExample",
+      LayerID:"PolygonExample_polygon",
       Type:"polygon",
       PointArray:[[[[29.836183856215246,121.40231098683739],[29.836419890612962,121.41754593432614],[29.823116133650935,121.41615118561236],[29.82382423684408,121.40005793122283]]]],
       PolygonStyle:{color: '#1e50a2',fillColor:'#00ccff',weight:2.0,fillOpacity:0.5}
     };
     
     var squall_graph_option_line = {
-      LayerID:"PolygonExample",
+      LayerID:"PolygonExample_line",
       Type:"line",
       PointArray:[[[[29.836983856215246,121.40231098683739],[29.836919890612962,121.41799593432614],[29.822016133650935,121.41615118561236],[29.82309423684408,121.4000793122283]]]],
       LineStyle:{color: '#1e50a2',weight:2.0,fillOpacity:0.5}
     };
     
     var squall_graph_option_point = {
-      LayerID:"PolygonExample",
+      LayerID:"PolygonExample_point",
       Type:"point",
       PointArray:[[[[29.836193856215246,121.40231098683739],[29.836499890612962,121.41754593432614],[29.823196133650935,121.41615118561236],[29.82382429684408,121.40005793122283]]]],
       PointStyle:{icon:squall_map.MarkerIconList["primary"]}

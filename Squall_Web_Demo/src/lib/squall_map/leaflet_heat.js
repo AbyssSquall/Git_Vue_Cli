@@ -1,5 +1,4 @@
 import "leaflet.heat"
-//import "heatmap.js"
 import leaflet_config from "@/lib/squall_map/map_config"
 
 function squall_HeatLayer(Option){
@@ -24,29 +23,15 @@ function squall_HeatLayer(Option){
         data:TestPoint
     }
 
-    //var squall_heatlayer = new HeatMap.Heatmap(squall_config);
     var squall_heatlayer = L.heatLayer(TestPoint);
 
+    //console.log(this);
     if(Option.map)
         Option.map.addLayer(squall_heatlayer);
 
     return squall_heatlayer;
 }
 
-//自定义类型
-class Squall{
-    constructor(name){
-        this.ID = name;
-    }
-    print(){
-        console.log(this.ID);
-    }
+export default{
+    "AddHeatlayer":squall_HeatLayer,
 }
-
-export {Squall}
-
-
-
-// export default{
-//     "Squall":squall,
-// }

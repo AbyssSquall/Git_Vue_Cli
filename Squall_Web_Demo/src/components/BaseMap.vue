@@ -13,7 +13,7 @@
     </div>
 </template>
 <script>
-import LeafletBase from "@/lib/squall_map/leaflet_base"
+import {Map} from "@/lib/squall_map/leaflet_base"
 
 export default {
   name: 'Car',
@@ -27,7 +27,7 @@ export default {
   },
   mounted:function(){
     var map_option = {"id":"map"};
-    LeafletBase.leaflet_base.map(map_option);
+    var squall_map = new Map(map_option);
   },
 }
 </script>

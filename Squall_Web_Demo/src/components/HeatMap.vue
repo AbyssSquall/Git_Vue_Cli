@@ -13,8 +13,7 @@
     </div>
 </template>
 <script>
-import LeafletBase from "@/lib/squall_map/leaflet_base"
-import {Squall} from "@/lib/squall_map/leaflet_heat"// 
+import {Map} from "@/lib/squall_map/leaflet_base"
 //import "heatmap.js"
 
 export default {
@@ -28,16 +27,15 @@ export default {
   components: {
   },
   mounted:function(){
-    var map_option = {"id":"map"};
-    var squall_map = new LeafletBase.leaflet_base.map(map_option);
 
-    var test = new Squall("test");
-    test.print();
-    // var squall_heatlayer = LeafletHeat.layer({
-    //   map:squall_map,
-    //   alpha:10000,
-    //   PointArray:[[29.836193856215246,121.40231098683739,1],[29.836499890612962,121.41754593432614,1],[29.823196133650935,121.41615118561236,1],[29.82382429684408,121.40005793122283,1]],
-    // });
+    var test = new Map({
+      "id":"map",
+      "Pub_Plugin":["leaflet_heat"],
+      "Pri_Plugin":[],
+    });
+
+    //var test_layer = test.AddHeatlayer({'map':test.map});
+    //console.log(test_layer);
   },
 }
 </script>
