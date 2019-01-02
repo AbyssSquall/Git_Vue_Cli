@@ -167,9 +167,7 @@ var squall_map_base = {
         }
     
         map.invalidateSize();
-
-        //this.map = map;
-
+        
         return map;
     }
 }
