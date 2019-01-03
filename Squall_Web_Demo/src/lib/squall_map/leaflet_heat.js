@@ -1,4 +1,5 @@
 import "leaflet.heat"
+import "leaflet.markercluster"
 import leaflet_config from "@/lib/squall_map/map_config"
 
 function squall_HeatLayer(Option){
@@ -25,13 +26,20 @@ function squall_HeatLayer(Option){
 
     var squall_heatlayer = L.heatLayer(TestPoint);
 
-    //console.log(this);
+    console.log(this);
     if(Option.map)
         Option.map.addLayer(squall_heatlayer);
 
     return squall_heatlayer;
 }
 
+var squall_ClusterHeatLayer = function(Option){
+    var markers = L.markerClusterGroup();
+    markers.addLayer(L.marker(getRandomLatLng(map)));
+    map.addLayer(markers);
+}
+
 export default{
-    "AddHeatlayer":squall_HeatLayer,
+    "Heatlayer":squall_HeatLayer,
+    "ClusterHeatlayer":squall_ClusterHeatLayer,
 }

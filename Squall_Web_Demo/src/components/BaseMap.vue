@@ -26,7 +26,7 @@ export default {
   components: {
   },
   mounted:function(){
-    var map_option = {"id":"map"};
+    var map_option = {"ID":"map"};
     var squall_map = new Map(map_option);
   },
 }

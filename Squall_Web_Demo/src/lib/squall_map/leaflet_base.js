@@ -6,7 +6,36 @@ console.log("Squal基础地图库已被加载！");
 
 class Map{
     constructor(Option){
-        this.ID = Option.id;
+
+        //判断并加入插件
+        this.Plugin = {};
+        if(Option.Pub_Plugin)
+        {
+            for(var item in Option.Pub_Plugin)
+            {
+                //异步加载
+                // import(`./${Option.Pub_Plugin[item]}.js`)
+                // .then(module => {
+                //     console.log("加载" + Option.Pub_Plugin[item] + "成功");
+                //     for(var func in module.default)
+                //     {
+                //         this.Plugin[func] = module.default[func];
+                //     }    
+                // })
+                // .catch(err => {
+                //     alert(err.message);
+                // });
+
+                //同步加载
+                var  squall_module = require('./leaflet_heat.js');
+                for(var func in squall_module.default)
+                {
+                    this.Plugin[func] = squall_module.default[func];
+                }    
+            }
+        }
+
+        this.ID = Option.ID;
         //参数
         Option.zoom = 16;
         Option.lat = 29.8313129;
@@ -14,18 +43,14 @@ class Map{
         
         //基础天地图
         var squall_mapbase_ZT = L.tileLayer('http://t0.tianditu.com/vec_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f', {
-            //http://t0.tianditu.com/vec_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f
             maxZoom: 18,
             minZoom: 0,
             continuousWorld: true,
-            //path:"MapSrc//Layers//DZ_Basic//Layers"
         });
         var squall_mapbase_BZ = L.tileLayer('http://t0.tianditu.com/cva_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=cva&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f', {
-            //http://t0.tianditu.com/cva_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=cva&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f
             maxZoom: 18,
             minZoom: 0,
             continuousWorld: true,
-            //path:"MapSrc//Layers//DZ_Basic//Layers"
         });
         var tilelayer = L.layerGroup([squall_mapbase_ZT,squall_mapbase_BZ]);
 
@@ -42,7 +67,7 @@ class Map{
                 }
         );
     
-        var map = L.map(Option.id, {  
+        var map = L.map(Option.ID, {  
             crs:crs,
             center: [Option.lat, Option.lng],
             zoom: Option.zoom,  
@@ -68,30 +93,6 @@ class Map{
         
         map.invalidateSize();
 
-        //判断并加入插件
-        if(Option.Pub_Plugin)
-        {
-            for(var item in Option.Pub_Plugin)
-            {
-                //console.log(Option.Pub_Plugin[item]);
-                //import("./" + Option.Pub_Plugin[item] + ".js");
-                import(`./${Option.Pub_Plugin[item]}.js`)//)
-                  .then(module => {
-                    //module.loadPageInto(main);
-                    console.log("加载" + Option.Pub_Plugin[item] + "成功");
-                    for(var func in module.default)
-                    {
-                        //console.log(func);
-                        module.default[func]({"map":this.map})
-                        this[func] = module.default[func];
-                    }    
-                    //console.log(module.default.Squall());
-                  })
-                  .catch(err => {
-                    alert(err.message);
-                });
-            }
-        }
 
 
     }
@@ -200,8 +201,14 @@ class Map{
         console.log(this.ID)
     }
 
-    static AddFunction(FunID,func){
-        this[FunID] = func;
+    AddLayer(Option){
+        if(Option.Layer){
+            this.map.addLayer(Option.Layer);
+            if(Option.ID)
+                this.global.layers[Option.ID] = Option.Layer;
+            if(Option.Layer.ID)
+                this.global.layers[Option.Layer.ID] = Option.Layer;
+        }
     }
 }
 

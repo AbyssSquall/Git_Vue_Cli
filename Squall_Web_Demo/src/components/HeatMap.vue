@@ -29,13 +29,21 @@ export default {
   mounted:function(){
 
     var test = new Map({
-      "id":"map",
+      "ID":"map",
       "Pub_Plugin":["leaflet_heat"],
       "Pri_Plugin":[],
     });
 
-    //var test_layer = test.AddHeatlayer({'map':test.map});
-    //console.log(test_layer);
+    //console.log(test.Plugin);
+    var test_layer = test.Plugin.Heatlayer({});
+    test.AddLayer({
+      ID:"HeatTest",
+      Layer:test_layer
+    });
+    console.log(test.global.layers);
+    // setTimeout(function(){
+    //   var test_layer = test.Plugin.AddHeatlayer({'map':test.map});
+    // },3000)
   },
 }
 </script>
