@@ -31,6 +31,8 @@ export default {
     var test = new Map({
       "ID":"map",
       "Plugin":["leaflet_heat"],
+      "Zoom":15,
+      "Center":[29.8813129,121.458887],
     });
     
     var squall_PointArray = [];

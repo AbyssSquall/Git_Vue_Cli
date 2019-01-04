@@ -34,13 +34,20 @@ export default {
   },
   mounted:function(){
     var map_option = {
-      "ID":"map"
+      "ID":"map",
+      "Plugin":["leaflet_draw"]
       };
     var squall_map = new Map(map_option);
 
     //绘制开始时触发的函数
+    function squall_start(){
+
+    }
 
     //绘制结束时触发的函数
+    function squall_end(){
+      
+    }
 
     //绘图的参数
 

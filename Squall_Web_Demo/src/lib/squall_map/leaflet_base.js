@@ -37,9 +37,10 @@ class Map{
 
         this.ID = Option.ID;
         //参数
-        Option.zoom = 16;
-        Option.lat = 29.8313129;
-        Option.lng = 121.408887;
+        if(!Option.Zoom)
+            Option.Zoom = 16;
+        if(!Option.Center)
+            Option.Center = [29.8313129,121.408887]
         
         //基础天地图
         var squall_mapbase_ZT = L.tileLayer('http://t0.tianditu.com/vec_c/wmts?service=WMTS&request=GetTile&version=1.0.0&layer=vec&style=default&tileMatrixSet=c&TILEMATRIXSET=c&format=tiles&height=256&width=256&tilematrix={z}&tilerow={y}&tilecol={x}&tk=61c92330f01717a610da4477f129724f', {
@@ -69,8 +70,8 @@ class Map{
     
         var map = L.map(Option.ID, {  
             crs:crs,
-            center: [Option.lat, Option.lng],
-            zoom: Option.zoom,  
+            center: Option.Center,
+            zoom: Option.Zoom,  
             layers: [tilelayer],  
             zoomControl: false  
         });  
