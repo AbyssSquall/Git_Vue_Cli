@@ -35,8 +35,29 @@ function squall_HeatLayer(Option){
 
 var squall_ClusterHeatLayer = function(Option){
     var markers = L.markerClusterGroup();
-    markers.addLayer(L.marker(getRandomLatLng(map)));
-    map.addLayer(markers);
+
+    //生成点列
+    var squall_pointarray = [];
+    for(var i=0;i<1000;i++)
+    {
+        var center = {"lat":29.836499890612962,"lng":121.41754593432614};
+        center.lat += Math.random()*0.1;
+        center.lat += Math.random()*0.001;
+        center.lng += Math.random()*0.1;
+        center.lng += Math.random()*0.001;
+        squall_pointarray.push(L.marker(center,Option.PointStyle));
+        //console.log(L.marker(center,Option.PointStyle));
+
+        //markers.addLayer(L.marker(L.latLng(center.lat, center.lng),Option.PointStyle));
+    }
+
+    markers.addLayers(squall_pointarray);
+
+    
+    if(Option.map)
+        Option.map.addLayer(markers);
+
+    return markers;
 }
 
 export default{

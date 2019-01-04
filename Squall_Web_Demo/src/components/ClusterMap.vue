@@ -7,6 +7,8 @@
 
 <script>
 import {Map} from "@/lib/squall_map/leaflet_base"
+import "@/lib/leaflet/markercluster/dist/MarkerCluster.css"
+import "@/lib/leaflet/markercluster/dist/MarkerCluster.Default.css"
 
 export default {
   name: 'Map',
@@ -23,9 +25,18 @@ export default {
   mounted:function(){
     var test = new Map({
       "ID":"map",
-      "Pub_Plugin":["leaflet_heat"],
-      "Pri_Plugin":[],
+      "Plugin":["leaflet_heat"],
     });
+
+    var PointStyle = {
+      icon:test.MarkerIconList["primary"]
+    }
+
+    test.Plugin.ClusterHeatlayer({
+      "map":test.map,
+      "PointStyle":PointStyle
+    });
+    //console.log(test.MarkerIconList);
   },
 }
 </script>

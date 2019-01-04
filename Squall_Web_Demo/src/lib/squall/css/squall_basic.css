@@ -75,3 +75,8 @@ a {
 .el-menu-item{
     min-width: 100px !important;
 }
+
+.squall_ToolBar{
+    position: fixed;
+    right: 50px;
+}

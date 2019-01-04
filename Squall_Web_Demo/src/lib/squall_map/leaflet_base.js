@@ -9,14 +9,14 @@ class Map{
 
         //判断并加入插件
         this.Plugin = {};
-        if(Option.Pub_Plugin)
+        if(Option.Plugin)
         {
-            for(var item in Option.Pub_Plugin)
+            for(var item in Option.Plugin)
             {
                 //异步加载
-                // import(`./${Option.Pub_Plugin[item]}.js`)
+                // import(`./${Option.Plugin[item]}.js`)
                 // .then(module => {
-                //     console.log("加载" + Option.Pub_Plugin[item] + "成功");
+                //     console.log("加载" + Option.Plugin[item] + "成功");
                 //     for(var func in module.default)
                 //     {
                 //         this.Plugin[func] = module.default[func];
@@ -27,7 +27,7 @@ class Map{
                 // });
 
                 //同步加载
-                var  squall_module = require('./leaflet_heat.js');
+                var  squall_module = require('./' + Option.Plugin[item] + '.js');
                 for(var func in squall_module.default)
                 {
                     this.Plugin[func] = squall_module.default[func];
