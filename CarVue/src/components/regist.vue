@@ -71,8 +71,7 @@ export default {
       this.basic.squall_basic_http.ExistUser(this.basic.squall_user_info.序号,this);
   },
   methods:{
-        submitForm:function(data){
-
+    submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);
             var squall_data_json = JSON.parse(squall_data);
             squall_data_json.openid = this.basic.squall_user_info.openid;
