@@ -105,8 +105,7 @@ export default {
     },
     squall_DrawPoint(e){
       var squall_Option = {
-        "map":this.ActiveMap[this.TabActive].map,
-        "AimPoint":this.AimPoint
+        "map":this.ActiveMap[this.TabActive]
       }
 
       if(this.DrawPointLabel=="画点")
@@ -121,7 +120,7 @@ export default {
       }
     },
     squall_show(){
-      console.log(this.AimPoint);
+      console.log(this.ActiveMap[this.TabActive].global.Point);
     }
   }
 }

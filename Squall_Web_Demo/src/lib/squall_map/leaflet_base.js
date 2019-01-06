@@ -80,6 +80,8 @@ class Map{
         this.map = map;
         this.global = {};
         this.global.layers = {};
+        this.global.Point = {};
+        this.global.PointArray = [];
 
         //map的基础点图标
         this.MarkerIconList={};
