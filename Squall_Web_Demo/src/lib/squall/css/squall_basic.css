@@ -77,6 +77,14 @@ a {
 }
 
 .squall_ToolBar{
+    width: 200px;
     position: fixed;
     right: 50px;
+}
+
+.squall_Map_tab{
+    top:145px;
+    width: 100%;
+    position: fixed;
+    bottom: 0px;
 }
