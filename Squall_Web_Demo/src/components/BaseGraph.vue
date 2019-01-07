@@ -26,8 +26,9 @@ export default {
   components: {
   },
   mounted:function(){
-    var map_option = {"ID":"map"};
-    var squall_map = new Map(map_option);
+    var squall_map = new Map({
+      "ID":"map"
+    });
 
 
     var squall_graph_option_polygon = {
@@ -51,13 +52,14 @@ export default {
       PointStyle:{icon:squall_map.MarkerIconList["primary"]}
     };
     
+    //squall_map.GetID();
     squall_map.AddGraph(squall_graph_option_polygon);
     squall_map.AddGraph(squall_graph_option_line);
     squall_map.AddGraph(squall_graph_option_point);
 
-    //console.log(squall_map.global.layers);
+    console.log(squall_map);
 
-    squall_map.map.on('click',function(e1){
+    squall_map.on('click',function(e1){
       console.log(e1);
     })
   },

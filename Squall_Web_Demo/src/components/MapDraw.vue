@@ -25,7 +25,7 @@
                 <div id="map2" style="height:100%"></div>
               </div>
               <ul class="squall_ToolBar">
-                <el-button>{{DrawLineLabel}}</el-button>
+                <el-button @click="squall_DrawLine(this)">{{DrawLineLabel}}</el-button>
                 <el-button @click="squall_clear">清除</el-button>
               </ul>
             </el-row>
@@ -36,7 +36,7 @@
                 <div id="map3" style="height:100%"></div>
               </div>
               <ul class="squall_ToolBar">
-                <el-button>{{DrawPolygonLabel}}</el-button>
+                <el-button @click="squall_DrawPolygon(this)">{{DrawPolygonLabel}}</el-button>
                 <el-button @click="squall_clear">清除</el-button>
               </ul>
             </el-row>
@@ -93,15 +93,15 @@ export default {
   },
   methods:{
     handleClick(tab, event) {
-      console.log(tab, event);
+      //console.log(tab, event);
       var that = this;
       setTimeout(function(){
-        console.log(tab.name);
-        that.ActiveMap[that.TabActive].map.invalidateSize();
+        //console.log(tab.name);
+        that.ActiveMap[that.TabActive].invalidateSize();
       },100)
     },
     squall_clear(){
-        this.ActiveMap[this.TabActive].map.invalidateSize();
+        this.ActiveMap[this.TabActive].RemoveAll();
     },
     squall_DrawPoint(e){
       var squall_Option = {
@@ -119,8 +119,46 @@ export default {
         this.DrawPointLabel="画点";
       }
     },
+    squall_DrawLine(e){
+      var squall_Option = {
+        "map":this.ActiveMap[this.TabActive]
+      }
+
+      if(this.DrawLineLabel=="画线")
+      {
+        this.ActiveMap[this.TabActive].Plugin.DrawLine(squall_Option);
+        this.DrawLineLabel="结束画线";
+      }  
+      else if(this.DrawLineLabel=="结束画线")
+      {
+        this.ActiveMap[this.TabActive].Plugin.EndDraw(squall_Option);
+        this.DrawLineLabel="画线";
+      }
+    },
+    squall_DrawPolygon(e){
+      //console.log(e);
+      var squall_Option = {
+        "map":this.ActiveMap[this.TabActive]
+      }
+
+      if(this.DrawPolygonLabel=="画面")
+      {
+        this.ActiveMap[this.TabActive].Plugin.DrawPolygon(squall_Option);
+        this.DrawPolygonLabel="结束画面";
+      }  
+      else if(this.DrawPolygonLabel=="结束画面")
+      {
+        this.ActiveMap[this.TabActive].Plugin.EndDraw(squall_Option);
+        this.DrawPolygonLabel="画面";
+      }
+    },
     squall_show(){
-      console.log(this.ActiveMap[this.TabActive].global.Point);
+      if(this.ActiveMap[this.TabActive].global.Point)
+        console.log(this.ActiveMap[this.TabActive].global.Point);
+      if(this.ActiveMap[this.TabActive].global.Line)
+        console.log(this.ActiveMap[this.TabActive].global.Line);
+      if(this.ActiveMap[this.TabActive].global.Polygon)
+        console.log(this.ActiveMap[this.TabActive].global.Polygon);
     }
   }
 }

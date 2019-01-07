@@ -35,7 +35,7 @@ export default {
     }
 
     test.Plugin.ClusterHeatlayer({
-      "map":test.map,
+      "map":test,
       "PointStyle":PointStyle
     });
     //console.log(test.MarkerIconList);

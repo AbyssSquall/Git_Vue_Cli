@@ -9,7 +9,9 @@ import 'element-ui/lib/theme-chalk/index.css';
 import squall_basic from './lib/squall/js/squall_basic'
 import "./lib/squall/css/squall_basic.css"
 
-//import './lib/leaflet/leaflet.js'
+import 'leaflet.locatecontrol/dist/L.Control.Locate.css'
+//import 'leaflet.locatecontrol/dist/L.Control.Locate.mapbox.css'
+import 'leaflet.locatecontrol/dist/L.Control.Locate.min.css'
 import "./lib/leaflet/leaflet.css"
 //import './lib/proj4leaflet/proj4.js'
 //import './lib/proj4leaflet/proj4leaflet.js'

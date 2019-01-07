@@ -28,6 +28,8 @@ export default {
   mounted:function(){
     var map_option = {"ID":"map"};
     var squall_map = new Map(map_option);
+
+    //squall_map.GetID_P();
   },
 }
 </script>

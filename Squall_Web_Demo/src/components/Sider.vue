@@ -33,7 +33,7 @@
                     <i class="el-icon-edit"></i>
                     <span slot="title">地图绘制</span>
                 </el-menu-item>
-                <el-menu-item index="3" @click="ItemRouter('GPS')" disabled>
+                <el-menu-item index="3" @click="ItemRouter('GPS')" ><!-- disabled -->
                     <i class="el-icon-location-outline"></i>
                     <span slot="title">GPS相关</span>
                 </el-menu-item>
