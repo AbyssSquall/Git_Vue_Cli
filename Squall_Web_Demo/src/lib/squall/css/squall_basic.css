@@ -66,6 +66,8 @@ body{
     float: left;
     text-align: left;
     background-color: #466F99;
+    z-index: 999;
+    min-width: 65px;
 }
 
 a {
@@ -73,7 +75,7 @@ a {
 }
 
 .el-menu-item{
-    min-width: 100px !important;
+    min-width: 0px !important;
 }
 
 .squall_ToolBar{
@@ -87,4 +89,41 @@ a {
     width: 100%;
     position: fixed;
     bottom: 0px;
+}
+
+.squall_buttom_control{
+    height: 50px;
+    position: fixed;
+    bottom: 0px;
+    text-align: center;
+}
+
+.squall_Sider{
+    height: 100%;
+}
+
+.squall_Sider_on{
+    height: 100%;
+    min-width: 200px;
+    background-color: #466F99
+}
+
+i{
+    color: white !important
+}
+
+.el-menu{
+    border-right-width: 0px !important
+}
+
+.CollapseClass{
+    position: fixed;
+    bottom: 5px;
+    left: 5px;
+    z-index: 1000;
+}
+
+.squall_small_sider{
+    position: absolute;
+    width: 200px;
 }

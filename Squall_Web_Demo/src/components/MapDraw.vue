@@ -15,7 +15,6 @@
               <ul class="squall_ToolBar">
                 <el-button  @click="squall_DrawPoint(this)">{{DrawPointLabel}}</el-button>
                 <el-button @click="squall_clear">清除</el-button>
-                <el-button @click="squall_show" >展示所得到的点</el-button>
               </ul>
             </el-row>
           </el-tab-pane>

@@ -99,7 +99,7 @@ class Map extends L.map{
                 iconAnchor:[10,23],
             }
         })
-        var squall_IconPrimary = new LeafIconPrimary({iconUrl:'/static/asset/marker_primary.png'});
+        var squall_IconPrimary = new LeafIconPrimary({iconUrl:'./static/asset/marker_primary.png'});
         this.MarkerIconList['primary'] = squall_IconPrimary;
         
         //console.log(super.prototype);

@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div :class="squall_Sider">
         <el-row>
             <el-menu
                 default-active="1-1"
@@ -7,19 +7,19 @@
                 @open="handleOpen"
                 @close="handleClose"
                 background-color="#466F99"
-                
                 text-color="#fff"
-                active-text-color="#5CADFF">
+                active-text-color="#5CADFF"
+            >
                 <el-submenu index="1">
                     <template slot="title">
-                    <i class="el-icon-picture"></i>
-                    <span>地图</span>
+                        <i class="el-icon-picture"></i>
+                        <span>地图</span>
                     </template>
                     <el-menu-item-group>
-                    <template slot="title">地图加载</template>
-                    <el-menu-item index="1-1" @click="ItemRouter('Home')">基础地图</el-menu-item>
-                    <el-menu-item index="1-2" @click="ItemRouter('BaseGraph')">点线面</el-menu-item>
-                    <el-menu-item index="1-3" @click="ItemRouter('HeatMap')">热力图</el-menu-item>
+                        <template slot="title">地图加载</template>
+                        <el-menu-item index="1-1" @click="ItemRouter('Home')">基础地图</el-menu-item>
+                        <el-menu-item index="1-2" @click="ItemRouter('BaseGraph')">点线面</el-menu-item>
+                        <el-menu-item index="1-3" @click="ItemRouter('HeatMap')">热力图</el-menu-item>
                     </el-menu-item-group>
                     <el-menu-item-group title="特殊地图">
                     <el-menu-item index="1-4" @click="ItemRouter('ClusterMap')">聚合图</el-menu-item>
@@ -58,10 +58,19 @@ export default {
             "map1":false,
             "personal1":false,
             "background-color":"#000000",
+            "isCollapse": false,
+            "CollapseClass":"el-icon-arrow-left",
+            "squall_Sider":"squall_Sider_on"
         }
     },
     props:['page'],
     mounted:function(){
+        if(document.body.clientWidth/document.body.clientHeight<4)
+        {
+            this.CollapseClass = "el-icon-arrow-right";
+            this.squall_Sider = "squall_Sider";
+            this.isCollapse =!this.isCollapse;
+        }
     },
     methods: {
       handleOpen(key, keyPath) {
@@ -74,6 +83,19 @@ export default {
           //console.log(key);
           //this.$router.push({name:key,params:{success:true}});
           this.$emit("pagechange",{"key":key});
+      },
+      CollapseControl(){
+          if(this.CollapseClass=="el-icon-arrow-left")
+          {
+              this.CollapseClass = "el-icon-arrow-right";
+              this.squall_Sider = "squall_Sider";
+          }
+          else if(this.CollapseClass == "el-icon-arrow-right")
+          {
+              this.CollapseClass="el-icon-arrow-left";
+              this.squall_Sider = "squall_Sider_on";
+          }
+          this.isCollapse =!this.isCollapse;
       }
     }
 }
