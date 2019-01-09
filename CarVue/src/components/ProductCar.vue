@@ -176,6 +176,9 @@ export default {
             squall_temp_pass = new Date(squall_temp_start.valueOf()+Math.floor(Math.random()*10)*Math.floor(Math.random()*10)*Math.floor(Math.random()*10)*1239*79);
             squall_data_json.passtime = squall_temp_pass.getFullYear() + '-' + (squall_temp_pass.getMonth()+1) + '-' + squall_temp_pass.getDate() + " " + (squall_temp_pass.getHours()+3) + ":" + squall_temp_pass.getMinutes() + ":" + squall_temp_pass.getSeconds();
             
+            //如果是
+            if(squall_form.region=="大市区外")
+                squall_data_json.dealer = "张荣华";
             //alert(squall_data_json.passtime);
 
             var that = this;

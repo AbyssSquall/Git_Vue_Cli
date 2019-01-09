@@ -180,6 +180,7 @@ export default {
             squall_data_json.guid = this.selectedInfo.a_guid;
             squall_data_json.passtime = this.basic.Now().getFullYear() + '-' + (this.basic.Now().getMonth()+1) + '-' + this.basic.Now().getDate() + ' ' + this.basic.Now().getHours() + ':' + this.basic.Now().getMinutes() + ':' + this.basic.Now().getSeconds();
             squall_data_json.charger序号 = this.basic.squall_user_info.序号;
+            squall_data_json.dealer = "刘小康";
             
             var that = this;
             this.$refs[formname].validate(function(squall_bool,squall_res){
