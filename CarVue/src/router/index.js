@@ -1,13 +1,13 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
-import Map from '@/components/Map'
 import OfficialCar from '@/components/OfficialCar'
 import ProductCar from '@/components/ProductCar'
 import HandleApplication from '@/components/HandleApplication'
 import History from '@/components/History'
 import Return from '@/components/Return'
 import Regist from '@/components/regist'
+import Output from '@/components/Output'
 
 
 Vue.use(Router)
@@ -53,6 +53,16 @@ export default new Router({
     {
       path: '/Regist',
       name: 'Regist',
+      component: Regist
+    },
+    {
+      path: '/Output',
+      name: 'Output',
+      component: Output
+    },
+    {
+      path: '/*',
+      name: 'Error',
       component: Regist
     },
   ]

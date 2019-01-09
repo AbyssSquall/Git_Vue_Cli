@@ -188,3 +188,16 @@ div>.blank{
 .squall_ver_mid_a{
     line-height: 100px;
 }
+
+.squall_card_head{
+    border: solid;
+    border-width: thin;
+    /* border-radius: inherit; */
+    border-radius: 10px;
+    border-color: #d6d6d6;
+
+}
+
+.squall_card_head_contain{
+    margin: 15px
+}

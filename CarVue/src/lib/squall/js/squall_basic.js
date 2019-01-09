@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000
+var squall_Database_Host_IP = "http://127.0.0.1:3000";//http://127.0.0.1:3000 http://oa.nbgis.com
 var squall_data_server = "http://oa.nbgis.com/page";
 
 //动态变量
@@ -326,6 +326,149 @@ var squall_basic_http = new Vue({
             if(option)
             {
                 //根据option来筛选历史记录
+                var squall_history_list = []
+                var this_that = this;
+                //获取生产用车的历史记录
+                if(option.table=="product_application")
+                {
+                    //条件筛选
+                    var squall_where = "(guid,ne,null)";
+                    if(option.region)
+                        squall_where += "~and(region,eq," + option.region + ")"
+                    if(option.Time)
+                    {
+                        console.log(option.Time.getMonth()+1);
+                        var squall_time_range_start = option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
+                        
+                        if((option.Time.getMonth()+1)==12)
+                            var squall_time_range_end = option.Time.getFullYear()+1 + "-1-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
+                        else
+                            var squall_time_range_end = option.Time.getFullYear() + "-" +(option.Time.getMonth()+2) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
+                        
+                        //console.log(option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds());
+                        squall_where += "~and(starttime,bw," + squall_time_range_start + "," + squall_time_range_end + ")"
+                    } 
+                    if(option.DepartmentList)
+                    {
+                        squall_where += "~and(";
+
+                        for(var index in option.DepartmentList)
+                        {
+                            if(index==0)
+                                squall_where += "(d.departmentid,eq," + option.DepartmentList[index] + ")"
+                            else
+                                squall_where += "~or(d.departmentid,eq," + option.DepartmentList[index] + ")"
+                        }
+
+                        squall_where += ")";
+
+                    }
+                    this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + option.table + ",_j,b.personlist,_j,c.car,_j,d.department&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_on3=(b.departmentid,eq,d.departmentid)&_fields=a.guid,c.车牌号,a.starttime,a.endtime,a.aim,a.task,a.driver,b.姓名,d.charger&_where="+squall_where,{}).then(function(data){
+                        console.log(data.data);
+                        //分配一下
+                        var squall_temp_list = [];
+                        for(var i=0;i<data.data.length;i++)
+                        {
+                            // if(squall_temp_official.indexOf(data.data[i].a_guid)==-1)
+                            // {
+                            var squall_temp_starttime = new Date(data.data[i].a_starttime);
+                            var squall_temp_endtime = new Date(data.data[i].a_endtime);
+                                var squall_temp_item = {
+                                    "guid":data.data[i].a_guid,
+                                    "车牌号":data.data[i].c_车牌号,
+                                    "starttime":squall_temp_starttime.getFullYear() + "-" +(squall_temp_starttime.getMonth()+1) + "-" + squall_temp_starttime.getDate() + " " + squall_temp_starttime.getHours() + ":" + squall_temp_starttime.getMinutes(),
+                                    "endtime":squall_temp_endtime.getFullYear() + "-" +(squall_temp_endtime.getMonth()+1) + "-" + squall_temp_endtime.getDate() + " " + squall_temp_endtime.getHours() + ":" + squall_temp_endtime.getMinutes(),
+                                    "aim":data.data[i].a_aim,
+                                    "task":data.data[i].a_task,
+                                    "driver":data.data[i].a_driver,
+                                    "姓名":data.data[i].b_姓名,
+                                    "charger":data.data[i].d_charger,
+                                }
+
+                                if(option.region=="大市区外")
+                                    squall_temp_item.boss="张荣华";
+
+                                squall_temp_list.push(squall_temp_item);
+                            //}     
+                        }
+                        that.HistoryList = squall_temp_list;
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+                }
+                else if(option.table=="official_application")
+                {
+                    //条件筛选
+                    var squall_where = "(guid,ne,null)";
+                    if(option.region)
+                        squall_where += "~and(region,eq," + option.region + ")"
+                    if(option.Time)
+                    {
+                        console.log(option.Time.getMonth()+1);
+                        var squall_time_range_start = option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
+                        
+                        if((option.Time.getMonth()+1)==12)
+                            var squall_time_range_end = option.Time.getFullYear()+1 + "-1-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
+                        else
+                            var squall_time_range_end = option.Time.getFullYear() + "-" +(option.Time.getMonth()+2) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
+                        
+                        //console.log(option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds());
+                        squall_where += "~and(starttime,bw," + squall_time_range_start + "," + squall_time_range_end + ")"
+                    } 
+                    if(option.DepartmentList)
+                    {
+                        squall_where += "~and(";
+
+                        for(var index in option.DepartmentList)
+                        {
+                            if(index==0)
+                                squall_where += "(d.departmentid,eq," + option.DepartmentList[index] + ")"
+                            else
+                                squall_where += "~or(d.departmentid,eq," + option.DepartmentList[index] + ")"
+                        }
+
+                        squall_where += ")";
+
+                    }
+                    this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + option.table + ",_j,b.personlist,_j,c.car,_j,d.department&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_on3=(b.departmentid,eq,d.departmentid)&_fields=a.guid,c.车牌号,a.starttime,a.endtime,a.waitpoint,a.aim,a.task,a.driver,b.姓名,d.charger&_where="+squall_where,{}).then(function(data){
+                        console.log(data.data);
+                        //分配一下
+                        var squall_temp_list = [];
+                        for(var i=0;i<data.data.length;i++)
+                        {
+                            // if(squall_temp_official.indexOf(data.data[i].a_guid)==-1)
+                            // {
+                            var squall_temp_starttime = new Date(data.data[i].a_starttime);
+                            var squall_temp_endtime = new Date(data.data[i].a_endtime);
+                                var squall_temp_item = {
+                                    "guid":data.data[i].a_guid,
+                                    "车牌号":data.data[i].c_车牌号,
+                                    "starttime":squall_temp_starttime.getFullYear() + "-" +(squall_temp_starttime.getMonth()+1) + "-" + squall_temp_starttime.getDate() + " " + squall_temp_starttime.getHours() + ":" + squall_temp_starttime.getMinutes(),
+                                    "endtime":squall_temp_endtime.getFullYear() + "-" +(squall_temp_endtime.getMonth()+1) + "-" + squall_temp_endtime.getDate() + " " + squall_temp_endtime.getHours() + ":" + squall_temp_endtime.getMinutes(),
+                                    "waitpoint":data.data[i].a_waitpoint,
+                                    "aim":data.data[i].a_aim,
+                                    "task":data.data[i].a_task,
+                                    "driver":data.data[i].a_driver,
+                                    "姓名":data.data[i].b_姓名,
+                                    "charger":data.data[i].d_charger,
+                                    "dealer":"刘小康"
+                                }
+
+                                if(option.region=="市区内")
+                                    squall_temp_item.boss="张荣华";
+                                if(option.region=="大市区内")
+                                    squall_temp_item.boss="张荣华";
+                                if(option.region=="大市区外")
+                                    squall_temp_item.boss="张荣华";
+
+                                squall_temp_list.push(squall_temp_item);
+                            //}     
+                        }
+                        that.HistoryList = squall_temp_list;
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+                }
             }
             else
             {
@@ -580,18 +723,24 @@ var squall_basic_http = new Vue({
                 console.log(err);
             })
         },
-        GetDepartmentList:function(that){
+        GetDepartmentList:function(that,Option){
             var squall_department_list_temp = []
             //获取全部的历史记录
             this.$http.get(squall_Database_Host_IP+"/api/department",{}).then(function(data){
                 
                 for(var i=0;i<data.data.length;i++)
                 {
-                    squall_department_list_temp.push(data.data[i]);
+                    var squall_temp_json = {
+                        "部门":data.data[i].部门,
+                        "departmentid":data.data[i].departmentid,
+                    }
+                    squall_department_list_temp.push(squall_temp_json);
                 }
                 
                 if(squall_department_list_temp.length>0)
                     that.DepartmentList = squall_department_list_temp;
+
+                console.log(that.DepartmentList);
 
             }).catch(function(err){
                 console.log(err);
