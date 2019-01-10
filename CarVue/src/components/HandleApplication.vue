@@ -192,6 +192,7 @@ export default {
                 else
                 { 
                     console.log(squall_res);
+                    
                 }
             })
       }
