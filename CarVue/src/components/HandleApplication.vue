@@ -179,7 +179,7 @@ export default {
             var squall_data_json = JSON.parse(squall_data);
             squall_data_json.guid = this.selectedInfo.a_guid;
             squall_data_json.passtime = this.basic.Now().getFullYear() + '-' + (this.basic.Now().getMonth()+1) + '-' + this.basic.Now().getDate() + ' ' + this.basic.Now().getHours() + ':' + this.basic.Now().getMinutes() + ':' + this.basic.Now().getSeconds();
-            squall_data_json.charger序号 = this.basic.squall_user_info.序号;
+            squall_data_json.charger = this.basic.squall_user_info.姓名;
             squall_data_json.dealer = "刘小康";
             
             var that = this;
