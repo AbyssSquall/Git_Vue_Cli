@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://127.0.0.1:3000";//http://127.0.0.1:3000 http://oa.nbgis.com
+var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000 http://oa.nbgis.com
 var squall_data_server = "http://oa.nbgis.com/page";
 
 //动态变量
@@ -122,6 +122,7 @@ var squall_basic_http = new Vue({
                 that.basic.squall_user_info = JSON.parse(data.bodyText);
                 if(squall_squall_temp_UseCarID)
                     that.basic.squall_user_info.UseCarID = squall_squall_temp_UseCarID;
+
                 if(!JSON.parse(data.bodyText).序号)
                 {
                     that.$router.push({name:"Regist",params:{data:JSON.parse(data.bodyText),success:true}});
@@ -130,6 +131,7 @@ var squall_basic_http = new Vue({
                 {
                     //获取用户信息和权限
                     that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
+                
                     //是否有已经在借的生产车辆
                     that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
                 }
@@ -138,8 +140,9 @@ var squall_basic_http = new Vue({
                     that.squall_form.driver = that.basic.squall_user_info.姓名;
                 }
             }).catch(function(err){
-                console.log(err);
+                //alert(JSON.stringify(err));
             })
+            //alert(JSON.stringify(that.basic.squall_user_info));
         },
         GetGrant:function(xuhao,that){
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")").then(function(data){
@@ -187,6 +190,7 @@ var squall_basic_http = new Vue({
             })
         },
         PostForm:function(data,table,that){
+            //alert(data+table);
             var squall_data = JSON.parse(data);
             if(table!="person")
                 squall_data.guid = squall_guid();
@@ -196,12 +200,11 @@ var squall_basic_http = new Vue({
                     that.$router.push({name:"Home",params:{type:table,success:true}});
                 }
             }).catch(function(err){
-                console.log(err);
+                alert(JSON.stringify(err));
             })
         },
         GetApplicationList:function(table,that){
             //需要连表查询，需要申请人名
-
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
                 //console.log(data.data[0].a_passtime==null);
                 var squall_list = [];
@@ -218,6 +221,7 @@ var squall_basic_http = new Vue({
                 }
                 //that.ApplicationList = data.data;
                 that.ApplicationList = squall_list;
+                //alert(JSON.stringify(data.data));
             },function(err){
                 alert(JSON.stringify(err));
             })
@@ -273,9 +277,10 @@ var squall_basic_http = new Vue({
         },
         PostOfficialInfo:function(data,that,id){
             var squall_data = JSON.parse(data);
-            squall_data.charger序号 = id;
+            //squall_data.charger序号 = id;
             this.$http.get(squall_data_server+"/table/update?table=official_application&updateparams=" + encodeURIComponent(JSON.stringify(squall_data)),{}).then(function(data){
                 that.Driver_dialogVisible = false;
+                //alert(data.data);
                 if(data.data=="true")
                 {
                     that.$router.push({name:"Home",params:{type:"official_application",success:true}});
@@ -627,7 +632,7 @@ var squall_basic_http = new Vue({
                 // if(squall_temp_official.length>0)
                 //     that.OfficialCar = false;
                 if(squall_temp_official.length>0)
-                    alert("您已借用" + squall_temp_official.length + "辆公务用车");
+                    alert("您已借用" + squall_temp_official.length + "辆经营用车");
 
                 //获取全部的正在申请的记录
                 this.$http.get(squall_Database_Host_IP+"/api/official_application?_where=(passtime,eq,null)",{}).then(function(data){
@@ -638,8 +643,8 @@ var squall_basic_http = new Vue({
                 },function(err){
                     console.log(JSON.stringify(err));
                 })
-                if(squall_temp_official.length>0)
-                    alert("您有" + squall_temp_official.length + "条公务用车申请还未审核");
+                //if(squall_temp_official.length>0)
+                //    alert("您有" + squall_temp_official.length + "条经营用车申请还未审核");
 
                 this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名&_where=(a.序号,eq," + id + ")",{}).then(function(data){
                     //console.log(data.data);
@@ -681,8 +686,8 @@ var squall_basic_http = new Vue({
                         that.form.type=squall_on_use_list[0].table_alias;
                         that.SelectedInfo = squall_on_use_list[0];
                     }
-                    if(that.ProductCar&&that.OfficialCar)
-                        that.Return = false;
+                    // if(that.ProductCar&&that.OfficialCar)
+                    //     that.Return = false;
 
                 }).catch(function(err){
                     console.log(err);

@@ -110,7 +110,7 @@ export default {
       this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
       if(this.basic.squall_user_info.UseCarID)
       {
-        that.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
+        this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
       }  
     }
       

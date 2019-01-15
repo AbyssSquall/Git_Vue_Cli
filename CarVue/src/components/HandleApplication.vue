@@ -120,12 +120,13 @@ export default {
     //'SideNav':SideNav,
   },
   mounted:function(){
-      //alert("JSON.stringfy(this.basic.squall_right_info)");
-    this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
+    this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
+    //alert(JSON.stringfy(this.basic.squall_user_info));
     this.basic.squall_basic_http.GetDepartmentCarList("1002",this);
 
     //从服务器读取列表，进行渲染
     this.basic.squall_basic_http.GetApplicationList("official_application",this);
+    //alert(JSON.stringfy(this.basic.squall_user_info));
 
   },
   methods:{
@@ -186,7 +187,7 @@ export default {
             this.$refs[formname].validate(function(squall_bool,squall_res){
                 if(squall_bool)
                 {
-                    //alert(JSON.stringify(squall_data_json),JSON.stringify(that.basic.squall_user_info));
+                    //alert(JSON.stringify(that.basic.squall_user_info));
                     that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that,that.basic.squall_user_info.序号);
                 }
                 else
