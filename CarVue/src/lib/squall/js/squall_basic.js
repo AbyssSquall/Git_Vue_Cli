@@ -629,8 +629,6 @@ var squall_basic_http = new Vue({
                     squall_on_use_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
                 }
                 
-                // if(squall_temp_official.length>0)
-                //     that.OfficialCar = false;
                 if(squall_temp_official.length>0)
                     alert("您已借用" + squall_temp_official.length + "辆经营用车");
 
@@ -643,8 +641,6 @@ var squall_basic_http = new Vue({
                 },function(err){
                     console.log(JSON.stringify(err));
                 })
-                //if(squall_temp_official.length>0)
-                //    alert("您有" + squall_temp_official.length + "条经营用车申请还未审核");
 
                 this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名&_where=(a.序号,eq," + id + ")",{}).then(function(data){
                     //console.log(data.data);
