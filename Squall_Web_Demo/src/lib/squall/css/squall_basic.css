@@ -127,3 +127,18 @@ i{
     position: absolute;
     width: 200px;
 }
+
+.squall_nav_bar{
+    position: fixed;
+    top: 100px;
+    right: 0;
+    width: 150px;
+}
+
+.squall_doc_item{
+    margin-top: 20px;
+}
+
+.squall_nav_bar ul{
+    list-style: none;
+}
