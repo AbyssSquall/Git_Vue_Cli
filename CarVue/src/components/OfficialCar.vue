@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>公务用车</h1>
+        <h1>经营用车</h1>
         <img class="squall_wrapblank" src="static/blank.png">
         <el-form :model="squall_form" :rules="rules" ref="squall_form" label-width="100px" class="demo-ruleForm">
             <el-form-item label="使用范围" prop="region">
@@ -131,10 +131,31 @@ export default {
         this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid);
         
         var Now = new Date();
-        this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
-        this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
-        this.squall_form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();;
-        this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
+        var squall_month = (Now.getMonth()+1).toString();
+        var squall_date = Now.getDate().toString();
+        var squall_hours = Now.getHours().toString();
+        var squall_minutes = Now.getMinutes().toString();
+        var squall_Seconds = Now.getSeconds().toString();
+
+        for(var i=0;i<2-(Now.getMonth()+1).toString().length;i++)
+            squall_month = "0" + squall_month;
+            
+        for(var i=0;i<2-Now.getDate().toString().length;i++)
+            squall_date = "0" + squall_date;
+            
+        for(var i=0;i<2-Now.getHours().toString().length;i++)
+            squall_hours = "0" + squall_hours;
+            
+        for(var i=0;i<2-Now.getMinutes().toString().length;i++)
+            squall_minutes = "0" + squall_minutes;
+            
+        for(var i=0;i<2-Now.getSeconds().toString().length;i++)
+            squall_Seconds = "0" + squall_Seconds;
+
+        this.squall_form.startdate = Now.getFullYear() +"-" + squall_month + "-" + squall_date; 
+        this.squall_form.starttime = squall_hours +":" + squall_minutes + ":" + squall_Seconds;
+        this.squall_form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
+        this.squall_form.endtime = squall_hours +":" + squall_minutes + ":" + squall_Seconds; 
   },
   methods:{
         squall_show_onuse:function(){

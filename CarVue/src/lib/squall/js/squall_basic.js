@@ -153,7 +153,7 @@ var squall_basic_http = new Vue({
                     {
                         that.ProductCar = true;
                     }
-                    if(data.data[i].e_right=="公务用车")
+                    if(data.data[i].e_right=="经营用车")
                     
                     {
                         that.OfficialCar = true;
@@ -499,7 +499,7 @@ var squall_basic_http = new Vue({
                     }
                     for(var i=0;i<squall_temp_official.length;i++)
                     {
-                        squall_history_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],aim:squall_temp_official_aim[i],"姓名":squall_temp_official_姓名[i],"开始时间":squall_temp_official_starttime[i]});
+                        squall_history_list.push({table:"official_application",table_alias:"经营用车",guid:squall_temp_official[i],aim:squall_temp_official_aim[i],"姓名":squall_temp_official_姓名[i],"开始时间":squall_temp_official_starttime[i]});
                     }
 
 
@@ -626,7 +626,7 @@ var squall_basic_http = new Vue({
                 }
                 for(var i=0;i<squall_temp_official.length;i++)
                 {
-                    squall_on_use_list.push({table:"official_application",table_alias:"公务用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
+                    squall_on_use_list.push({table:"official_application",table_alias:"经营用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
                 }
                 
                 if(squall_temp_official.length>0)
@@ -701,8 +701,14 @@ var squall_basic_http = new Vue({
 
             var squall_on_use_list = []
             var this_that = this;
+            var squall_url = "";
             //获取全部的历史记录
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.department,_j,b.car&_on1=(a.部门,eq,b.部门)&_fields=b.车牌号,b.carid&_where=(a.departmentid,eq," + departmentid + ")",{}).then(function(data){
+            if(that.$route.params.UseCarID)
+                squall_url = squall_Database_Host_IP+"/api/xjoin?_join=a.department,_j,b.car&_on1=(a.部门,eq,b.部门)&_fields=b.车牌号,b.carid&_where=(a.departmentid,eq," + departmentid + ")~or(b.carid,eq," + that.$route.params.UseCarID + ")";
+            else
+                squall_url = squall_Database_Host_IP+"/api/xjoin?_join=a.department,_j,b.car&_on1=(a.部门,eq,b.部门)&_fields=b.车牌号,b.carid&_where=(a.departmentid,eq," + departmentid + ")";
+
+            this.$http.get(squall_url,{}).then(function(data){
                 
                 //分配一下
                 var squall_car_list = [];

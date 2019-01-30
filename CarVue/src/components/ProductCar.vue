@@ -31,7 +31,13 @@
             <el-form-item label="开始日期" required>
                 <el-col :span="20">
                 <el-form-item prop="startdate">
-                    <el-date-picker id="startdate" type="date" placeholder="选择日期" v-model="squall_form.startdate" style="width: 100%;"></el-date-picker>
+                    <el-date-picker
+                    id="startdate"
+                    type="date"
+                    :editable="false"
+                    placeholder="选择日期"
+                    v-model="squall_form.startdate"
+                    style="width: 100%;"></el-date-picker>
                 </el-form-item>
                 </el-col>
             </el-form-item>
@@ -98,8 +104,7 @@
 <script>
 
 export default {
-  name: 'Car',
-  data () {
+  data() {
     return {
         msg: 'Welcome to Your Vue.js App',
         RefreshPage:false,
@@ -109,7 +114,7 @@ export default {
             driver:"",
             carid:"",
             aim:"",
-            startdate:"",
+            startdate:"2018-01-30",
             starttime:"",
             enddate:"",
             endtime:"",
@@ -145,10 +150,31 @@ export default {
         this.basic.squall_basic_http.GetDepartmentCarList(this.basic.squall_user_info.departmentid,this);
 
         var Now = new Date();
-        this.squall_form.startdate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate(); 
-        this.squall_form.starttime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds();
+        var squall_month = (Now.getMonth()+1).toString();
+        var squall_date = Now.getDate().toString();
+        var squall_hours = Now.getHours().toString();
+        var squall_minutes = Now.getMinutes().toString();
+        var squall_Seconds = Now.getSeconds().toString();
+
+        for(var i=0;i<2-(Now.getMonth()+1).toString().length;i++)
+            squall_month = "0" + squall_month;
+            
+        for(var i=0;i<2-Now.getDate().toString().length;i++)
+            squall_date = "0" + squall_date;
+            
+        for(var i=0;i<2-Now.getHours().toString().length;i++)
+            squall_hours = "0" + squall_hours;
+            
+        for(var i=0;i<2-Now.getMinutes().toString().length;i++)
+            squall_minutes = "0" + squall_minutes;
+            
+        for(var i=0;i<2-Now.getSeconds().toString().length;i++)
+            squall_Seconds = "0" + squall_Seconds;
+
+        this.squall_form.startdate = Now.getFullYear().toString() +"-" + squall_month + "-" + squall_date; 
+        this.squall_form.starttime = squall_hours +":" + squall_minutes + ":" + squall_Seconds;
         this.squall_form.enddate = "9999-12-1";
-        this.squall_form.endtime = Now.getHours() +":" + Now.getMinutes() + ":" + Now.getSeconds(); 
+        this.squall_form.endtime = squall_hours +":" + squall_minutes + ":" + squall_Seconds; 
 
         if(this.$route.params.UseCarID)
         {

@@ -7,7 +7,7 @@
                 <el-col :span="20">
                 <el-select class="squall_width_full" v-model="form.type" placeholder="请选择类型" :disabled=true>
                     <el-option label="生产用车" value="product"></el-option>
-                    <el-option label="公务用车" value="official"></el-option>
+                    <el-option label="经营用车" value="official"></el-option>
                 </el-select>
                 </el-col>
             </el-form-item>
@@ -89,8 +89,29 @@ export default {
 
 
     var Now = new Date();
-    this.form.enddate = Now.getFullYear() +"-" + (Now.getMonth()+1) + "-" + Now.getDate();
-    this.form.endtime = Now.getHours() +":" + Now.getMinutes(); 
+        var squall_month = (Now.getMonth()+1).toString();
+        var squall_date = Now.getDate().toString();
+        var squall_hours = Now.getHours().toString();
+        var squall_minutes = Now.getMinutes().toString();
+        var squall_Seconds = Now.getSeconds().toString();
+
+        for(var i=0;i<2-(Now.getMonth()+1).toString().length;i++)
+            squall_month = "0" + squall_month;
+            
+        for(var i=0;i<2-Now.getDate().toString().length;i++)
+            squall_date = "0" + squall_date;
+            
+        for(var i=0;i<2-Now.getHours().toString().length;i++)
+            squall_hours = "0" + squall_hours;
+            
+        for(var i=0;i<2-Now.getMinutes().toString().length;i++)
+            squall_minutes = "0" + squall_minutes;
+            
+        for(var i=0;i<2-Now.getSeconds().toString().length;i++)
+            squall_Seconds = "0" + squall_Seconds;
+
+    this.form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
+    this.form.endtime = Now.getHours() +":" + squall_minutes; 
   },
     methods:{
         squall_show_onuse:function(){
