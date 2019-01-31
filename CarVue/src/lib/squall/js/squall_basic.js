@@ -605,12 +605,14 @@ var squall_basic_http = new Vue({
             var squall_on_application_list = []
             var this_that = this;
             //获取全部的历史记录
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime&_where=(a.序号,eq," + id + ")",{}).then(function(data){
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime,a.waitpoint,a.driver&_where=(a.序号,eq," + id + ")",{}).then(function(data){
                 
                 //分配一下
                 var squall_temp_official = [];
                 var squall_temp_车牌号 = [];
                 var squall_temp_carid = [];
+                var squall_temp_waitpoint = [];
+                var squall_temp_driver = [];
                 for(var i=0;i<data.data.length;i++)
                 {
                     var squall_endtime_value = new Date(data.data[i].a_endtime).valueOf();
@@ -619,6 +621,8 @@ var squall_basic_http = new Vue({
                         squall_temp_official.push(data.data[i].a_guid);
                         squall_temp_车牌号.push(data.data[i].b_车牌号);
                         squall_temp_carid.push(data.data[i].a_carid);
+                        squall_temp_waitpoint.push(data.data[i].a_waitpoint);
+                        squall_temp_driver.push(data.data[i].a_driver);
                     }     
                     else
                     {
@@ -630,7 +634,7 @@ var squall_basic_http = new Vue({
                 }
                 
                 if(squall_temp_official.length>0)
-                    alert("您已借用" + squall_temp_official.length + "辆经营用车");
+                    alert("您已借用经营用车,等候地点为" + squall_temp_waitpoint[0] + ",驾驶员是" + squall_temp_driver[0]);
 
                 //获取全部的正在申请的记录
                 this.$http.get(squall_Database_Host_IP+"/api/official_application?_where=(passtime,eq,null)",{}).then(function(data){
