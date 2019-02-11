@@ -8,6 +8,7 @@ import History from '@/components/History'
 import Return from '@/components/Return'
 import Regist from '@/components/regist'
 import Output from '@/components/Output'
+import Tips from '@/components/Tips'
 
 
 Vue.use(Router)
@@ -59,6 +60,11 @@ export default new Router({
       path: '/Output',
       name: 'Output',
       component: Output
+    },
+    {
+      path: '/Tips',
+      name: 'Tips',
+      component: Tips
     },
     {
       path: '/*',

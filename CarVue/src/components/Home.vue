@@ -30,6 +30,14 @@
             </router-link>
           </el-card>
         </el-col>
+        <el-col v-if="Tips" :xs="9" :sm="9" :md="9" :lg="9" :xl="9" :offset="2">
+          <el-card class="box-card squall_panel">
+            <router-link :to="{ path: '/Tips' }" class="squall_width_full">
+              <img class="squall_width_full" src="static/asset/duigou.png">  
+              <div class="squall_width_full">申请审核</div>
+            </router-link>
+          </el-card>
+        </el-col>
         <el-col v-if="History" :xs="9" :sm="9" :md="9" :lg="9" :xl="9" :offset="2">
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/History' }" class="squall_width_full">
@@ -90,6 +98,7 @@ export default {
       History:false,
       Return:true,
       Regist:true,
+      Tips:false,
       Success_visible:false,
       OnUseList:[],
     }

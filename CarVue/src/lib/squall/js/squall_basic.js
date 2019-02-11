@@ -158,6 +158,10 @@ var squall_basic_http = new Vue({
                     {
                         that.OfficialCar = true;
                     }
+                    if(data.data[i].e_right=="用车派遣")
+                    {
+                        that.HandleApplication = true;
+                    }
                     if(data.data[i].e_right=="申请审核")
                     {
                         that.HandleApplication = true;
@@ -659,7 +663,7 @@ var squall_basic_http = new Vue({
                             squall_temp_product.push(data.data[i].a_guid);
                             squall_temp_车牌号.push(data.data[i].b_车牌号);
                             squall_temp_carid.push(data.data[i].a_carid);
-                        }   
+                        }
                     }
                     for(var i=0;i<squall_temp_product.length;i++)
                     {
