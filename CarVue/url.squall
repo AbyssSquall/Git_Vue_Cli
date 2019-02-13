@@ -1,7 +1,10 @@
 http://192.168.10.211:8417/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.%E5%BA%8F%E5%8F%B7,eq,c.%E5%BA%8F%E5%8F%B7)&_fields=a.guid,a.carid,a.endtime,b.%E8%BD%A6%E7%89%8C%E5%8F%B7,c.%E5%A7%93%E5%90%8D&_where=(a.%E5%BA%8F%E5%8F%B7,eq,150)
 http://192.168.10.211:8417/api/xjoin?_join=a.department,_j,b.car&_on1=(a.部门,eq,b.部门)&_fields=b.车牌号,b.carid&_where=(a.departmentid,eq,1100)
 
+http://oa.nbgis.com/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime,a.region,a.guid,b.部门,b.姓名,b.departmentid
+squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")"
+xmysql -h localhost -u root -p squall_19950405 -d carrent
 
-
+http://oa.nbgis.com/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名
 
 https://open.weixin.qq.com/connect/oauth2/authorize?appid=wxacd53fdd7ccbe9f7&redirect_uri=http%3A%2F%2Foa.nbgis.com&response_type=code&scope=snsapi_userinfo&state=100427&connect_redirect=1#wechat_redirect

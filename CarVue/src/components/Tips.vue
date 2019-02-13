@@ -14,7 +14,7 @@
                 </el-row>
                 <el-row>
                     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
-                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">经营用车</el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.type}}</el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="20" :offset="2">
@@ -43,42 +43,6 @@
                 </el-col>
             </el-row>
         </el-dialog>
-
-        <el-dialog :visible.sync="Driver_dialogVisible" width="80%">
-            <el-form :model="squall_form" ref="squall_form" :rules="rules" label-width="80px">
-                <el-form-item label="驾驶员"  prop="driver">
-                <el-input v-model="squall_form.driver" autocomplete="off"></el-input>
-                </el-form-item>
-                <el-form-item label="车牌号"  prop="carid">
-                    <el-select v-model="squall_form.carid" placeholder="请选择">
-                      <el-option v-for="Item in CarList" :key="Item.carid" :label="Item.车牌号" :value="Item.carid"></el-option>
-                    </el-select>
-                </el-form-item>
-                <el-form-item label="等候地点" prop="waitpoint" >
-                <el-input v-model="squall_form.waitpoint" autocomplete="off"></el-input>
-                </el-form-item>
-                <!--<el-form-item label="活动区域" >
-                <el-select v-model="form.region" placeholder="请选择活动区域">
-                    <el-option label="区域一" value="shanghai"></el-option>
-                    <el-option label="区域二" value="beijing"></el-option>
-                </el-select>
-                </el-form-item>-->
-            </el-form>
-            <el-row>
-                <el-col :span="20" :offset='2'>
-                    <div class="grid-content bg-purple">
-                        <el-button type="primary" class="squall_width_full" @click="submitForm('squall_form')">提交</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-            <el-row>
-                <el-col :span="20" :offset='2'>
-                    <div class="grid-content bg-purple">
-                        <el-button type="primary" class="squall_width_full squall_top_gap" @click="Driver_dialogVisible = false">取消</el-button>
-                    </div>
-                </el-col>
-            </el-row>
-        </el-dialog>
     </div>
 </template>
 <script>
@@ -97,23 +61,8 @@ export default {
         guid:"1",
         selectedInfo:{},
         squall_form: {
-          driver: '',
-          carid: '',
-          waitpoint: ''
-        },
-        rules: {
-            driver: [
-                { required: true, message: '请输入驾驶员姓名', trigger: 'blur' }
-            ],
-            carid: [
-                { required: true, message: '请选择车辆', trigger: 'change' }
-            ],
-            waitpoint: [
-                { required: true, message: '请输入等候地点', trigger: 'blur' }
-            ]
         },
         ApplicationList: [],
-        CarList:[],
     }
   },
   components: {
@@ -121,12 +70,11 @@ export default {
   },
   mounted:function(){
     this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
-    //alert(JSON.stringfy(this.basic.squall_user_info));
-    this.basic.squall_basic_http.GetDepartmentCarList("1002",this);
+    //console.log(this.basic.squall_user_info.right);
+    //this.basic.squall_basic_http.GetDepartmentCarList("1002",this);
 
     //从服务器读取列表，进行渲染
-    this.basic.squall_basic_http.GetApplicationList("official_application",this);
-    //alert(JSON.stringfy(this.basic.squall_user_info));
+    this.basic.squall_basic_http.GetAppListNeedPass(this);
 
   },
   methods:{
@@ -136,43 +84,63 @@ export default {
         },
         squall_agree:function(guid){
             this.dialogVisible = false;
-            if(this.selectedInfo.车牌号)
-                return;
-            else
-                this.Driver_dialogVisible = true;
-            //console.log(guid);
-            //this.show_html = "<el-button>1111</el-button>";
+
+            //console.log(this.selectedInfo);
+            //console.log(this.basic.squall_user_info);
+            //console.log(this.basic.Now());
+
+            var squall_update_JSON = {guid:this.selectedInfo.a_guid};
+
+            if(this.basic.squall_user_info.right["生产大市区内"]&&this.basic.squall_user_info.right["生产大市区外"])
+            {
+                squall_update_JSON.personpasstime1 = this.basic.Now();
+            }
+            else if(this.basic.squall_user_info.right["生产大市区外"]&&this.basic.squall_user_info.right["经营大市区外"])
+            {
+                squall_update_JSON.personpasstime2 = this.basic.Now();
+            }
+            else if(this.basic.squall_user_info.right["经营大市区外"]&&this.basic.squall_user_info.right["经营大市区内"])
+            {
+                squall_update_JSON.personpasstime1 = this.basic.Now();
+            }
+
+            if(this.selectedInfo.type == "生产用车")
+                this.basic.squall_basic_http.UpdateByGUID(this,"product_application",JSON.stringify(squall_update_JSON));
+            else if(this.selectedInfo.type == "经营用车")
+                this.basic.squall_basic_http.UpdateByGUID(this,"official_application",JSON.stringify(squall_update_JSON));
+
+            //this.basic.squall_basic_http.GetAppListNeedPass(this);
+            
         },
         squall_element_dialog:function(guid){
             this.dialogVisible = true;
 
-                var squall_starttime = new Date(guid.a_starttime);
-                var squall_endtime = new Date(guid.a_endtime);
-                //console.log(guid);
-                guid.a_starttime_1 = squall_starttime.getFullYear() + "/" + (squall_starttime.getMonth()+1) + "/" + squall_starttime.getDate() + " " + squall_starttime.getHours() + ":" + squall_starttime.getMinutes();
-                guid.a_endtime_1 = squall_endtime.getFullYear() + "/" + (squall_endtime.getMonth()+1) + "/" + squall_endtime.getDate() + " " + squall_endtime.getHours() + ":" + squall_endtime.getMinutes();
+            var squall_starttime = new Date(guid.a_starttime);
+            var squall_endtime = new Date(guid.a_endtime);
+            guid.a_starttime_1 = squall_starttime.getFullYear() + "/" + (squall_starttime.getMonth()+1) + "/" + squall_starttime.getDate() + " " + squall_starttime.getHours() + ":" + squall_starttime.getMinutes();
+            guid.a_endtime_1 = squall_endtime.getFullYear() + "/" + (squall_endtime.getMonth()+1) + "/" + squall_endtime.getDate() + " " + squall_endtime.getHours() + ":" + squall_endtime.getMinutes();
 
-                var squall_temp_data={
-                            "部门":guid.b_部门,
-                            "姓名":guid.b_姓名,
-                            "目的地":guid.a_aim,
-                            "事由":guid.a_task,
-                            "开始时间":guid.a_starttime_1,
-                            "结束时间":guid.a_endtime_1
-                        };
+            var squall_temp_data={
+                "部门":guid.b_部门,
+                "姓名":guid.b_姓名,
+                "目的地":guid.a_aim,
+                "事由":guid.a_task,
+                "开始时间":guid.a_starttime_1,
+                "结束时间":guid.a_endtime_1
+            };
 
-                this.squall_ok = "指派";
-                this.squall_cencel = "退回";
+            this.squall_cencel = "退回";
 
-                this.selectedInfo = guid;
-                    var squall_html = "";
-                    for(var index in squall_temp_data)
-                    {
-                        squall_html += "<div class='layui-row squall_item'>";
-                        squall_html += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><span class=" squall_label">' + index + '：</span></div>';
-                        squall_html += '<div class="layui-col-xs8 layui-col-sm8 layui-col-md8">' + squall_temp_data[index] + '</div>';
-                        squall_html += "</div>";
-                    }
+            this.selectedInfo = guid;
+
+            var squall_html = "";
+            for(var index in squall_temp_data)
+            {
+                squall_html += "<div class='layui-row squall_item'>";
+                squall_html += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><span class=" squall_label">' + index + '：</span></div>';
+                squall_html += '<div class="layui-col-xs8 layui-col-sm8 layui-col-md8">' + squall_temp_data[index] + '</div>';
+                squall_html += "</div>";
+            }
             this.show_html = squall_html;
       },
       submitForm:function(formname){

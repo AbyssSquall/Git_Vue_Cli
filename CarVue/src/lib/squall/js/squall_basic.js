@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000 http://oa.nbgis.com
-var squall_data_server = "http://oa.nbgis.com/page";
+var squall_Database_Host_IP = "http://127.0.0.1:3000";//http://127.0.0.1:3000 http://oa.nbgis.com
+var squall_data_server = "http://192.168.10.144:8400/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
 
 //动态变量
 var squall_user_info = {};
@@ -71,34 +71,37 @@ var squall_basic_http = new Vue({
 
                 }
             }
-            else if(that.$route.query.state.length==6)
+            else if(that.$route.query.state)
             {
-                var this_that = this
-                //创新的session
-                that.basic.squall_user_info.code = that.$route.query.code;
-                that.basic.squall_user_info.guid = squall_guid();
-                this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:that.basic.squall_user_info}).then(function(data){
-                    if(!JSON.parse(data.bodyText).序号)
-                    {
-                        that.basic.squall_user_info = JSON.parse(data.bodyText);
-                        that.basic.squall_user_info.UseCarID = that.$route.query.state;
-                        that.$router.push({name:"Regist",params:{data:that.basic.squall_user_info,success:true}});
-                    }
-                    else
-                    {
-                        that.basic.squall_user_info = JSON.parse(data.bodyText);
-                        that.basic.squall_user_info.UseCarID = that.$route.query.state;
-                        //获取用户信息和权限
-                        that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
-                        //是否有已经在借的生产车辆
-                        that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
-                    }
+                if(that.$route.query.state.length==6)
+                {
+                    var this_that = this
+                    //创新的session
+                    that.basic.squall_user_info.code = that.$route.query.code;
+                    that.basic.squall_user_info.guid = squall_guid();
+                    this_that.$http.jsonp(squall_data_server+'/login/wechat',{params:that.basic.squall_user_info}).then(function(data){
+                        if(!JSON.parse(data.bodyText).序号)
+                        {
+                            that.basic.squall_user_info = JSON.parse(data.bodyText);
+                            that.basic.squall_user_info.UseCarID = that.$route.query.state;
+                            that.$router.push({name:"Regist",params:{data:that.basic.squall_user_info,success:true}});
+                        }
+                        else
+                        {
+                            that.basic.squall_user_info = JSON.parse(data.bodyText);
+                            that.basic.squall_user_info.UseCarID = that.$route.query.state;
+                            //获取用户信息和权限
+                            that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
+                            //是否有已经在借的生产车辆
+                            that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
+                        }
 
 
-                }).catch(function(err){
-                    console.log(err);
-                })
-                //that.$router.push({name:"Product",params:{CarID:that.$route.query.state,success:true}});
+                    }).catch(function(err){
+                        console.log(err);
+                    })
+                    //that.$router.push({name:"Product",params:{CarID:that.$route.query.state,success:true}});
+                }
             }
             else if(that.basic.squall_user_info.UseCarID)
             {
@@ -109,8 +112,26 @@ var squall_basic_http = new Vue({
             }
             else
             {
-                //if(!that.basic.squall_user_info)
-                    window.location.href ="https://www.baidu.com";
+                // if(!that.basic.squall_user_info)
+                //    window.location.href ="https://www.baidu.com";
+                
+
+                console.log("debug");
+                var this_that = this;
+                //创新的session
+                that.basic.squall_user_info = {
+                    '序号': '178',
+                    openid: 'ol6rR1Cb3v_L08uqwHfNZFQYljfk',
+                    '姓名': '黄列禹',
+                    '部门': '地理信息所',
+                    departmentid: '1100' 
+                }
+                that.basic.squall_user_info.code = that.$route.query.code;
+                 that.basic.squall_user_info.guid = squall_guid();
+                //获取用户信息和权限
+                that.basic.squall_basic_http.GetGrant(that.basic.squall_user_info.序号,that);
+                //是否有已经在借的生产车辆
+                that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
             }
         },
         GetInfo:function(guid,that){
@@ -146,15 +167,17 @@ var squall_basic_http = new Vue({
         },
         GetGrant:function(xuhao,that){
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")").then(function(data){
+                that.basic.squall_user_info.right = {};
                 for(var i=0;i<data.data.length;i++)
                 {
                     //console.log(data.data[i].e_right);
+                    if(data.data[i].e_right!="")
+                        that.basic.squall_user_info.right[data.data[i].e_right] = data.data[i].e_right;
                     if(data.data[i].e_right=="生产用车")
                     {
                         that.ProductCar = true;
                     }
                     if(data.data[i].e_right=="经营用车")
-                    
                     {
                         that.OfficialCar = true;
                     }
@@ -164,13 +187,14 @@ var squall_basic_http = new Vue({
                     }
                     if(data.data[i].e_right=="申请审核")
                     {
-                        that.HandleApplication = true;
+                        that.Tips = true;
                     }
                     if(data.data[i].e_right=="历史记录")
                     {
                         that.History = true;
                     }
                 }
+                //console.log(that.basic.squall_user_info);
                 //console.log(xuhao);
             }).catch(function(err){
                 alert(JSON.stringify(err));
@@ -209,18 +233,29 @@ var squall_basic_http = new Vue({
         },
         GetApplicationList:function(table,that){
             //需要连表查询，需要申请人名
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
-                //console.log(data.data[0].a_passtime==null);
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
+                console.log(data.data);
                 var squall_list = [];
 
                 var squall_now_value = new Date().valueOf();
 
                 for(var index in data.data)
                 {
-                    var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
-                    if((data.data[index].a_passtime==null||data.data[index].a_passtime=="")&&squall_now_value<squall_endtime_value)
+                    if(data.data[index].a_passtime==null||data.data[index].a_passtime=="")
                     {
-                        squall_list.push(data.data[index]);
+                        var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
+                        if(data.data[index].a_region=="市区内"&&squall_now_value<squall_endtime_value)
+                        {
+                            squall_list.push(data.data[index]);
+                        }
+                        else if(data.data[index].a_region=="大市区内"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&squall_now_value<squall_endtime_value)
+                        {
+                            squall_list.push(data.data[index]);
+                        }
+                        else if(data.data[index].a_region=="大市区外"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&(data.data[index].a_personpasstime2!=null&&data.data[index].a_personpasstime2!="")&&squall_now_value<squall_endtime_value)
+                        {
+                            squall_list.push(data.data[index]);
+                        }
                     }
                 }
                 //that.ApplicationList = data.data;
@@ -230,13 +265,100 @@ var squall_basic_http = new Vue({
                 alert(JSON.stringify(err));
             })
         },
+        GetAppListNeedPass:function(that){
+            //console.log(that.basic.squall_user_info);
+            var squall_now_value = new Date().valueOf();
+            that.ApplicationList = [];
+            if(that.basic.squall_user_info.right["生产大市区外"]&&that.basic.squall_user_info.right["生产大市区内"])
+            {
+                //需要连表查询，需要申请人名
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.personlist,_j,c.car&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,b.部门,b.姓名,b.departmentid&_where=(c.TeamID,eq," + that.basic.squall_user_info.departmentid + ")~and(personpasstime1,is,null)",{}).then(function(data){
+                    var squall_list = [];
+
+                    for(var index in data.data)
+                    {
+                        data.data[index].type = "生产用车";
+                        
+                        squall_list.push(data.data[index]);
+                    }
+                    
+                    that.ApplicationList = squall_list;
+                },function(err){
+                    alert(JSON.stringify(err));
+                })
+            }
+            else if(that.basic.squall_user_info.right["生产大市区外"]&&that.basic.squall_user_info.right["经营大市区外"])
+            {
+                var squall_list = [];
+                //需要连表查询，需要申请人名
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.personlist,_j,c.car&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)",{}).then(function(data){  
+                
+                    for(var index in data.data)
+                    {
+                        if(data.data[index].a_personpasstime1)
+                        {
+                            data.data[index].type = "生产用车";
+
+                            squall_list.push(data.data[index]);
+                        }
+                    }
+                    
+                    this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)",{}).then(function(data){
+                        console.log(data.data);
+                        for(var index in data.data)
+                        {
+                            if(data.data[index].a_personpasstime1)
+                            {
+                                data.data[index].type = "经营用车";
+                                
+                                var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
+                                if(squall_now_value<squall_endtime_value)
+                                    squall_list.push(data.data[index]);
+                            }
+                        }
+                        that.ApplicationList = squall_list;
+                    },function(err){
+                        alert(JSON.stringify(err));
+                    })
+
+                },function(err){
+                    alert(JSON.stringify(err));
+                })
+            }
+            else if(that.basic.squall_user_info.right["经营大市区外"]&&that.basic.squall_user_info.right["经营大市区内"])
+            {
+                //需要连表查询，需要申请人名
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime1,is,null)",{}).then(function(data){
+                    var squall_list = [];
+
+                    var squall_now_value = new Date().valueOf();
+
+                    console.log(data.data);
+
+                    for(var index in data.data)
+                    {
+                        data.data[index].type = "经营用车";
+                        var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
+                        if(squall_now_value<squall_endtime_value&&data.data[index].a_region!="市区内")
+                            squall_list.push(data.data[index]);
+                    }
+
+                    that.ApplicationList = squall_list;
+                    
+                },function(err){
+                    alert(JSON.stringify(err));
+                })
+                
+            }
+        },
         GetSingleOnUseList:function(that,table){
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名",{}).then(function(data){
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名&_size=100&_where=(a.endtime,like,9999~)",{}).then(function(data){
                 //当前时间
                 var squall_now_value = new Date().valueOf();
                 var squall_temp_product = [];
                 var squall_temp_车牌号 = [];
                 var squall_temp_姓名 = [];
+                var squall_temp_carid = [];
                 for(var i=0;i<data.data.length;i++)
                 {
                     if(squall_now_value<new Date(data.data[i].a_endtime).valueOf())
@@ -244,14 +366,23 @@ var squall_basic_http = new Vue({
                         squall_temp_product.push(data.data[i].a_guid);
                         squall_temp_车牌号.push(data.data[i].b_车牌号);
                         squall_temp_姓名.push(data.data[i].c_姓名);
+                        squall_temp_carid.push(data.data[i].a_carid);
                     }    
                 }
 
                 for(var i=0;i<squall_temp_product.length;i++)
                 {
-
-                    that.OnUseList.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"姓名":squall_temp_姓名[i]});
-                    //that.show_html += "<p class='squall_panel'>"+squall_temp_车牌号[i]+squall_temp_姓名[i]+"</p>";
+                    if(that.OnUseList)
+                        that.OnUseList.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"姓名":squall_temp_姓名[i]});
+                    
+                    if(that.$route.params.UseCarID)
+                    {
+                        if(that.$route.params.UseCarID==squall_temp_carid[i])
+                        {
+                            alert("车辆正在使用，使用者为：" + squall_temp_姓名[i]);
+                            that.$router.push({name:"Home",params:{success:false}});
+                        }
+                    }
                     
                     that.show_html += "<div class='layui-row squall_panel'>";
                     that.show_html += '<div class="layui-col-xs4 layui-col-sm4 layui-col-md4"><span class=" squall_label">' + squall_temp_姓名[i] + '</span></div>';
@@ -288,6 +419,23 @@ var squall_basic_http = new Vue({
                 if(data.data=="true")
                 {
                     that.$router.push({name:"Home",params:{type:"official_application",success:true}});
+                }
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        UpdateByGUID:function(that,table,data){
+            var squall_data = JSON.parse(data);
+            
+            this.$http.get(squall_data_server+"/table/update?table=" + table + "&updateparams=" + encodeURIComponent(JSON.stringify(squall_data)),{}).then(function(data){
+                if(data.data=="true")
+                {
+                    if(that.ApplicationList)
+                    {
+                        that.ApplicationList = [];
+                        that.basic.squall_basic_http.GetAppListNeedPass(that);
+                    }   
+                    //that.$router.push({name:"Tips",params:{success:true}});
                 }
             }).catch(function(err){
                 console.log(err);
@@ -676,7 +824,7 @@ var squall_basic_http = new Vue({
                         if(that.basic.squall_user_info.UseCarID)
                             that.$router.push({name:"Return",params:{data:JSON.parse(data.bodyText),success:true}});
                     }
-                    else if(that.basic.squall_user_info.UseCarID)
+                    else if(that.basic.squall_user_info.UseCarID&&that.$route.params.success!=false)
                         that.$router.push({name:"ProductCar",params:{UseCarID:that.basic.squall_user_info.UseCarID,success:true}});
 
                     if(that.basic.squall_user_info.UseCarID)
@@ -803,7 +951,29 @@ var squall_basic_http = new Vue({
 
 //时间戳
 var squall_now = function(){
-    return new Date();
+    var Now = new Date();
+    var squall_month = (Now.getMonth()+1).toString();
+    var squall_date = Now.getDate().toString();
+    var squall_hours = Now.getHours().toString();
+    var squall_minutes = Now.getMinutes().toString();
+    var squall_Seconds = Now.getSeconds().toString();
+
+    for(var i=0;i<2-(Now.getMonth()+1).toString().length;i++)
+        squall_month = "0" + squall_month;
+        
+    for(var i=0;i<2-Now.getDate().toString().length;i++)
+        squall_date = "0" + squall_date;
+        
+    for(var i=0;i<2-Now.getHours().toString().length;i++)
+        squall_hours = "0" + squall_hours;
+        
+    for(var i=0;i<2-Now.getMinutes().toString().length;i++)
+        squall_minutes = "0" + squall_minutes;
+        
+    for(var i=0;i<2-Now.getSeconds().toString().length;i++)
+        squall_Seconds = "0" + squall_Seconds;
+
+    return Now.getFullYear() + "-" + squall_month + "-" + squall_date + " " + squall_hours + ":" + squall_minutes + ":" + squall_Seconds;
 }
 
 export default{

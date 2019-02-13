@@ -50,11 +50,6 @@
                 <el-input style="resize:none;" type="textarea" v-model="squall_form.task"></el-input>
                 </el-col>
             </el-form-item>
-            <!-- <el-row>
-                <el-col :span="20" :offset="2">
-                    <el-button class="squall_width_full" type="primary" @click="squall_show_onuse()">查看在用车辆</el-button>
-                </el-col>
-            </el-row> -->
             <el-row>
                 <el-col :span="20" :offset="2">
                     <el-button class="squall_width_full squall_top_gap" type="primary" @click="submitForm('squall_form')">提交</el-button>
@@ -66,14 +61,6 @@
         <!--弹出层-->
             <el-dialog :visible.sync="dialogVisible" width="80%">
                 <div v-html="show_html"></div>
-                <!-- <el-row class="squall_panel" v-for="Item in OnUseList" :key="Item.guid">
-                    <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11" :offset="1">
-                        <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.车牌号}}</div>
-                    </el-col>
-                    <el-col  :xs="11" :sm="11" :md="11" :lg="11" :xl="11">
-                        <div class="layui-col-xs9 layui-col-sm9 layui-col-md9">{{Item.姓名}}</div>
-                    </el-col>
-                </el-row> -->
                 <el-row>
                     <el-col :span="20" :offset='2'>
                         <div class="grid-content bg-purple">
@@ -158,13 +145,13 @@ export default {
         this.squall_form.endtime = squall_hours +":" + squall_minutes + ":" + squall_Seconds; 
   },
   methods:{
-        squall_show_onuse:function(){
-            this.dialogVisible = true;
-            var squall_html = "";
-            //squall_html+="<div class='layui-row'></div>"
+        // squall_show_onuse:function(){
+        //     this.dialogVisible = true;
+        //     var squall_html = "";
+        //     //squall_html+="<div class='layui-row'></div>"
 
-            this.basic.squall_basic_http.GetSingleOnUseList(this,"official_application");
-        },
+        //     this.basic.squall_basic_http.GetSingleOnUseList(this,"official_application");
+        // },
         submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);
             var squall_data_json = JSON.parse(squall_data);

@@ -26,14 +26,14 @@
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/HandleApplication' }" class="squall_width_full">
               <img class="squall_width_full" src="static/asset/duigou.png">  
-              <div class="squall_width_full">申请审核</div>
+              <div class="squall_width_full">用车派遣</div>
             </router-link>
           </el-card>
         </el-col>
         <el-col v-if="Tips" :xs="9" :sm="9" :md="9" :lg="9" :xl="9" :offset="2">
           <el-card class="box-card squall_panel">
             <router-link :to="{ path: '/Tips' }" class="squall_width_full">
-              <img class="squall_width_full" src="static/asset/duigou.png">  
+              <img class="squall_width_full" src="static/asset/xinfeng.png">
               <div class="squall_width_full">申请审核</div>
             </router-link>
           </el-card>
@@ -119,7 +119,10 @@ export default {
       this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
       if(this.basic.squall_user_info.UseCarID)
       {
-        this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
+        if(this.$route.params.success)
+        {
+          this.basic.squall_basic_http.GetOnUseList(this.basic.squall_user_info.序号,this);
+        }  
       }  
     }
       
@@ -134,7 +137,9 @@ export default {
     if(this.$route.params.success)
     {
       if(this.basic.squall_user_info.UseCarID)
+      {
         this.$router.push({name:"ProductCar",params:{UseCarID:this.basic.squall_user_info.UseCarID,success:true}});
+      }  
       this.Success_visible = this.$route.params.success;
     }
 
