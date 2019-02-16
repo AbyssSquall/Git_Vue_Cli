@@ -73,6 +73,7 @@ export default {
     'Custom':Custom,
   },
   mounted:function(){
+    console.log("test");
     if(window.innerHeight/window.innerWidth>1)
     {
         //this.CollapseClass = "el-icon-arrow-right";
