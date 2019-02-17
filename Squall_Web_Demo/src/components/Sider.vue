@@ -37,11 +37,15 @@
                     <i class="el-icon-location-outline"></i>
                     <span slot="title">GPS相关</span>
                 </el-menu-item>
-                <el-menu-item index="4" @click="ItemRouter('Document')">
+                <el-menu-item index="4" @click="ItemRouter('GPSApply')" ><!-- disabled -->
+                    <i class="el-icon-location-outline"></i>
+                    <span slot="title">GPS应用</span>
+                </el-menu-item>
+                <el-menu-item index="5" @click="ItemRouter('Document')">
                     <i class="el-icon-document"></i>
                     <span slot="title">开发文档</span>
                 </el-menu-item>
-                <el-menu-item index="5" @click="ItemRouter('Custom')">
+                <el-menu-item index="6" @click="ItemRouter('Custom')">
                     <i class="el-icon-setting"></i>
                     <span slot="title">自定义页面</span>
                 </el-menu-item>
@@ -80,8 +84,6 @@ export default {
         console.log(key, keyPath);
       },
       ItemRouter(key){
-          //console.log(key);
-          //this.$router.push({name:key,params:{success:true}});
           this.$emit("pagechange",{"key":key});
       },
       CollapseControl(){

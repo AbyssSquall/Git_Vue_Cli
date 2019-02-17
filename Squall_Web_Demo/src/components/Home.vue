@@ -10,6 +10,7 @@
           <heat-map v-if="PageControler.HeatMap"></heat-map>
           <cluster-map v-if="PageControler.ClusterMap"></cluster-map>
           <map-draw v-if="PageControler.MapDraw"></map-draw>
+          <G-p-s-apply v-if="PageControler.GPSApply"></G-p-s-apply>
           <G-p-s v-if="PageControler.GPS"></G-p-s>
           <document v-if="PageControler.Document"></document>
           <custom v-if="PageControler.Custom"></custom>
@@ -31,6 +32,7 @@ import HeatMap from"@/components/HeatMap"
 import ClusterMap from"@/components/ClusterMap"
 import MapDraw from"@/components/MapDraw"
 import GPS from"@/components/GPS"
+import GPSApply from"@/components/GPSApply"
 import _Document from"@/components/Document"
 import Custom from"@/components/Custom"
 
@@ -50,6 +52,7 @@ export default {
         MapDraw:false,
         GPS:false,
         Document:false,
+        GPSApply:false,
         Custom:false,
       },
       SideBarWidth:3,
@@ -69,11 +72,12 @@ export default {
     'ClusterMap':ClusterMap,
     'MapDraw':MapDraw,
     'GPS':GPS,
+    'GPSApply':GPSApply,
     'Document':_Document,
     'Custom':Custom,
   },
   mounted:function(){
-    console.log("test");
+    //console.log("test");
     if(window.innerHeight/window.innerWidth>1)
     {
         //this.CollapseClass = "el-icon-arrow-right";

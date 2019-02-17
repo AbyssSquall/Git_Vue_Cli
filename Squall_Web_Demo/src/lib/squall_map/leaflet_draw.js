@@ -56,7 +56,14 @@ function squall_DrawLine(Option,Start,End){
             squall_PointList.push(L.polyline(Option.map.global.PointArray,{color: '#1e50a2',weight:2.0,fillOpacity:0.5}));
             var squall_PointLayer = L.layerGroup(squall_PointList);
     
-            Option.map.addLayer(squall_PointLayer);
+            squall_PointLayer.on("click",function(e){
+                console.log(e);
+            })
+
+            var test = Option.map.addLayer(squall_PointLayer);
+            test.on("click",function(e){
+                console.log(e);
+            })
 
             Option.map.global.layers["LineDraw"] = squall_PointLayer;
         }
