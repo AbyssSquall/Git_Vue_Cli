@@ -41,11 +41,15 @@
                     <i class="el-icon-location-outline"></i>
                     <span slot="title">GPS应用</span>
                 </el-menu-item>
-                <el-menu-item index="5" @click="ItemRouter('Document')">
+                <el-menu-item index="5" @click="ItemRouter('Photo')" ><!-- disabled -->
+                    <i class="el-icon-location-outline"></i>
+                    <span slot="title">相机与位置</span>
+                </el-menu-item>
+                <el-menu-item index="6" @click="ItemRouter('Document')">
                     <i class="el-icon-document"></i>
                     <span slot="title">开发文档</span>
                 </el-menu-item>
-                <el-menu-item index="6" @click="ItemRouter('Custom')">
+                <el-menu-item index="7" @click="ItemRouter('Custom')">
                     <i class="el-icon-setting"></i>
                     <span slot="title">自定义页面</span>
                 </el-menu-item>

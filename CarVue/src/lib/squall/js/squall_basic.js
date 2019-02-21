@@ -304,7 +304,7 @@ var squall_basic_http = new Vue({
                     }
                     
                     this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)",{}).then(function(data){
-                        console.log(data.data);
+                        //console.log(data.data);
                         for(var index in data.data)
                         {
                             if(data.data[index].a_personpasstime1)

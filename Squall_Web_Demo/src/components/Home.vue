@@ -14,6 +14,7 @@
           <G-p-s v-if="PageControler.GPS"></G-p-s>
           <document v-if="PageControler.Document"></document>
           <custom v-if="PageControler.Custom"></custom>
+          <photo v-if="PageControler.Photo"></photo>
         </el-col>
       </el-row>
       <el-button type="primary" class="CollapseClass" @click="CollapseControl" :circle="true" v-if="SmallMode">
@@ -35,6 +36,7 @@ import GPS from"@/components/GPS"
 import GPSApply from"@/components/GPSApply"
 import _Document from"@/components/Document"
 import Custom from"@/components/Custom"
+import Photo from"@/components/Photo"
 
 import LeafletBase from "@/lib/squall_map/leaflet_base"
 
@@ -54,6 +56,7 @@ export default {
         Document:false,
         GPSApply:false,
         Custom:false,
+        Photo:false,
       },
       SideBarWidth:3,
       MainPageWidth:21,
@@ -75,6 +78,7 @@ export default {
     'GPSApply':GPSApply,
     'Document':_Document,
     'Custom':Custom,
+    'Photo':Photo,
   },
   mounted:function(){
     //console.log("test");
