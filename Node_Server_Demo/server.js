@@ -11,6 +11,13 @@ var squall_HttpGet = {
     method: 'GET' 
 }
 
+//虚拟路径
+app.use(express.static('E:\\地图模板\\WebApp'));
+
+
+//地图数据库
+//xmysql -h localhost -u root -p squall_19950405 -d jsmap_data
+
 //监控文件夹列表
 var squall_route_list = [];
 fs.watch("/",function(event,filename){
