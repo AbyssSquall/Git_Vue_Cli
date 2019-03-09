@@ -31,4 +31,14 @@ router.get('/test',function(req,res){
     res.end(squall_sql);
 })
 
+//导入网格人口画像数据
+
+//创建网格统计表
+//语句 
+//create table if not exists WG_Info (WG_ID varchar(255),Age_0-18 varchar(255),Age_19-24,Age_25-34,Age_35-60,Age_61,)
+
+//统计网格人口信息，并插入
+//select count(*) from WG where Age<18;
+//insert into WG (WG_ID,XXX,XXX) values (XXX,XXX,XXX) 
+
 module.exports = router;
