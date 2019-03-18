@@ -33,6 +33,9 @@ export default {
     squall_SelectTest(){
       this.basic.squall_basic_http.TestSelect(this);
     },
+  },
+  mounted:function(){
+    
   }
 }
 </script>
