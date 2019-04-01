@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://127.0.0.1:3000";//http://127.0.0.1:3000 http://oa.nbgis.com
-var squall_data_server = "http://192.168.10.144:8400/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
+var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000 http://oa.nbgis.com
+var squall_data_server = "http://oa.nbgis.com/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
 
 //动态变量
 var squall_user_info = {};
@@ -410,9 +410,10 @@ var squall_basic_http = new Vue({
                 alert(JSON.stringify(err));
             })
         },
-        PostOfficialInfo:function(data,that,id){
+        PostOfficialInfo:function(data,that){
             var squall_data = JSON.parse(data);
             //squall_data.charger序号 = id;
+            //alert(data);
             this.$http.get(squall_data_server+"/table/update?table=official_application&updateparams=" + encodeURIComponent(JSON.stringify(squall_data)),{}).then(function(data){
                 that.Driver_dialogVisible = false;
                 //alert(data.data);
@@ -632,7 +633,7 @@ var squall_basic_http = new Vue({
                 var squall_history_list = []
                 var this_that = this;
                 //获取全部的历史记录
-                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,c.姓名&_where=(a.charger序号,ne,null)",{}).then(function(data){
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,c.姓名&_where=(a.charger,ne,null)",{}).then(function(data){
                     console.log(data.data);
                     //分配一下
                     var squall_temp_official = [];
@@ -697,7 +698,7 @@ var squall_basic_http = new Vue({
                 var squall_option = {
                     "_join":"a." + info.table + ",_j,b.personlist,_j,c.personlist,_j,d.car",
                     "_on1":"(a.序号,eq,b.序号)",
-                    "_on2":"(a.charger序号,eq,c.序号)",
+                    "_on2":"(a.charger,eq,c.序号)",
                     "_on3":"(a.carid,eq,d.carid)",
                     "_fields":"a.driver,a.aim,a.task,a.starttime,a.endtime,a.waitpoint,a.region,b.姓名,c.姓名,d.车牌号,d.部门",
                     "_where":"(a.guid,eq," + info.guid + ")"
@@ -912,8 +913,9 @@ var squall_basic_http = new Vue({
         GetPersonList:function(departmentid,that){
             
             var squall_number_list_temp = [];
+            //alert(departmentid);
             //获取已注册记录
-            this.$http.get(squall_Database_Host_IP+"/api/person?_size=500",{}).then(function(data){
+            this.$http.get(squall_Database_Host_IP+"/api/person?_size=100",{}).then(function(data){
 
                 var squall_url = squall_Database_Host_IP+"/api/personlist?_where=";
                 for(var i=0;i<data.data.length;i++)
@@ -934,6 +936,8 @@ var squall_basic_http = new Vue({
                         squall_number_list_temp.push(data.data[i]);
                     }
                     
+                    //alert(data.data[0]);
+
                     if(squall_number_list_temp.length>0)
                         that.NumberList = squall_number_list_temp;
 

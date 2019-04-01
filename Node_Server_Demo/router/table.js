@@ -31,6 +31,8 @@ router.get('/test',function(req,res){
     res.end(squall_sql);
 })
 
+
+
 //导入网格人口画像数据
 
 //创建网格统计表
@@ -40,5 +42,6 @@ router.get('/test',function(req,res){
 //统计网格人口信息，并插入
 //select count(*) from WG where Age<18;select count(*) from WG where Age<18;select count(*) from WG where Age<18;select count(*) from WG where Age<18;
 //insert into WG (WG_ID,XXX,XXX) values (XXX,XXX,XXX) 
+
 
 module.exports = router;

@@ -179,7 +179,9 @@ export default {
             var squall_data = JSON.stringify(this[formname]);
             var squall_data_json = JSON.parse(squall_data);
             squall_data_json.guid = this.selectedInfo.a_guid;
-            squall_data_json.passtime = this.basic.Now().getFullYear() + '-' + (this.basic.Now().getMonth()+1) + '-' + this.basic.Now().getDate() + ' ' + this.basic.Now().getHours() + ':' + this.basic.Now().getMinutes() + ':' + this.basic.Now().getSeconds();
+            //squall_data_json.passtime = this.basic.Now().getFullYear() + '-' + (this.basic.Now().getMonth()+1) + '-' + this.basic.Now().getDate() + ' ' + this.basic.Now().getHours() + ':' + this.basic.Now().getMinutes() + ':' + this.basic.Now().getSeconds();
+            squall_data_json.passtime = this.basic.Now();
+            //alert(JSON.stringify(squall_data_json));
             squall_data_json.charger = this.basic.squall_user_info.姓名;
             squall_data_json.dealer = "刘小康";
             
@@ -187,13 +189,12 @@ export default {
             this.$refs[formname].validate(function(squall_bool,squall_res){
                 if(squall_bool)
                 {
-                    //alert(JSON.stringify(that.basic.squall_user_info));
-                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that,that.basic.squall_user_info.序号);
+            //alert(JSON.stringify(JSON.stringify(squall_data_json)));
+                    that.basic.squall_basic_http.PostOfficialInfo(JSON.stringify(squall_data_json),that);//,that.basic.squall_user_info.序号
                 }
                 else
                 { 
-                    console.log(squall_res);
-                    
+                    alert(squall_res);
                 }
             })
       }
