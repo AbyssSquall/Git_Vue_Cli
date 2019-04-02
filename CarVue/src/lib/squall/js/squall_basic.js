@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000 http://oa.nbgis.com
-var squall_data_server = "http://oa.nbgis.com/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
+var squall_Database_Host_IP = "http://127.0.0.1:3000";//http://127.0.0.1:3000 http://oa.nbgis.com
+var squall_data_server = "http://192.168.10.144:8400/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
 
 //动态变量
 var squall_user_info = {};
