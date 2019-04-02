@@ -121,13 +121,10 @@ export default {
   },
   mounted:function(){
     this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
-    //alert(JSON.stringfy(this.basic.squall_user_info));
     this.basic.squall_basic_http.GetDepartmentCarList("1002",this);
 
     //从服务器读取列表，进行渲染
     this.basic.squall_basic_http.GetApplicationList("official_application",this);
-    //alert(JSON.stringfy(this.basic.squall_user_info));
-
   },
   methods:{
         squall_disagree:function(guid){

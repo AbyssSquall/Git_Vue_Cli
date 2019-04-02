@@ -85,10 +85,6 @@ export default {
         squall_agree:function(guid){
             this.dialogVisible = false;
 
-            //console.log(this.selectedInfo);
-            //console.log(this.basic.squall_user_info);
-            //console.log(this.basic.Now());
-
             var squall_update_JSON = {guid:this.selectedInfo.a_guid};
 
             if(this.basic.squall_user_info.right["生产大市区内"]&&this.basic.squall_user_info.right["生产大市区外"])
@@ -108,8 +104,6 @@ export default {
                 this.basic.squall_basic_http.UpdateByGUID(this,"product_application",JSON.stringify(squall_update_JSON));
             else if(this.selectedInfo.type == "经营用车")
                 this.basic.squall_basic_http.UpdateByGUID(this,"official_application",JSON.stringify(squall_update_JSON));
-
-            //this.basic.squall_basic_http.GetAppListNeedPass(this);
             
         },
         squall_element_dialog:function(guid){

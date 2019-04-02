@@ -234,7 +234,6 @@ var squall_basic_http = new Vue({
         GetApplicationList:function(table,that){
             //需要连表查询，需要申请人名
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,b.部门,b.姓名,b.departmentid",{}).then(function(data){
-                console.log(data.data);
                 var squall_list = [];
 
                 var squall_now_value = new Date().valueOf();
@@ -244,18 +243,22 @@ var squall_basic_http = new Vue({
                     if(data.data[index].a_passtime==null||data.data[index].a_passtime=="")
                     {
                         var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
-                        if(data.data[index].a_region=="市区内"&&squall_now_value<squall_endtime_value)
-                        {
+                        //没有审核阻塞的场合
+                        if(squall_now_value<squall_endtime_value)
                             squall_list.push(data.data[index]);
-                        }
-                        else if(data.data[index].a_region=="大市区内"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&squall_now_value<squall_endtime_value)
-                        {
-                            squall_list.push(data.data[index]);
-                        }
-                        else if(data.data[index].a_region=="大市区外"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&(data.data[index].a_personpasstime2!=null&&data.data[index].a_personpasstime2!="")&&squall_now_value<squall_endtime_value)
-                        {
-                            squall_list.push(data.data[index]);
-                        }
+                        //需要进行审核阻塞的场合
+                        // if(data.data[index].a_region=="市区内"&&squall_now_value<squall_endtime_value)
+                        // {
+                        //     squall_list.push(data.data[index]);
+                        // }
+                        // else if(data.data[index].a_region=="大市区内"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&squall_now_value<squall_endtime_value)
+                        // {
+                        //     squall_list.push(data.data[index]);
+                        // }
+                        // else if(data.data[index].a_region=="大市区外"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&(data.data[index].a_personpasstime2!=null&&data.data[index].a_personpasstime2!="")&&squall_now_value<squall_endtime_value)
+                        // {
+                        //     squall_list.push(data.data[index]);
+                        // }
                     }
                 }
                 //that.ApplicationList = data.data;
@@ -269,6 +272,7 @@ var squall_basic_http = new Vue({
             //console.log(that.basic.squall_user_info);
             var squall_now_value = new Date().valueOf();
             that.ApplicationList = [];
+            //部门领导
             if(that.basic.squall_user_info.right["生产大市区外"]&&that.basic.squall_user_info.right["生产大市区内"])
             {
                 //需要连表查询，需要申请人名
@@ -287,18 +291,26 @@ var squall_basic_http = new Vue({
                     alert(JSON.stringify(err));
                 })
             }
+            //院长、书记
             else if(that.basic.squall_user_info.right["生产大市区外"]&&that.basic.squall_user_info.right["经营大市区外"])
             {
                 var squall_list = [];
                 //需要连表查询，需要申请人名
                 this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.personlist,_j,c.car&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)",{}).then(function(data){  
-                
+                    //console.log(data.data);
                     for(var index in data.data)
                     {
-                        if(data.data[index].a_personpasstime1)
+                        //阻塞审批
+                        // if(data.data[index].a_personpasstime1)
+                        // {
+                        //     data.data[index].type = "生产用车";
+                        //     squall_list.push(data.data[index]);
+                        // }
+
+                        //非阻塞审批
+                        if(data.data[index].a_region=="大市区外")
                         {
                             data.data[index].type = "生产用车";
-
                             squall_list.push(data.data[index]);
                         }
                     }
@@ -307,15 +319,23 @@ var squall_basic_http = new Vue({
                         //console.log(data.data);
                         for(var index in data.data)
                         {
-                            if(data.data[index].a_personpasstime1)
+                            //阻塞审批
+                            // if(data.data[index].a_personpasstime1)
+                            // {
+                            //     data.data[index].type = "经营用车";
+                            //     var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
+                            //     if(squall_now_value<squall_endtime_value)
+                            //         squall_list.push(data.data[index]);
+                            // }
+
+                            //非阻塞审批
+                            if(data.data[index].a_region=="大市区外")
                             {
-                                data.data[index].type = "经营用车";
-                                
-                                var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
-                                if(squall_now_value<squall_endtime_value)
-                                    squall_list.push(data.data[index]);
+                                data.data[index].type = "生产用车";
+                                squall_list.push(data.data[index]);
                             }
                         }
+                        //console.log(squall_list);
                         that.ApplicationList = squall_list;
                     },function(err){
                         alert(JSON.stringify(err));
@@ -325,6 +345,7 @@ var squall_basic_http = new Vue({
                     alert(JSON.stringify(err));
                 })
             }
+            //廖佳和宋向军
             else if(that.basic.squall_user_info.right["经营大市区外"]&&that.basic.squall_user_info.right["经营大市区内"])
             {
                 //需要连表查询，需要申请人名
