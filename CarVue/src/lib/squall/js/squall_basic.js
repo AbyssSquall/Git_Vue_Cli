@@ -244,21 +244,21 @@ var squall_basic_http = new Vue({
                     {
                         var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
                         //没有审核阻塞的场合
-                        if(squall_now_value<squall_endtime_value)
-                            squall_list.push(data.data[index]);
+                        // if(squall_now_value<squall_endtime_value)
+                        //     squall_list.push(data.data[index]);
                         //需要进行审核阻塞的场合
-                        // if(data.data[index].a_region=="市区内"&&squall_now_value<squall_endtime_value)
-                        // {
-                        //     squall_list.push(data.data[index]);
-                        // }
-                        // else if(data.data[index].a_region=="大市区内"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&squall_now_value<squall_endtime_value)
-                        // {
-                        //     squall_list.push(data.data[index]);
-                        // }
-                        // else if(data.data[index].a_region=="大市区外"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&(data.data[index].a_personpasstime2!=null&&data.data[index].a_personpasstime2!="")&&squall_now_value<squall_endtime_value)
-                        // {
-                        //     squall_list.push(data.data[index]);
-                        // }
+                        if(data.data[index].a_region=="市区内"&&squall_now_value<squall_endtime_value)
+                        {
+                            squall_list.push(data.data[index]);
+                        }
+                        else if(data.data[index].a_region=="大市区内"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&squall_now_value<squall_endtime_value)
+                        {
+                            squall_list.push(data.data[index]);
+                        }
+                        else if(data.data[index].a_region=="大市区外"&&(data.data[index].a_personpasstime1!=null&&data.data[index].a_personpasstime1!="")&&(data.data[index].a_personpasstime2!=null&&data.data[index].a_personpasstime2!="")&&squall_now_value<squall_endtime_value)
+                        {
+                            squall_list.push(data.data[index]);
+                        }
                     }
                 }
                 //that.ApplicationList = data.data;
@@ -301,38 +301,38 @@ var squall_basic_http = new Vue({
                     for(var index in data.data)
                     {
                         //阻塞审批
-                        // if(data.data[index].a_personpasstime1)
-                        // {
-                        //     data.data[index].type = "生产用车";
-                        //     squall_list.push(data.data[index]);
-                        // }
-
-                        //非阻塞审批
-                        if(data.data[index].a_region=="大市区外")
+                        if(data.data[index].a_personpasstime1)
                         {
                             data.data[index].type = "生产用车";
                             squall_list.push(data.data[index]);
                         }
+
+                        //非阻塞审批
+                        // if(data.data[index].a_region=="大市区外")
+                        // {
+                        //     data.data[index].type = "生产用车";
+                        //     squall_list.push(data.data[index]);
+                        // }
                     }
                     
                     this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)",{}).then(function(data){
                         for(var index in data.data)
                         {
                             //阻塞审批
-                            // if(data.data[index].a_personpasstime1)
-                            // {
-                            //     data.data[index].type = "经营用车";
-                            //     var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
-                            //     if(squall_now_value<squall_endtime_value)
-                            //         squall_list.push(data.data[index]);
-                            // }
+                            if(data.data[index].a_personpasstime1)
+                            {
+                                data.data[index].type = "经营用车";
+                                var squall_endtime_value = new Date(data.data[index].a_endtime).valueOf();
+                                if(squall_now_value<squall_endtime_value)
+                                    squall_list.push(data.data[index]);
+                            }
 
                             //非阻塞审批
-                            if(data.data[index].a_region=="大市区外")
-                            {
-                                data.data[index].type = "生产用车";
-                                squall_list.push(data.data[index]);
-                            }
+                            // if(data.data[index].a_region=="大市区外")
+                            // {
+                            //     data.data[index].type = "生产用车";
+                            //     squall_list.push(data.data[index]);
+                            // }
                         }
                         //console.log(squall_list);
                         that.ApplicationList = squall_list;
@@ -490,11 +490,15 @@ var squall_basic_http = new Vue({
         },
         disagree:function(guid,that){
             var squall_temp_json = {'guid':guid};
-            this.$http.get(squall_data_server+"/table/delete?table=official_application&updateparams=" + encodeURIComponent(JSON.stringify(squall_temp_json),{})).then(function(data){
+            var squall_table = "official_application";
+            if(that.selectedInfo.type=="生产用车")
+                squall_table = "product_application";
+            this.$http.get(squall_data_server+"/table/delete?table=" + squall_table + "&updateparams=" + encodeURIComponent(JSON.stringify(squall_temp_json),{})).then(function(data){
                 if(data.data=="true")
                 {
                     that.dialogVisible = false;
-                    that.basic.squall_basic_http.GetApplicationList("official_application",that);
+                    //that.basic.squall_basic_http.GetApplicationList("official_application",that);
+                    that.basic.squall_basic_http.GetAppListNeedPass(that);
                 }
             },function(err){
                 alert(JSON.stringify(err));
@@ -564,7 +568,7 @@ var squall_basic_http = new Vue({
                                 }
 
                                 if(option.region=="大市区外")
-                                    squall_temp_item.boss="张荣华";
+                                    squall_temp_item.boss = that.basic.squall_user_info.姓名;
 
                                 squall_temp_list.push(squall_temp_item);
                             //}     
@@ -631,13 +635,6 @@ var squall_basic_http = new Vue({
                                     "charger":data.data[i].d_charger,
                                     "dealer":"刘小康"
                                 }
-
-                                if(option.region=="市区内")
-                                    squall_temp_item.boss="张荣华";
-                                if(option.region=="大市区内")
-                                    squall_temp_item.boss="张荣华";
-                                if(option.region=="大市区外")
-                                    squall_temp_item.boss="张荣华";
 
                                 squall_temp_list.push(squall_temp_item);
                             //}     

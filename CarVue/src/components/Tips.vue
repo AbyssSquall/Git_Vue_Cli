@@ -4,23 +4,27 @@
         <el-row class="squall_panel" v-for="Application in ApplicationList" :key="Application.guid">
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
-                <el-row>
-                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">申请人：</span></el-col>
-                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.b_姓名}}</el-col>
-                </el-row>
-                <el-row>
-                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">目的地：</span></el-col>
-                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</el-col>
-                </el-row>
-                <el-row>
-                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
-                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.type}}</el-col>
-                </el-row>
-                <el-row>
-                    <el-col :span="20" :offset="2">
-                        <el-button type="primary" class="squall_width_full" @click="squall_element_dialog(Application)">查看详情</el-button>
-                    </el-col>
-                </el-row>
+                    <el-row>
+                        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">申请人：</span></el-col>
+                        <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.b_姓名}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车范围：</span></el-col>
+                        <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_region}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">目的地：</span></el-col>
+                        <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
+                        <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.type}}</el-col>
+                    </el-row>
+                    <el-row>
+                        <el-col :span="20" :offset="2">
+                            <el-button type="primary" class="squall_width_full" @click="squall_element_dialog(Application)">查看详情</el-button>
+                        </el-col>
+                    </el-row>
                 </el-card>
             </el-col>
         </el-row>
@@ -79,7 +83,7 @@ export default {
   },
   methods:{
         squall_disagree:function(guid){
-            //alert(JSON.stringify(this.selectedInfo));
+            console.log(this.selectedInfo);
             this.basic.squall_basic_http.disagree(this.selectedInfo.a_guid,this);
         },
         squall_agree:function(guid){

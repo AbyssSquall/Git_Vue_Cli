@@ -94,10 +94,10 @@ export default {
             region: [
                 { required: true, message: '请选择范围', trigger: 'change' }
             ],
-            date1: [
+            enddate: [
                 { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
             ],
-            date2: [
+            endtime: [
                 { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
             ],
             task: [
@@ -141,8 +141,8 @@ export default {
 
         this.squall_form.startdate = Now.getFullYear() +"-" + squall_month + "-" + squall_date; 
         this.squall_form.starttime = squall_hours +":" + squall_minutes + ":" + squall_Seconds;
-        this.squall_form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
-        this.squall_form.endtime = squall_hours +":" + squall_minutes + ":" + squall_Seconds; 
+        //this.squall_form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
+        //this.squall_form.endtime = squall_hours +":" + squall_minutes + ":" + squall_Seconds; 
   },
   methods:{
         // squall_show_onuse:function(){
