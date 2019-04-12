@@ -776,7 +776,6 @@ var squall_basic_http = new Vue({
             var this_that = this;
             //获取全部的历史记录
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime,a.waitpoint,a.driver&_where=(a.序号,eq," + id + ")",{}).then(function(data){
-                
                 //分配一下
                 var squall_temp_official = [];
                 var squall_temp_车牌号 = [];
@@ -817,6 +816,107 @@ var squall_basic_http = new Vue({
                 })
 
                 this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名&_where=(a.序号,eq," + id + ")",{}).then(function(data){
+                    //console.log(data.data);
+                    var squall_temp_product = [];
+                    var squall_temp_车牌号 = [];
+                    var squall_temp_carid = [];
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        var squall_endtime_value = new Date(data.data[i].a_endtime).valueOf();
+                        if(squall_now_value<squall_endtime_value)
+                        {
+                            squall_temp_product.push(data.data[i].a_guid);
+                            squall_temp_车牌号.push(data.data[i].b_车牌号);
+                            squall_temp_carid.push(data.data[i].a_carid);
+                        }
+                    }
+                    for(var i=0;i<squall_temp_product.length;i++)
+                    {
+                        squall_on_use_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
+                    }
+
+                    if(squall_temp_product.length>0)
+                    {
+                        that.ProductCar = false;
+                        if(that.basic.squall_user_info.UseCarID)
+                            that.$router.push({name:"Return",params:{data:JSON.parse(data.bodyText),success:true}});
+                    }
+                    else if(that.basic.squall_user_info.UseCarID&&that.$route.params.success!=false)
+                        that.$router.push({name:"ProductCar",params:{UseCarID:that.basic.squall_user_info.UseCarID,success:true}});
+
+                    if(that.basic.squall_user_info.UseCarID)
+                        that.UseCarID = that.basic.squall_user_info.UseCarID;
+
+                    that.OnUseList = squall_on_use_list;
+
+                    if(that.form)
+                    {
+                        that.form.carid=squall_on_use_list[0].车牌号;
+                        that.form.type=squall_on_use_list[0].table_alias;
+                        that.SelectedInfo = squall_on_use_list[0];
+                    }
+                    // if(that.ProductCar&&that.OfficialCar)
+                    //     that.Return = false;
+
+                }).catch(function(err){
+                    console.log(err);
+                })
+
+
+
+            }).catch(function(err){
+                console.log(err);
+            })
+        },
+        GetOnUseListForReturn:function(UserID,UserName,that){
+            //当前时间
+            var squall_now_value = new Date().valueOf();
+
+            var squall_on_use_list = []
+            var squall_on_application_list = []
+            var this_that = this;
+            //获取全部的历史记录
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,b.车牌号,a.endtime,a.waitpoint,a.driver&_where=(a.driver,eq," + UserName + ")",{}).then(function(data){
+                //分配一下
+                var squall_temp_official = [];
+                var squall_temp_车牌号 = [];
+                var squall_temp_carid = [];
+                var squall_temp_waitpoint = [];
+                var squall_temp_driver = [];
+                for(var i=0;i<data.data.length;i++)
+                {
+                    var squall_endtime_value = new Date(data.data[i].a_endtime).valueOf();
+                    if(squall_now_value<squall_endtime_value)
+                    {
+                        squall_temp_official.push(data.data[i].a_guid);
+                        squall_temp_车牌号.push(data.data[i].b_车牌号);
+                        squall_temp_carid.push(data.data[i].a_carid);
+                        squall_temp_waitpoint.push(data.data[i].a_waitpoint);
+                        squall_temp_driver.push(data.data[i].a_driver);
+                    }     
+                    else
+                    {
+                    }
+                }
+                for(var i=0;i<squall_temp_official.length;i++)
+                {
+                    squall_on_use_list.push({table:"official_application",table_alias:"经营用车",guid:squall_temp_official[i],"车牌号":squall_temp_车牌号[i],"carid":squall_temp_carid[i]});
+                }
+                
+                if(squall_temp_official.length>0)
+                    alert("您已借用经营用车,等候地点为" + squall_temp_waitpoint[0] + ",驾驶员是" + squall_temp_driver[0]);
+
+                //获取全部的正在申请的记录
+                this.$http.get(squall_Database_Host_IP+"/api/official_application?_where=(passtime,eq,null)",{}).then(function(data){
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        squall_on_application_list.push(data.data[i]);
+                    }
+                },function(err){
+                    console.log(JSON.stringify(err));
+                })
+
+                this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,b.car,_j,c.personlist&_on1=(a.carid,eq,b.carid)&_on2=(a.序号,eq,c.序号)&_fields=a.guid,a.carid,a.endtime,b.车牌号,c.姓名&_where=(a.序号,eq," + UserID + ")",{}).then(function(data){
                     //console.log(data.data);
                     var squall_temp_product = [];
                     var squall_temp_车牌号 = [];

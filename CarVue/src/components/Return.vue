@@ -56,39 +56,40 @@
 <script>
 
 export default {
-  name: 'Car',
-  data () {
-    return {
-        msg: 'Welcome to Your Vue.js App',
-        page: 'car',
-        form:{
-            type:"",
-            carid:"",
-            enddate:"",
-            endtime:"",
-        },
-        rules: {
-            carid: [
-                { required: true, message: '请选择归还车辆', trigger: 'change' }
-            ]
-        },
-        dialogVisible:false,
-        squall_ok:"确定",
-        squall_cencel:"关闭",
-        show_html:"",
-        OnUseList:[],
-        SelectedInfo:{},
-    }
-  },
-  components: {
-    //'SideNav':SideNav,
-  },
-  mounted:function(){
-    //从数据中读取数据，主要是绑定guid
-    this.basic.squall_basic_http.GetOnUseList(parseInt(this.basic.squall_user_info.序号),this);
+    name: 'Car',
+    data () {
+        return {
+            msg: 'Welcome to Your Vue.js App',
+            page: 'car',
+            form:{
+                type:"",
+                carid:"",
+                enddate:"",
+                endtime:"",
+            },
+            rules: {
+                carid: [
+                    { required: true, message: '请选择归还车辆', trigger: 'change' }
+                ]
+            },
+            dialogVisible:false,
+            squall_ok:"确定",
+            squall_cencel:"关闭",
+            show_html:"",
+            OnUseList:[],
+            SelectedInfo:{},
+        }
+    },
+    components: {
+        //'SideNav':SideNav,
+    },
+    mounted:function(){
+        //从数据中读取数据，主要是绑定guid
+        //this.basic.squall_basic_http.GetOnUseList(parseInt(this.basic.squall_user_info.序号),this);
+        this.basic.squall_basic_http.GetOnUseListForReturn(parseInt(this.basic.squall_user_info.序号),this.basic.squall_user_info.姓名,this);
+        //console.log(this.basic.squall_user_info);
 
-
-    var Now = new Date();
+        var Now = new Date();
         var squall_month = (Now.getMonth()+1).toString();
         var squall_date = Now.getDate().toString();
         var squall_hours = Now.getHours().toString();
@@ -97,40 +98,24 @@ export default {
 
         for(var i=0;i<2-(Now.getMonth()+1).toString().length;i++)
             squall_month = "0" + squall_month;
-            
+                
         for(var i=0;i<2-Now.getDate().toString().length;i++)
             squall_date = "0" + squall_date;
-            
+                
         for(var i=0;i<2-Now.getHours().toString().length;i++)
             squall_hours = "0" + squall_hours;
-            
+                
         for(var i=0;i<2-Now.getMinutes().toString().length;i++)
             squall_minutes = "0" + squall_minutes;
-            
+                
         for(var i=0;i<2-Now.getSeconds().toString().length;i++)
             squall_Seconds = "0" + squall_Seconds;
 
-    this.form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
-    this.form.endtime = Now.getHours() +":" + squall_minutes; 
-  },
+        this.form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
+        this.form.endtime = Now.getHours() +":" + squall_minutes;
+    },
     methods:{
-        squall_show_onuse:function(){
-            this.dialogVisible = true;
-            var squall_html = "";
-            //squall_html+="<div class='layui-row'></div>"
-
-            for(var i=0;i<20;i++)
-            {
-                squall_html += "<div class='layui-row squall_onuse_item'>";
-                squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">浙B96C08</div>';
-                squall_html += '<div class="layui-col-xs6 layui-col-sm6 layui-col-md6">黄列禹' + i + '</div>';
-                squall_html += "</div>";
-            }
-
-            this.show_html = "<div class='squall_show_body'>" + squall_html + "</div>";
-        },
         submitForm:function(data){
-            //console.log(this.form);
             var that = this;
             var table = this.SelectedInfo.table;
 
@@ -147,7 +132,7 @@ export default {
                     that.basic.squall_basic_http.PostReturn(JSON.stringify(squall_post_json),that,table);
                 }
                 else
-                { 
+                {
                     alert(squall_res);
                 }
             })
@@ -162,7 +147,7 @@ export default {
                 }
             }
         }
-  }
+    }
 }
 </script>
 

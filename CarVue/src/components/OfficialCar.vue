@@ -95,10 +95,10 @@ export default {
                 { required: true, message: '请选择范围', trigger: 'change' }
             ],
             enddate: [
-                { type: 'date', required: true, message: '请选择日期', trigger: 'change' }
+                { required: true, message: '请选择日期', trigger: 'change' }
             ],
             endtime: [
-                { type: 'date', required: true, message: '请选择时间', trigger: 'change' }
+                { required: true, message: '请选择时间', trigger: 'change' }
             ],
             task: [
                 { required: true, message: '请填写事由', trigger: 'blur' }
@@ -163,6 +163,7 @@ export default {
             squall_data_json.startdate = undefined;
             squall_data_json.enddate = undefined;
             squall_data_json.序号 = this.basic.squall_user_info.序号;
+            console.log(squall_data_json);
             
             var that = this;
             this.$refs[data].validate(function(squall_bool,squall_res){
