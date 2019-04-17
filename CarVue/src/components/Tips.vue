@@ -83,7 +83,7 @@ export default {
   },
   methods:{
         squall_disagree:function(guid){
-            console.log(this.selectedInfo);
+            //console.log(this.selectedInfo);
             this.basic.squall_basic_http.disagree(this.selectedInfo.a_guid,this);
         },
         squall_agree:function(guid){

@@ -15,7 +15,6 @@ var squall_start =function(){
     return "一个正常的函数返回！";
 }
 
-
 //GUID生成
 function squall_guid() {
     return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
@@ -23,6 +22,27 @@ function squall_guid() {
             v = c == 'x' ? r : (r & 0x3 | 0x8);
         return v.toString(16);
     }).toUpperCase();
+}
+
+//日期格式化函数
+function DateRemaker(DateStrWrong){
+    var TempDate = new Date(DateStrWrong);
+    var TempYear = TempDate.getFullYear();
+    var TempMonth = (TempDate.getMonth()+1).toString();
+    for(var i=0;i<2-TempMonth.length;i++)
+        TempMonth = "0"+TempMonth;
+    var TempDateDay = (TempDate.getDate()).toString();
+    for(var i=0;i<2-TempDateDay.length;i++)
+        TempDateDay = "0"+TempDateDay;
+    var TempHour = (TempDate.getHours()).toString();
+    for(var i=0;i<2-TempHour.length;i++)
+        TempHour = "0"+TempHour;
+    var TempMin = (TempDate.getMinutes()).toString();
+    for(var i=0;i<2-TempMin.length;i++)
+        TempMin = "0"+TempMin;
+    var DateStrRight = TempYear + "-" + TempMonth + "-" + TempDateDay + " " + TempHour + ":" + TempMin + ":00";
+    //console.log(DateStrRight);
+    return DateStrRight;
 }
 
 //用户权限相关的请求函数
@@ -650,48 +670,57 @@ var squall_basic_http = new Vue({
                 var squall_history_list = []
                 var this_that = this;
                 //获取全部的历史记录
-                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,c.姓名&_where=(a.charger,ne,null)",{}).then(function(data){
-                    console.log(data.data);
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,a.endtime,a.region,a.passtime,a.personpasstime1,a.personpasstime2,a.task,a.driver,c.姓名&_where=(a.charger,ne,null)",{}).then(function(data){
+                    //console.log(data.data);
                     //分配一下
                     var squall_temp_official = [];
-                    var squall_temp_official_aim = [];
-                    var squall_temp_official_姓名 = [];
-                    var squall_temp_official_starttime = [];
+                    var squall_official_JsonList = [];
                     for(var i=0;i<data.data.length;i++)
                     {
+                        var squall_officail_JsonItem = {table:"official_application",table_alias:"经营用车",guid:data.data[i].a_guid};
                         if(squall_temp_official.indexOf(data.data[i].a_guid)==-1)
                         {
                             squall_temp_official.push(data.data[i].a_guid);
-                            squall_temp_official_aim.push(data.data[i].a_aim);
-                            squall_temp_official_starttime.push(data.data[i].a_starttime);
-                            squall_temp_official_姓名.push(data.data[i].c_姓名);
+                            squall_officail_JsonItem.aim = data.data[i].a_aim;
+                            squall_officail_JsonItem.starttime = DateRemaker(data.data[i].a_starttime);
+                            squall_officail_JsonItem.姓名 = (data.data[i].c_姓名);
+                            squall_officail_JsonItem.region = data.data[i].a_region;
+                            squall_officail_JsonItem.endtime = DateRemaker(data.data[i].a_endtime);
+                            squall_officail_JsonItem.task = data.data[i].a_task;
+                            squall_officail_JsonItem.driver = data.data[i].a_driver;
+
+                            squall_official_JsonList.push(squall_officail_JsonItem);
                         }     
                     }
                     for(var i=0;i<squall_temp_official.length;i++)
                     {
-                        squall_history_list.push({table:"official_application",table_alias:"经营用车",guid:squall_temp_official[i],aim:squall_temp_official_aim[i],"姓名":squall_temp_official_姓名[i],"开始时间":squall_temp_official_starttime[i]});
+                        squall_history_list.push(squall_official_JsonList[i]);
                     }
 
 
-                    this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,c.姓名",{}).then(function(data){
-                        console.log(data.data);
+                    this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,a.driver,a.endtime,a.region,a.passtime,a.personpasstime1,a.personpasstime2,a.task,c.姓名",{}).then(function(data){
                         var squall_temp_product = [];
-                        var squall_temp_product_aim = [];
-                        var squall_temp_product_姓名 = [];
-                        var squall_temp_official_starttime = [];
+                        var squall_product_JsonList = [];
                         for(var i=0;i<data.data.length;i++)
                         {
+                            var squall_product_JsonItem = {table:"product_application",table_alias:"生产用车",guid:data.data[i].a_guid};
                             if(squall_temp_product.indexOf(data.data[i].a_guid)==-1)
                             {
                                 squall_temp_product.push(data.data[i].a_guid);
-                                squall_temp_product_aim.push(data.data[i].a_aim);
-                                squall_temp_official_starttime.push(data.data[i].a_starttime);
-                                squall_temp_product_姓名.push(data.data[i].c_姓名);
+                                squall_product_JsonItem.aim = data.data[i].a_aim;
+                                squall_product_JsonItem.starttime = DateRemaker(data.data[i].a_starttime);
+                                squall_product_JsonItem.姓名 = (data.data[i].c_姓名);
+                                squall_product_JsonItem.region = data.data[i].a_region;
+                                squall_product_JsonItem.endtime = DateRemaker(data.data[i].a_endtime);
+                                squall_product_JsonItem.task = data.data[i].a_task;
+                                squall_product_JsonItem.driver = data.data[i].a_driver;
+
+                                squall_product_JsonList.push(squall_product_JsonItem);
                             }   
                         }
                         for(var i=0;i<squall_temp_product.length;i++)
                         {
-                            squall_history_list.push({table:"product_application",table_alias:"生产用车",guid:squall_temp_product[i],aim:squall_temp_product_aim[i],"姓名":squall_temp_product_姓名[i],"开始时间":squall_temp_official_starttime[i]});
+                            squall_history_list.push(squall_product_JsonList[i]);
                         }
 
                         that.HistoryList = squall_history_list;

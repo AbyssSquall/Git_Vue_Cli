@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Router from 'vue-router'
 import Home from '@/components/Home'
+import Web from '@/components/Web'
 import OfficialCar from '@/components/OfficialCar'
 import ProductCar from '@/components/ProductCar'
 import HandleApplication from '@/components/HandleApplication'
@@ -9,6 +10,7 @@ import Return from '@/components/Return'
 import Regist from '@/components/regist'
 import Output from '@/components/Output'
 import Tips from '@/components/Tips'
+import Err from '@/components/Error'
 
 
 Vue.use(Router)
@@ -20,6 +22,11 @@ export default new Router({
       path: '/',
       name: 'Home',
       component: Home
+    },
+    {
+      path: '/web',
+      name: 'Web',
+      component: Web
     },
     {
       path: '/map',
@@ -67,9 +74,9 @@ export default new Router({
       component: Tips
     },
     {
-      path: '/*',
+      path: '*',
       name: 'Error',
-      component: Regist
+      component: Err
     },
   ]
 })

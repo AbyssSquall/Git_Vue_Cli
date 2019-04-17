@@ -12,10 +12,11 @@ Vue.use(ElementUI);
 //Vue.use(Element, { size: 'small', zIndex: 3000 });
 
 import "./lib/layui/layui-v2.3.0/css/layui.css"
-import "./lib/leaflet/leaflet.css"
+//import "./lib/leaflet/leaflet.css"
 import 'element-ui/lib/theme-chalk/index.css';
 
 import "./lib/squall/css/squall_basic.css"
+import "./lib/squall/css/squall_web.css"
 import squall_basic from './lib/squall/js/squall_basic'
 import squall_global from './lib/squall/js/squall_global'
 import squall_show from './lib/squall/js/squall_show'

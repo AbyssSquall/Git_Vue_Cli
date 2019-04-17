@@ -1,6 +1,5 @@
 <template>
     <div>
-        <h1>历史记录</h1>
         <el-row class="squall_panel">
             <el-col :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card>
@@ -26,7 +25,60 @@
                 </el-card>
             </el-col>
         </el-row>
-        
+
+        <el-row class="squall_panel">
+            <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
+                <el-card class="box-card">
+                    <el-table
+                        :data="HistoryList"
+                        height="500"
+                        border
+                        style="width:100%">
+                        <el-table-column
+                            prop="姓名"
+                            label="姓名"
+                            width="100">
+                        </el-table-column>
+                        <el-table-column
+                            prop="driver"
+                            label="驾驶员"
+                            width="100">
+                        </el-table-column>
+                        <el-table-column
+                            prop="region"
+                            label="用车范围"
+                            width="100">
+                        </el-table-column>
+                        <el-table-column
+                            prop="aim"
+                            label="目的地"
+                            width="100">
+                        </el-table-column>
+                        <el-table-column
+                            prop="table_alias"
+                            label="用车类型"
+                            width="100">
+                        </el-table-column>
+                        <el-table-column
+                            prop="task"
+                            label="工作内容">
+                        </el-table-column>
+                        <el-table-column
+                            prop="starttime"
+                            label="开始时间"
+                            width="160">
+                        </el-table-column>
+                        <el-table-column
+                            prop="endtime"
+                            label="结束时间"
+                            width="160">
+                        </el-table-column>
+                    </el-table>
+                </el-card>
+            </el-col>
+        </el-row>
+
+        <!--
         <el-row class="squall_panel" v-for="History in HistoryList" :key="History.guid">
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
@@ -50,8 +102,6 @@
                 </el-card>
             </el-col>
         </el-row>
-
-        <!--
         -->
         <el-dialog :visible.sync="dialogVisible" width="80%">
             <div v-html="show_html"></div>
@@ -106,8 +156,6 @@ export default {
   methods:{
         squall_element_dialog:function(Info){
             //根据guid检索用车信息
-            //console.log(Info);
-
             var that = this;
             this.basic.squall_basic_http.GetHistoryItem(this,Info);
         },
@@ -125,7 +173,7 @@ export default {
 
                 for(var i=0;i<this.TotalHistoryList.length;i++)
                 {
-                    if(new Date(this.TotalHistoryList[i].开始时间).valueOf()>squall_liter_start&&new Date(this.TotalHistoryList[i].开始时间).valueOf()<squall_liter_end)
+                    if(new Date(this.TotalHistoryList[i].starttime).valueOf()>squall_liter_start&&new Date(this.TotalHistoryList[i].starttime).valueOf()<squall_liter_end)
                         this.HistoryList.push(this.TotalHistoryList[i]);
                 }
 
