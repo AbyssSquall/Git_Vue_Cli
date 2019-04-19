@@ -73,6 +73,17 @@
                             label="结束时间"
                             width="160">
                         </el-table-column>
+                        <el-table-column
+                            label="操作"
+                            width="110">
+                            <template slot-scope="scope">
+                                <el-button
+                                    @click.native.prevent="TableOption(scope.$index, HistoryList)"
+                                    plain>
+                                审批单
+                                </el-button>
+                            </template>
+                        </el-table-column>
                     </el-table>
                 </el-card>
             </el-col>
@@ -169,8 +180,6 @@ export default {
                 var squall_liter_start = squall_liter_time.valueOf();
                 var squall_liter_end = squall_liter_start + 31*24*60*60*1000;
 
-                console.log(squall_liter_start,squall_liter_end);
-
                 for(var i=0;i<this.TotalHistoryList.length;i++)
                 {
                     if(new Date(this.TotalHistoryList[i].starttime).valueOf()>squall_liter_start&&new Date(this.TotalHistoryList[i].starttime).valueOf()<squall_liter_end)
@@ -186,6 +195,21 @@ export default {
         },
         squall_output:function(){
             console.log("output!!!");
+        },
+        TableOption:function(Index,DataList){
+            console.log(Index,DataList);
+            let NewPage = this.$router.resolve({
+                name:"Form",
+                query:{
+                    name:DataList[Index].姓名,
+                    aim:DataList[Index].aim,
+                    starttime:DataList[Index].starttime,
+                    endtime:DataList[Index].endtime,
+                    car:DataList[Index].car,
+                    driver:DataList[Index].driver,
+                }
+            });
+            window.open(NewPage.href,"_blank");
         }
   },
 }

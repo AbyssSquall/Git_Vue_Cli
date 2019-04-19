@@ -11,6 +11,7 @@ import Regist from '@/components/regist'
 import Output from '@/components/Output'
 import Tips from '@/components/Tips'
 import Err from '@/components/Error'
+import Form from '@/components/ApplicationForm'
 
 
 Vue.use(Router)
@@ -72,6 +73,11 @@ export default new Router({
       path: '/Tips',
       name: 'Tips',
       component: Tips
+    },
+    {
+      path: '/form',
+      name: 'Form',
+      component: Form
     },
     {
       path: '*',

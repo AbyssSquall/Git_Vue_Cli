@@ -670,7 +670,7 @@ var squall_basic_http = new Vue({
                 var squall_history_list = []
                 var this_that = this;
                 //获取全部的历史记录
-                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,a.endtime,a.region,a.passtime,a.personpasstime1,a.personpasstime2,a.task,a.driver,c.姓名&_where=(a.charger,ne,null)",{}).then(function(data){
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,c.personlist,_j,b.car&_on1=(a.序号,eq,c.序号)&_on2=(b.carid,eq,a.carid)&_fields=b.车牌号,a.guid,a.aim,a.starttime,a.endtime,a.region,a.passtime,a.personpasstime1,a.personpasstime2,a.task,a.driver,c.姓名&_where=(a.charger,ne,null)",{}).then(function(data){
                     //console.log(data.data);
                     //分配一下
                     var squall_temp_official = [];
@@ -688,6 +688,7 @@ var squall_basic_http = new Vue({
                             squall_officail_JsonItem.endtime = DateRemaker(data.data[i].a_endtime);
                             squall_officail_JsonItem.task = data.data[i].a_task;
                             squall_officail_JsonItem.driver = data.data[i].a_driver;
+                            squall_officail_JsonItem.car = data.data[i].b_车牌号;
 
                             squall_official_JsonList.push(squall_officail_JsonItem);
                         }     
@@ -698,7 +699,7 @@ var squall_basic_http = new Vue({
                     }
 
 
-                    this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,c.personlist&_on1=(a.序号,eq,c.序号)&_fields=a.guid,a.aim,a.starttime,a.driver,a.endtime,a.region,a.passtime,a.personpasstime1,a.personpasstime2,a.task,c.姓名",{}).then(function(data){
+                    this_that.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.product_application,_j,c.personlist,_j,b.car&_on1=(a.序号,eq,c.序号)&_on2=(b.carid,eq,a.carid)&_fields=b.车牌号,a.guid,a.aim,a.starttime,a.driver,a.endtime,a.region,a.passtime,a.personpasstime1,a.personpasstime2,a.task,c.姓名",{}).then(function(data){
                         var squall_temp_product = [];
                         var squall_product_JsonList = [];
                         for(var i=0;i<data.data.length;i++)
@@ -714,6 +715,7 @@ var squall_basic_http = new Vue({
                                 squall_product_JsonItem.endtime = DateRemaker(data.data[i].a_endtime);
                                 squall_product_JsonItem.task = data.data[i].a_task;
                                 squall_product_JsonItem.driver = data.data[i].a_driver;
+                                squall_officail_JsonItem.car = data.data[i].b_车牌号;
 
                                 squall_product_JsonList.push(squall_product_JsonItem);
                             }   
