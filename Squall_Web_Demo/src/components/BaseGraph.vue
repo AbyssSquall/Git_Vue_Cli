@@ -57,7 +57,7 @@ export default {
     squall_map.AddGraph(squall_graph_option_line);
     squall_map.AddGraph(squall_graph_option_point);
 
-    console.log(squall_map);
+    //console.log(squall_map);
 
     squall_map.on('click',function(e1){
       console.log(e1);

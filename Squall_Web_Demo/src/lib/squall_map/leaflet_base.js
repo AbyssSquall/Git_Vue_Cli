@@ -37,14 +37,6 @@ class Map extends L.map{
                 }
         );
     
-        
-        // var map = L.map(Option.ID, {  
-        //     crs:crs,
-        //     center: Option.Center,
-        //     zoom: Option.Zoom,  
-        //     layers: [tilelayer],  
-        //     zoomControl: false  
-        // }); 
         super(Option.ID,{  
             crs:crs,
             center: Option.Center,
@@ -119,7 +111,9 @@ class Map extends L.map{
                 for(var item in squall_rings)
                 {
                     //console.log(item);
-                    squall_PolygonList.push(L.polygon(squall_rings[item],squall_border_Option));
+                    var squall_temp_polygon = L.polygon(squall_rings[item],squall_border_Option);
+                    squall_temp_polygon.on('click',OnclickReturnFunction)
+                    squall_PolygonList.push(squall_temp_polygon);
                 }
                 
 
@@ -141,8 +135,10 @@ class Map extends L.map{
 
                 for(var item in squall_rings)
                 {
-                    //console.log(item);
-                    squall_LineList.push(L.polyline(squall_rings[item],squall_line_style));
+                    //console.log(OnclickReturnFunction);
+                    var squall_temp_polyline = L.polyline(squall_rings[item],squall_line_style);
+                    squall_temp_polyline.on('click',OnclickReturnFunction)
+                    squall_LineList.push(squall_temp_polyline);
                 }
 
                 var squall_LineLayer = L.layerGroup(squall_LineList);
@@ -189,7 +185,9 @@ class Map extends L.map{
                 for(var item in squall_PointArray)
                 {
                     //console.log(item);
-                    squall_PointList.push(L.marker(squall_PointArray[item],squall_border_Option));
+                    var squall_temp_point = L.marker(squall_PointArray[item],squall_border_Option);
+                    squall_temp_point.on("click",OnclickReturnFunction);
+                    squall_PointList.push(squall_temp_point);
                 }
                 
 
