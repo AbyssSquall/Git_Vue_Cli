@@ -142,3 +142,9 @@ i{
 .squall_nav_bar ul{
     list-style: none;
 }
+
+.squall_CenterCross{
+    z-index: 999;
+    position: absolute;
+    top:434px;
+}
