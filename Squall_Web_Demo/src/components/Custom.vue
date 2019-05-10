@@ -36,7 +36,10 @@ export default {
       this.basic.squall_basic_http.TestSelect(this);
     },
     squall_Warnning(){
-      var squall_ResultPoint = this.Map.Plugin.LineSplit(this.Map.getCenter(),[[[29.836983856215246,121.40231098683739],[29.836919890612962,121.41799593432614]],[[29.822016133650935,121.41615118561236],[29.82309423684408,121.4000793122283]]]);
+      var squall_ResultPoint = this.Map.Plugin.LineSplit(
+        this.Map.getCenter(),
+        [[[29.836983856215246,121.40231098683739],[29.836919890612962,121.41799593432614]],[[29.822016133650935,121.41615118561236],[29.82309423684408,121.4000793122283]]]
+      );
 
       var squall_graph_option_point = {
         LayerID:"PolygonExample_point",

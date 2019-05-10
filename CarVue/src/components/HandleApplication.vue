@@ -1,6 +1,6 @@
 <template>
     <div>
-        <h1>申请审核</h1>
+        <h1>用车派遣</h1>
         <el-row class="squall_panel" v-for="Application in ApplicationList" :key="Application.guid">
             <el-col  :xs="22" :sm="22" :md="22" :lg="22" :xl="22" :offset="1">
                 <el-card class="box-card">
