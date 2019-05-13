@@ -42,7 +42,12 @@ export default {
       LayerID:"PolygonExample_line",
       Type:"line",
       PointArray:[[[[29.836983856215246,121.40231098683739],[29.836919890612962,121.41799593432614],[29.822016133650935,121.41615118561236],[29.82309423684408,121.4000793122283]]]],
-      LineStyle:{color: '#1e50a2',weight:2.0,fillOpacity:0.5}
+      LineStyle:{
+        color: '#1e50a2',
+        weight:2.0,
+        fillOpacity:0.5,
+        dashArray:5
+      }
     };
     
     var squall_graph_option_point = {
