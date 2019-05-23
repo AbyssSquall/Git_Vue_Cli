@@ -25,9 +25,7 @@ function squall_DrawPoint(Option){
             Option.map.global.layers["PointDraw"] = squall_PointLayer;
         }
         Option.map.on("click",squall_point_fun)
-
     }
-
     return 0;
 }
 

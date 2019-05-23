@@ -27,7 +27,7 @@
             <el-form-item label="开始时间" required>
                 <el-col :span="20">
                 <el-form-item prop="starttime">
-                    <el-time-select :picker-options="{start: '00:00',step: '01:00',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="squall_form.starttime" style="width: 100%;"></el-time-select>
+                    <el-time-select :picker-options="{start: '00:00',step: '00:15',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="squall_form.starttime" style="width: 100%;"></el-time-select>
                 </el-form-item>
                 </el-col>
             </el-form-item>
@@ -41,7 +41,7 @@
             <el-form-item label="结束时间" required>
                 <el-col :span="20">
                     <el-form-item prop="endtime">
-                        <el-time-select :picker-options="{start: '00:00',step: '01:0',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
+                        <el-time-select :picker-options="{start: '00:00',step: '00:30',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
                     </el-form-item>
                 </el-col>
             </el-form-item>
@@ -140,9 +140,9 @@ export default {
             squall_Seconds = "0" + squall_Seconds;
 
         this.squall_form.startdate = Now.getFullYear() +"-" + squall_month + "-" + squall_date; 
-        this.squall_form.starttime = squall_hours +":" + squall_minutes + ":" + squall_Seconds;
-        //this.squall_form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
-        //this.squall_form.endtime = squall_hours +":" + squall_minutes + ":" + squall_Seconds; 
+        this.squall_form.starttime = squall_hours +":" + squall_minutes;
+        this.squall_form.enddate = Now.getFullYear() +"-" + squall_month + "-" + squall_date;
+        this.squall_form.endtime = "08:30"; 
   },
   methods:{
         // squall_show_onuse:function(){
