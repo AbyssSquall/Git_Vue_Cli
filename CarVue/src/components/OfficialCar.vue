@@ -27,7 +27,7 @@
             <el-form-item label="开始时间" required>
                 <el-col :span="20">
                 <el-form-item prop="starttime">
-                    <el-time-select :picker-options="{start: '00:00',step: '00:15',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="squall_form.starttime" style="width: 100%;"></el-time-select>
+                    <el-time-select :picker-options="{start: '08:00',step: '00:30',end: '23:00'}" id="starttime" placeholder="选择时间" v-model="squall_form.starttime" style="width: 100%;"></el-time-select>
                 </el-form-item>
                 </el-col>
             </el-form-item>
@@ -41,7 +41,7 @@
             <el-form-item label="结束时间" required>
                 <el-col :span="20">
                     <el-form-item prop="endtime">
-                        <el-time-select :picker-options="{start: '00:00',step: '00:30',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
+                        <el-time-select :picker-options="{start: '08:00',step: '00:30',end: '23:00'}" id="endtime" placeholder="选择时间" v-model="squall_form.endtime" style="width: 100%;"></el-time-select>
                     </el-form-item>
                 </el-col>
             </el-form-item>
@@ -145,13 +145,6 @@ export default {
         this.squall_form.endtime = "08:30"; 
   },
   methods:{
-        // squall_show_onuse:function(){
-        //     this.dialogVisible = true;
-        //     var squall_html = "";
-        //     //squall_html+="<div class='layui-row'></div>"
-
-        //     this.basic.squall_basic_http.GetSingleOnUseList(this,"official_application");
-        // },
         submitForm:function(data){
             var squall_data = JSON.stringify(this[data]);
             var squall_data_json = JSON.parse(squall_data);

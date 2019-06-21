@@ -1060,9 +1060,9 @@ var squall_basic_http = new Vue({
         GetPersonList:function(departmentid,that){
             
             var squall_number_list_temp = [];
-            //alert(departmentid);
+            var squall_departmentid = departmentid;
             //获取已注册记录
-            this.$http.get(squall_Database_Host_IP+"/api/person?_size=100000000000000000",{}).then(function(data){
+            this.$http.get(squall_Database_Host_IP+"/api/person?_where=(departmentid,eq," + squall_departmentid + ")&_size=10000",{}).then(function(data){
 
                 var squall_url = squall_Database_Host_IP+"/api/personlist?_where=";
                 for(var i=0;i<data.data.length;i++)
@@ -1070,11 +1070,10 @@ var squall_basic_http = new Vue({
                     if(data.data[i].序号!=that.basic.squall_user_info.序号)
                         squall_url += "(序号,ne," + data.data[i].序号 + ")~and";
                 }
-                squall_url += "(departmentid,eq," + departmentid + ")";
-                //squall_url = squall_url.substr(0,squall_url.length-4);
-                squall_url += "&_size=100";
+                    //alert(departmentid);
+                squall_url += "(departmentid,eq," + squall_departmentid + ")";
+                squall_url += "&_size=1000";
                 
-                //alert(squall_url);
                 //获取全部的历史记录
                 this.$http.get(squall_url,{}).then(function(data){
                     
