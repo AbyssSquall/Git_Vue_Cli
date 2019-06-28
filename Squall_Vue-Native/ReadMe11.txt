@@ -1,3 +1,4 @@
+npm install -g react-native-cli
 npm install -g expo-cli
 npm install -g vue-native-cli
 vue-native init SquallVueNative
