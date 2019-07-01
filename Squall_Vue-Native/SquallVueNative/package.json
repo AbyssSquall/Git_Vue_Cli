@@ -14,7 +14,8 @@
     "react-native": "https://github.com/expo/react-native/archive/sdk-33.0.0.tar.gz",
     "react-native-web": "^0.11.4",
     "vue-native-core": "0.0.8",
-    "vue-native-helper": "0.0.11"
+    "vue-native-helper": "0.0.11",
+    "vue-native-scripts": "0.0.16"
   },
   "devDependencies": {
     "babel-preset-expo": "^5.1.1"
