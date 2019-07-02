@@ -1,5 +1,5 @@
 import "proj4leaflet"
-import leaflet_config from "@/lib/squall_map/map_config"
+import leaflet_config from "./map_config"
 
 console.log("Squal基础地图库已被加载！");
 
@@ -66,11 +66,12 @@ class Map extends L.map{
                 // });
 
                 //同步加载
-                var  squall_module = require('./' + Option.Plugin[item] + '.js');
-                for(var func in squall_module.default)
-                {
-                    this.Plugin[func] = squall_module.default[func];
-                }    
+                console.log(Option.Plugin[item]);
+                //var  squall_module = require('./' + Option.Plugin[item] + '.js');
+                //for(var func in squall_module.default)
+                //{
+                //    this.Plugin[func] = squall_module.default[func];
+                //}    
             }
         }
 

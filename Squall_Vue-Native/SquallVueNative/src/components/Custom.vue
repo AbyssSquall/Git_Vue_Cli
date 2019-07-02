@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <view>
       <el-row>
         <h1>这里是自定义页面</h1>
       </el-row>
@@ -10,10 +10,10 @@
         </div>
         <el-button class="squall_ToolBar" style="margin-top:50px" @click="squall_Warnning()">Warnning!</el-button>
       </el-row>
-    </div>
+    </view>
 </template>
 <script>
-import {Map} from "@/lib/squall_map/leaflet_base"
+import {Map} from "../lib/squall_map/leaflet_base"
 
 export default {
   name: 'Car',

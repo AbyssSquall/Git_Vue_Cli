@@ -1,15 +1,13 @@
 <template>
-  <view class="container" id="app">
-    <text class="text-color-primary">My Vue Native App</text>
-  </view>
+  <index></index>
 </template>
- 
-<style>
-#app {
-  font-family: 'Avenir', Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
-</style>
+<script>
+import React from "react";
+
+import Index from "./src/components/Index";
+
+export default {
+  components: { Index }
+};
+</script>
+

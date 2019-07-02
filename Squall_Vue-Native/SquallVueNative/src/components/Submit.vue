@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <view>
       <div v-if="MainPageFlag">
         <el-row :style="TopLabel">
             <el-col :span="24">
@@ -335,10 +335,10 @@
           <el-button type="primary" style="width:50%;margin-top:10px" @click="DialogVisible = false">确定</el-button>
         </el-row>
       </el-dialog>
-    </div>
+    </view>
 </template>
 <script>
-import {Map} from "@/lib/squall_map/leaflet_base"
+import { Map } from "../lib/squall_map/leaflet_base"
 import { setTimeout } from 'timers';
 
 export default {

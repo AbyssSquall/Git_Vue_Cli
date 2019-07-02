@@ -1,5 +1,5 @@
 <template>
-    <div :class="squall_Sider">
+    <view :class="squall_Sider">
         <el-row>
             <el-row>
                 <div width="100%" class="squall_center_container">
@@ -60,7 +60,7 @@
                 </el-menu-item> -->
                 </el-menu>
         </el-row>
-    </div>
+    </view>
 </template>
 <script>
 export default {

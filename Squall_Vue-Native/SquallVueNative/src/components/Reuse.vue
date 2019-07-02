@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <view>
       <div v-if="MainPageVisible">
         <el-row :style="TopLabel">
             <el-col :span="24">
@@ -542,10 +542,10 @@
             </el-col>
           </el-row>
       </el-dialog>
-    </div>
+    </view>
 </template>
 <script>
-import {Map} from "@/lib/squall_map/leaflet_base"
+import {Map} from "../lib/squall_map/leaflet_base"
 import { setTimeout } from 'timers';
 
 export default {

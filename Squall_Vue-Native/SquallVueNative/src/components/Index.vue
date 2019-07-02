@@ -22,17 +22,26 @@
     </div>
 </template>
 <script>
+import Vue from "vue-native-core";
+import { StackNavigator } from "vue-native-router";
+import ElementUI from 'element-ui';
+import VueResource from 'vue-resource'
+import { window } from 'react-native'
+
+Vue.use(VueResource)
+Vue.use(ElementUI);
+
 //import HeaderNav from"@/components/Header"
-import SideNav from"@/components/Sider"
+import SideNav from"./Sider.vue"
 //import FootNav from"@/components/Footer"
 
-import Main from"@/components/Main"
-import Submit from"@/components/Submit"
-import DealSearch from"@/components/DealSearch"
-import Custom from"@/components/Custom"
-import Reuse from"@/components/Reuse"
+import Main from"./Main.vue"
+import Submit from"./Submit.vue"
+import DealSearch from"./DealSearch.vue"
+import Custom from"./Custom.vue"
+import Reuse from"./Reuse.vue"
 
-import LeafletBase from "@/lib/squall_map/leaflet_base"
+import LeafletBase from "../lib/squall_map/leaflet_base.js"
 
 export default {
   name: 'Home',

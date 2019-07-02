@@ -1,19 +1,19 @@
 <template>
     <div>
-      <!-- <el-row style="height:100px">
+      <el-row style="height:100px">
           <el-col :span="24">
             <h1>基础地图页</h1>
           </el-col>
-      </el-row> -->
+      </el-row>
       <el-row>
-        <div class="squall_Full_Map">
+        <div class="squall_Map">
           <div id="map" style="height:100%"></div>
         </div>
       </el-row>
     </div>
 </template>
 <script>
-import {Map} from "@/lib/squall_map/leaflet_base"
+import {Map} from "./src/lib/squall_map/leaflet_base"
 
 export default {
   name: 'Car',
