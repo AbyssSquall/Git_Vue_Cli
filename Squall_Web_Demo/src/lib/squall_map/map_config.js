@@ -27,7 +27,26 @@ var squall_map_config = {
 }
 
 export default{
-    "test_string":"一个变量测试",
+    "DataURL":"http://127.0.0.1:3000",
+    "MapDataURL":"一个变量测试",
     "origin":squall_map_config.origin,
     "resolutions":squall_map_config.resolutions,
+    Classical:{
+        "origin":squall_map_config.origin,
+        "resolutions":squall_map_config.resolutions,
+    },
+    Ningbo2000:{
+        "origin":[180000.190000],
+        "resolutions":squall_map_config.resolutions,
+    },
+    NingboIndependent:{
+
+    },
+    CreateGUID:function(){
+        return 'xxxxxxxx-xxxx-4xxx-yxxx-xxxxxxxxxxxx'.replace(/[xy]/g, function(c) {
+            var r = Math.random() * 16 | 0,
+                v = c == 'x' ? r : (r & 0x3 | 0x8);
+            return v.toString(16);
+        }).toUpperCase();
+    }
 }

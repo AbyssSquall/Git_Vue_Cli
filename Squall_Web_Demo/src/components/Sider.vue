@@ -22,7 +22,8 @@
                         <el-menu-item index="1-3" @click="ItemRouter('HeatMap')">热力图</el-menu-item>
                     </el-menu-item-group>
                     <el-menu-item-group title="特殊地图">
-                    <el-menu-item index="1-4" @click="ItemRouter('ClusterMap')">聚合图</el-menu-item>
+                        <el-menu-item index="1-4" @click="ItemRouter('ClusterMap')">聚合图</el-menu-item>
+                        <el-menu-item index="1-5" @click="ItemRouter('NB2000Graph')">宁波2000</el-menu-item>
                     </el-menu-item-group>
                     <!-- <el-submenu index="1-4">
                     <template slot="title">选项4</template>
