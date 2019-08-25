@@ -65,7 +65,6 @@ export default {
     squall_map.AddJSONLayer({
       ID:"NetDataLayer"
     });
-    //console.log(squall_map);
 
     squall_map.on('click',function(e1){
       console.log(e1);
