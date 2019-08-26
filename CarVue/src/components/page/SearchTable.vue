@@ -1,5 +1,22 @@
 <template>
     <div>
+        <div>
+            <el-card>
+                <el-row>
+                    <el-col :span="10" :offset="2">
+                        请选择部门
+                    </el-col>
+                    <el-col :span="10" :offset="2">
+                        请选择车辆
+                    </el-col>
+                </el-row>
+            </el-card>
+            <el-card style="margin-top:10px">
+                <el-row>
+                    车辆检索结果
+                </el-row>
+            </el-card>
+        </div>
     </div>
 </template>
 

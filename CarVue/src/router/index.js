@@ -23,36 +23,43 @@ export default new Router({
     {
       path: '/',
       name: 'Home',
+      meta: { title: '借车首页' },
       component: Home
     },
     {
       path: '/web',
       name: 'Web',
+      meta: { title: '网页' },
       component: Web
     },
     {
       path: '/map',
       name: 'Map',
+      meta: { title: '底图' },
       component: Map
     },
     {
       path: '/OfficialCar',
       name: 'OfficialCar',
+      meta: { title: '经营用车' },
       component: OfficialCar
     },
     {
       path: '/ProductCar',
       name: 'ProductCar',
+      meta: { title: '生产用车' },
       component: ProductCar
     },
     {
       path: '/HandleApplication',
       name: 'HandleApplication',
+      meta: { title: '申请审核' },
       component: HandleApplication
     },
     {
       path: '/History',
       name: 'History',
+      meta: { title: '历史记录' },
       component: History
     },
     {
@@ -63,21 +70,25 @@ export default new Router({
     {
       path: '/Regist',
       name: 'Regist',
+      meta: { title: '注册' },
       component: Regist
     },
     {
       path: '/Output',
       name: 'Output',
+      meta: { title: '导出' },
       component: Output
     },
     {
       path: '/Tips',
       name: 'Tips',
+      meta: { title: '用车派遣' },
       component: Tips
     },
     {
       path: '/form',
       name: 'Form',
+      meta: { title: '表格' },
       component: Form
     },
     // {
@@ -88,6 +99,7 @@ export default new Router({
     {
       path: '*',
       name: 'Error',
+      meta: { title: '404' },
       component: Err
     },
     {
@@ -95,7 +107,7 @@ export default new Router({
         redirect: '/dashboard'
     },
     {
-        path: '/',
+        path: '/webpage',
         component: () => import(/* webpackChunkName: "home" */ '../components/common/Home.vue'),
         meta: { title: '自述文件' },
         children: [

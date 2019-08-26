@@ -17,6 +17,10 @@
                     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_region}}</el-col>
                 </el-row>
                 <el-row>
+                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">需求车型：</span></el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_cartype}}</el-col>
+                </el-row>
+                <el-row>
                     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
                     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">经营用车</el-col>
                 </el-row>
@@ -58,10 +62,10 @@
                       <el-option v-for="Item in CarList" :key="Item.carid" :label="Item.车牌号" :value="Item.carid"></el-option>
                     </el-select>
                 </el-form-item>
-                <el-form-item label="等候地点" prop="waitpoint" >
-                <el-input v-model="squall_form.waitpoint" autocomplete="off"></el-input>
+                <!--<el-form-item label="等候地点" prop="waitpoint" >
+                    <el-input v-model="squall_form.waitpoint" autocomplete="off"></el-input>
                 </el-form-item>
-                <!--<el-form-item label="活动区域" >
+                <el-form-item label="活动区域" >
                 <el-select v-model="form.region" placeholder="请选择活动区域">
                     <el-option label="区域一" value="shanghai"></el-option>
                     <el-option label="区域二" value="beijing"></el-option>
@@ -103,7 +107,7 @@ export default {
         squall_form: {
           driver: '',
           carid: '',
-          waitpoint: ''
+          //waitpoint: ''
         },
         rules: {
             driver: [
@@ -112,9 +116,9 @@ export default {
             carid: [
                 { required: true, message: '请选择车辆', trigger: 'change' }
             ],
-            waitpoint: [
-                { required: true, message: '请输入等候地点', trigger: 'blur' }
-            ]
+            // waitpoint: [
+            //     { required: true, message: '请输入等候地点', trigger: 'blur' }
+            // ]
         },
         ApplicationList: [],
         CarList:[],

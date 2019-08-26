@@ -47,6 +47,7 @@ export default {
                 if (valid) {
                     this.$message.success('登录成功');
                     localStorage.setItem('ms_username', this.param.username);
+                    localStorage.setItem('UserRight', ['1001','1002','1003','1004','1005','1006','1007','1008','1009']);
                     this.$router.push('/search');
                 } else {
                     this.$message.error('请输入账号和密码');

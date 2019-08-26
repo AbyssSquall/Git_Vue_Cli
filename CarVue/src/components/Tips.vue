@@ -17,6 +17,10 @@
                         <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</el-col>
                     </el-row>
                     <el-row>
+                        <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">需求车型：</span></el-col>
+                        <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_cartype}}</el-col>
+                    </el-row>
+                    <el-row>
                         <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
                         <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.type}}</el-col>
                     </el-row>

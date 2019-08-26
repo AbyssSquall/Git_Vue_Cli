@@ -43,9 +43,12 @@ Vue.prototype.Show = squall_show
 
 //使用钩子函数对路由进行权限跳转
 router.beforeEach((to, from, next) => {
-  document.title = `${to.meta.title} | vue-manage-system`;
+  document.title = `${to.meta.title} | 借车管理系统`;
   const role = localStorage.getItem('ms_username');
-  if (!role && to.path !== '/login') {
+
+  console.log(to.path);
+
+  if (!role && (to.path == '/login' || to.path =="/webpage")) {
       next('/login');
   } else if (to.meta.permission) {
       // 如果是管理员权限则可进入，这里只是简单的模拟管理员权限而已

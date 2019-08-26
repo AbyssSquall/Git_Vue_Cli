@@ -1,5 +1,5 @@
 <template>
-    <div class="wrapper">
+    <div class="wrapper" style="text-align: left !important;">
         <v-head></v-head>
         <v-sidebar></v-sidebar>
         <div class="Admin-content-box" :class="{'content-collapse':collapse}">

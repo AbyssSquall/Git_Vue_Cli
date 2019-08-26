@@ -1,7 +1,7 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3000 http://oa.nbgis.com
+var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3003 http://oa.nbgis.com
 var squall_data_server = "http://oa.nbgis.com/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
 
 //动态变量
@@ -190,7 +190,7 @@ var squall_basic_http = new Vue({
                 that.basic.squall_user_info.right = {};
                 for(var i=0;i<data.data.length;i++)
                 {
-                    //console.log(data.data[i].e_right);
+                    console.log(data.data[i].e_right);
                     if(data.data[i].e_right!="")
                         that.basic.squall_user_info.right[data.data[i].e_right] = data.data[i].e_right;
                     if(data.data[i].e_right=="生产用车")
@@ -253,7 +253,10 @@ var squall_basic_http = new Vue({
         },
         GetApplicationList:function(table,that){
             //需要连表查询，需要申请人名
-            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,b.部门,b.姓名,b.departmentid&_where=(a.charger,is,null)&_size=1000000000",{}).then(function(data){
+            var squall_Url = squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,b.部门,b.姓名,b.departmentid&_where=(a.charger,is,null)&_size=1000000000";
+            if(table == "official_application")
+                squall_Url = squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,a.cartype,b.部门,b.姓名,b.departmentid&_where=(a.charger,is,null)&_size=1000000000";
+            this.$http.get(squall_Url,{}).then(function(data){
                 var squall_list = [];
 
                 var squall_now_value = new Date().valueOf();
@@ -284,7 +287,9 @@ var squall_basic_http = new Vue({
 
                     }
                 }
-                //alert(squall_list.length);
+                
+                console.log(squall_list);
+
                 that.ApplicationList = squall_list;
             },function(err){
                 alert(JSON.stringify(err));
@@ -337,7 +342,7 @@ var squall_basic_http = new Vue({
                         // }
                     }
                     
-                    this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)&_size=100000000000000",{}).then(function(data){
+                    this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,a.cartype,b.部门,b.姓名,b.departmentid&_where=(personpasstime2,is,null)&_size=100000000000000",{}).then(function(data){
                         for(var index in data.data)
                         {
                             //阻塞审批
@@ -370,7 +375,7 @@ var squall_basic_http = new Vue({
             else if(that.basic.squall_user_info.right["经营大市区外"]&&that.basic.squall_user_info.right["经营大市区内"])
             {
                 //需要连表查询，需要申请人名
-                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,b.部门,b.姓名,b.departmentid&_where=(personpasstime1,is,null)&_size=100000000",{}).then(function(data){
+                this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.official_application,_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.region,a.guid,a.personpasstime1,a.cartype,b.部门,b.姓名,b.departmentid&_where=(personpasstime1,is,null)&_size=100000000",{}).then(function(data){
                     var squall_list = [];
 
                     var squall_now_value = new Date().valueOf();

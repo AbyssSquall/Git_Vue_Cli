@@ -14,7 +14,24 @@
             </el-form-item>
             <el-form-item label="目的地" prop="aim">
                 <el-col :span="20">
-                <el-input v-model="squall_form.aim"></el-input>
+                    <el-input v-model="squall_form.aim"></el-input>
+                </el-col>
+            </el-form-item>
+            <el-form-item label="申请车型">
+                <el-col :span="20">
+                    <el-select class="squall_width_full" v-model="squall_form.cartype" placeholder="请选择车辆类型">
+                        <el-option
+                        v-for="item in CarTypeList"
+                        :key="item.value"
+                        :label="item.label"
+                        :value="item.value">
+                        </el-option>
+                    </el-select>
+                </el-col>
+            </el-form-item>
+            <el-form-item label="等候地点" prop="waitpoint">
+                <el-col :span="20">
+                    <el-input v-model="squall_form.waitpoint"></el-input>
                 </el-col>
             </el-form-item>
             <el-form-item label="开始日期" required>
@@ -86,6 +103,8 @@ export default {
             starttime:"",
             enddate:"",
             endtime:"",
+            cartype:"",
+            waitpoint:""
         },
         rules: {
             aim: [
@@ -107,6 +126,12 @@ export default {
         dialogVisible:false,
         squall_ok:"确定",
         squall_cencel:"关闭",
+        CarTypeList:[
+                {value:"轿车",label:"轿车"},
+                {value:"商务车",label:"商务车"},
+                {value:"中型客车",label:"中型客车"},
+                {value:"特种车",label:"特种车"},
+            ],
         show_html:"",
         OnUseList:[],
     }
@@ -156,7 +181,7 @@ export default {
             squall_data_json.startdate = undefined;
             squall_data_json.enddate = undefined;
             squall_data_json.序号 = this.basic.squall_user_info.序号;
-            console.log(squall_data_json);
+            //alert(JSON.stringify(squall_data_json));
             
             var that = this;
             this.$refs[data].validate(function(squall_bool,squall_res){

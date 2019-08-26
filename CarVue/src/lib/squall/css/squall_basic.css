@@ -175,6 +175,7 @@ div>.blank{
 
 .squall_top_gap{
     margin-top: 10px;
+    margin-bottom: 10px;
 }
 
 .el-dialog__header{
@@ -407,17 +408,6 @@ i{
 .el-col>.el-form-item {
     margin-bottom: 0px;
 }
-.el-col>.el-form-item>.el-form-item__label{
-    border-right-style: solid;
-    border-width: thin;
-    background-color: #cccccc;
-}
-
-.el-col>.el-form-item{
-    border-right-style: solid;
-    border-bottom-style: solid;
-    border-width: thin;
-}
 
 .squall_shadow{
     position: fixed;
@@ -516,4 +506,8 @@ button>i,.cell>i{
 .el-menu-item{
     height: 45px;
     line-height: 45px;
+}
+
+.el-form{
+    padding: 20px;
 }
