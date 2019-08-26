@@ -82,28 +82,28 @@
                     //         }
                     //     ]
                     // },
+                    // {
+                    //     icon: 'el-icon-search',
+                    //     index: 'searchtable',
+                    //     title: '生产车辆历史记录'
+                    // },
+                    // {
+                    //     icon: 'el-icon-pie-chart',
+                    //     index: 'charts',
+                    //     title: 'schart图表'
+                    // },
                     {
                         icon: 'el-icon-search',
-                        index: 'searchtable',
-                        title: '车辆查询'
-                    },
-                    {
-                        icon: 'el-icon-pie-chart',
-                        index: 'charts',
-                        title: 'schart图表'
-                    },
-                    {
-                        icon: 'el-icon-rank',
                         index: '6',
-                        title: '拖拽组件',
+                        title: '历史记录',
                         subs: [
                             {
-                                index: 'drag',
-                                title: '拖拽列表',
+                                index: 'searchtable_product',
+                                title: '生产车辆',
                             },
                             {
-                                index: 'dialog',
-                                title: '拖拽弹框',
+                                index: 'searchtable_official',
+                                title: '经营车辆',
                             }
                         ]
                     },

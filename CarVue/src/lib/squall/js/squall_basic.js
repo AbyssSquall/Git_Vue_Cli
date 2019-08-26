@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3003 http://oa.nbgis.com
-var squall_data_server = "http://oa.nbgis.com/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
+var squall_Database_Host_IP = "http://127.0.0.1:3003";//http://127.0.0.1:3003 http://oa.nbgis.com
+var squall_data_server = "http://192.168.10.144:8400/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
 
 //动态变量
 var squall_user_info = {};
@@ -132,11 +132,6 @@ var squall_basic_http = new Vue({
             }
             else
             {
-                // if(!that.basic.squall_user_info)
-                //    window.location.href ="https://www.baidu.com";
-                
-
-                console.log("debug");
                 var this_that = this;
                 //创新的session
                 that.basic.squall_user_info = {
@@ -153,6 +148,57 @@ var squall_basic_http = new Vue({
                 //是否有已经在借的生产车辆
                 that.basic.squall_basic_http.GetOnUseList(that.basic.squall_user_info.序号,that);
             }
+        },
+        WebLogin(Form,That){
+            //进行验证
+            this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=a.departmentid,a.姓名,a.序号,a.部门,e.right&_where=(a.姓名,eq," + Form.username + ")~and(a.部门,eq," + Form.password + ")&_size=100000000000000").then(function(data){
+                if(data.data.length>0){
+                    That.basic.squall_user_info.right = {};
+                    for(var i=0;i<data.data.length;i++)
+                    {
+                        //console.log(data.data[i].e_right);
+                        if(data.data[i].e_right!="")
+                            That.basic.squall_user_info.right[data.data[i].e_right] = data.data[i].e_right;
+                        if(data.data[i].e_right=="生产用车")
+                        {
+                            That.ProductCar = true;
+                        }
+                        if(data.data[i].e_right=="经营用车")
+                        {
+                            That.OfficialCar = true;
+                        }
+                        if(data.data[i].e_right=="用车派遣")
+                        {
+                            That.HandleApplication = true;
+                        }
+                        if(data.data[i].e_right=="申请审核")
+                        {
+                            That.Tips = true;
+                        }
+                        if(data.data[i].e_right=="历史记录")
+                        {
+                            That.History = true;
+                        }
+                    }
+                    That.basic.squall_user_info.UseCarID = data.data[0].a_序号;
+                    That.basic.squall_user_info.姓名 = data.data[0].a_姓名;
+                    That.basic.squall_user_info.departmentid = data.data[0].a_departmentid;
+                    That.basic.squall_user_info.departmentname = data.data[0].a_部门;
+
+                    That.$message.success('登录成功');
+                    localStorage.setItem('ms_username', That.param.username);
+                    localStorage.setItem('UserInfo', That.basic.squall_user_info);
+                    That.$router.push('/search');
+                }
+                else{
+                    this.$message.error('用户名或部门错误！请联系管理员！');
+                }
+                
+                //console.log(xuhao);
+            }).catch(function(err){
+                console.log(err);
+            })
+
         },
         GetInfo:function(guid,that){
             this.$http.jsonp(squall_data_server+'/login/info',{params:{"guid":guid}}).then(function(data){
@@ -545,7 +591,6 @@ var squall_basic_http = new Vue({
                         squall_where += "~and(region,eq," + option.region + ")"
                     if(option.Time)
                     {
-                        console.log(option.Time.getMonth()+1);
                         var squall_time_range_start = option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
                         
                         if((option.Time.getMonth()+1)==12)
@@ -553,7 +598,6 @@ var squall_basic_http = new Vue({
                         else
                             var squall_time_range_end = option.Time.getFullYear() + "-" +(option.Time.getMonth()+2) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
                         
-                        //console.log(option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds());
                         squall_where += "~and(starttime,bw," + squall_time_range_start + "," + squall_time_range_end + ")"
                     } 
                     if(option.DepartmentList)
@@ -571,33 +615,47 @@ var squall_basic_http = new Vue({
                         squall_where += ")";
 
                     }
+
+                    if(option.DepartmentID)
+                    {
+                        squall_where += "~and(";
+
+                        squall_where += "(d.departmentid,eq," + option.DepartmentID + ")"
+
+                        squall_where += ")";
+                    }
+
+                    if(option.CarID)
+                    {
+                        squall_where += "~and(";
+
+                        squall_where += "(a.carid,eq," + option.CarID + ")"
+
+                        squall_where += ")";
+                    }
                     this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + option.table + ",_j,b.personlist,_j,c.car,_j,d.department&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_on3=(b.departmentid,eq,d.departmentid)&_fields=a.guid,c.车牌号,a.starttime,a.endtime,a.aim,a.task,a.driver,b.姓名,d.charger&_where="+squall_where + "&_size=100000000000000",{}).then(function(data){
-                        console.log(data.data);
                         //分配一下
                         var squall_temp_list = [];
                         for(var i=0;i<data.data.length;i++)
                         {
-                            // if(squall_temp_official.indexOf(data.data[i].a_guid)==-1)
-                            // {
                             var squall_temp_starttime = new Date(data.data[i].a_starttime);
                             var squall_temp_endtime = new Date(data.data[i].a_endtime);
-                                var squall_temp_item = {
-                                    "guid":data.data[i].a_guid,
-                                    "车牌号":data.data[i].c_车牌号,
-                                    "starttime":squall_temp_starttime.getFullYear() + "-" +(squall_temp_starttime.getMonth()+1) + "-" + squall_temp_starttime.getDate() + " " + squall_temp_starttime.getHours() + ":" + squall_temp_starttime.getMinutes(),
-                                    "endtime":squall_temp_endtime.getFullYear() + "-" +(squall_temp_endtime.getMonth()+1) + "-" + squall_temp_endtime.getDate() + " " + squall_temp_endtime.getHours() + ":" + squall_temp_endtime.getMinutes(),
-                                    "aim":data.data[i].a_aim,
-                                    "task":data.data[i].a_task,
-                                    "driver":data.data[i].a_driver,
-                                    "姓名":data.data[i].b_姓名,
-                                    "charger":data.data[i].d_charger,
-                                }
+                            var squall_temp_item = {
+                                "guid":data.data[i].a_guid,
+                                "车牌号":data.data[i].c_车牌号,
+                                "starttime":squall_temp_starttime.getFullYear() + "-" +(squall_temp_starttime.getMonth()+1) + "-" + squall_temp_starttime.getDate() + " " + squall_temp_starttime.getHours() + ":" + squall_temp_starttime.getMinutes(),
+                                "endtime":squall_temp_endtime.getFullYear() + "-" +(squall_temp_endtime.getMonth()+1) + "-" + squall_temp_endtime.getDate() + " " + squall_temp_endtime.getHours() + ":" + squall_temp_endtime.getMinutes(),
+                                "aim":data.data[i].a_aim,
+                                "task":data.data[i].a_task,
+                                "driver":data.data[i].a_driver,
+                                "姓名":data.data[i].b_姓名,
+                                "charger":data.data[i].d_charger,
+                            }
 
-                                if(option.region=="大市区外")
-                                    squall_temp_item.boss = that.basic.squall_user_info.姓名;
+                            if(option.region=="大市区外")
+                                squall_temp_item.boss = that.basic.squall_user_info.姓名;
 
-                                squall_temp_list.push(squall_temp_item);
-                            //}     
+                            squall_temp_list.push(squall_temp_item);
                         }
                         that.HistoryList = squall_temp_list;
                     }).catch(function(err){
@@ -612,7 +670,6 @@ var squall_basic_http = new Vue({
                         squall_where += "~and(region,eq," + option.region + ")"
                     if(option.Time)
                     {
-                        console.log(option.Time.getMonth()+1);
                         var squall_time_range_start = option.Time.getFullYear() + "-" +(option.Time.getMonth()+1) + "-" + option.Time.getDate() + " " + option.Time.getHours() + ":" + option.Time.getMinutes() + ":" + option.Time.getSeconds();
                         
                         if((option.Time.getMonth()+1)==12)
@@ -1004,7 +1061,7 @@ var squall_basic_http = new Vue({
                 console.log(err);
             })
         },
-        GetDepartmentCarList:function(departmentid,that){
+        GetDepartmentCarList:function(departmentid,that,options){
             //当前时间
             var squall_now_value = new Date().valueOf();
 
@@ -1033,7 +1090,8 @@ var squall_basic_http = new Vue({
                 
                 that.CarList = squall_car_list;
                 
-                that.basic.squall_basic_http.GetSingleOnUseList(that,"product_application");
+                if(!options)
+                    that.basic.squall_basic_http.GetSingleOnUseList(that,"product_application");
 
             }).catch(function(err){
                 console.log(err);
@@ -1055,8 +1113,6 @@ var squall_basic_http = new Vue({
                 
                 if(squall_department_list_temp.length>0)
                     that.DepartmentList = squall_department_list_temp;
-
-                console.log(that.DepartmentList);
 
             }).catch(function(err){
                 console.log(err);

@@ -1,27 +1,26 @@
 <template>
     <div class="login-wrap">
         <div class="ms-login">
-            <div class="ms-title">后台管理系统</div>
+            <div class="ms-title">车辆管理系统</div>
             <el-form :model="param" :rules="rules" ref="login" label-width="0px" class="ms-content">
                 <el-form-item prop="username">
-                    <el-input v-model="param.username" placeholder="username">
-                        <el-button slot="prepend" icon="el-icon-lx-people"></el-button>
+                    <el-input v-model="param.username" placeholder="姓名">
+                        <el-button slot="prepend" icon="el-icon-user"></el-button>
                     </el-input>
                 </el-form-item>
                 <el-form-item prop="password">
                     <el-input
-                        type="password"
-                        placeholder="password"
+                        placeholder="部门"
                         v-model="param.password"
                         @keyup.enter.native="submitForm()"
                     >
-                        <el-button slot="prepend" icon="el-icon-lx-lock"></el-button>
+                        <el-button slot="prepend" icon="el-icon-suitcase"></el-button>
                     </el-input>
                 </el-form-item>
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm()">登录</el-button>
                 </div>
-                <p class="login-tips">Tips : 用户名和密码随便填。</p>
+                <p class="login-tips">Tips : 用户名填中文名,下面一栏请填写部门</p>
             </el-form>
         </div>
     </div>
@@ -32,8 +31,8 @@ export default {
     data: function() {
         return {
             param: {
-                username: 'admin',
-                password: '123123',
+                username: '黄列禹',
+                password: "地理信息所",
             },
             rules: {
                 username: [{ required: true, message: '请输入用户名', trigger: 'blur' }],
@@ -43,12 +42,12 @@ export default {
     },
     methods: {
         submitForm() {
+            var that = this;
+
             this.$refs.login.validate(valid => {
                 if (valid) {
-                    this.$message.success('登录成功');
-                    localStorage.setItem('ms_username', this.param.username);
-                    localStorage.setItem('UserRight', ['1001','1002','1003','1004','1005','1006','1007','1008','1009']);
-                    this.$router.push('/search');
+                    this.basic.squall_basic_http.WebLogin(this.param,this);
+
                 } else {
                     this.$message.error('请输入账号和密码');
                     console.log('error submit!!');
