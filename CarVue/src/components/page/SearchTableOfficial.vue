@@ -6,18 +6,6 @@
                 ref="form"
                 label-width="90px">
                     <el-row>
-                        <el-col :span="10" :offset="0">
-                            <el-form-item label="部门">
-                                <el-select v-model="Department" @change="OnChange">
-                                    <el-option
-                                    v-for="item in DepartmentList"
-                                    :key="item.departmentid"
-                                    :label="item.部门"
-                                    :value="item.departmentid">
-                                    </el-option>
-                                </el-select>
-                            </el-form-item>
-                        </el-col>
                         <el-col :span="10" :offset="2">
                             <el-form-item label="车辆">
                                 <el-select v-model="CarID" @change="CarSelected">
@@ -79,6 +67,14 @@
                         width="100">
                         </el-table-column>
                     </el-table>
+                    <div class="block" style="text-align: center;">
+                        <el-pagination
+                            layout="prev, pager, next"
+                            :total="TotalPageCount"
+                            :page-size=12
+                            @current-change="PageChange">
+                        </el-pagination>
+                    </div>
                 </el-row>
             </el-card>
         </div>
@@ -92,10 +88,12 @@
                 keyword: '',
                 DepartmentList:[],
                 CarList:[],
+                HistoryTotalList:[],
                 HistoryList:[],
                 Department:"",
                 CarID:"",
-                Type:""
+                Type:"",
+                TotalPageCount:0
             }
         },
         computed: {
@@ -107,19 +105,14 @@
             else
                 this.Type = "product_application";
 
-            console.log(window.location.href);
+            this.basic.squall_basic_http.GetDepartmentCarList("1002",this,{});
+
             this.basic.squall_basic_http.GetHistory(this,{
                 table:this.Type,
             });
         },
         methods:{
             OnChange(DepartmentID){
-                this.basic.squall_basic_http.GetDepartmentCarList(DepartmentID,this,{});
-
-                this.basic.squall_basic_http.GetHistory(this,{
-                    table:this.Type,
-                    DepartmentID:DepartmentID
-                });
             },
             CarSelected(CarID){
                 this.basic.squall_basic_http.GetHistory(this,{
@@ -127,6 +120,9 @@
                     CarID:CarID
                 });
             },
+            PageChange(Events){
+                this.HistoryList = this.HistoryTotalList.slice((Events-1)*12,Events*12);
+            }
         }
     }
 </script>

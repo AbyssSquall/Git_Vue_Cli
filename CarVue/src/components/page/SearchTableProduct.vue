@@ -79,6 +79,14 @@
                         width="100">
                         </el-table-column>
                     </el-table>
+                    <div class="block" style="text-align: center;">
+                        <el-pagination
+                            layout="prev, pager, next"
+                            :total="TotalPageCount"
+                            :page-size=12
+                            @current-change="PageChange">
+                        </el-pagination>
+                    </div>
                 </el-row>
             </el-card>
         </div>
@@ -92,10 +100,12 @@
                 keyword: '',
                 DepartmentList:[],
                 CarList:[],
+                HistoryTotalList:[],
                 HistoryList:[],
                 Department:"",
                 CarID:"",
-                Type:""
+                Type:"",
+                TotalPageCount:10,
             }
         },
         computed: {
@@ -107,7 +117,7 @@
             else
                 this.Type = "product_application";
 
-            console.log(window.location.href);
+            //console.log(window.location.href);
             this.basic.squall_basic_http.GetHistory(this,{
                 table:this.Type,
             });
@@ -127,6 +137,9 @@
                     CarID:CarID
                 });
             },
+            PageChange(Events){
+                this.HistoryList = this.HistoryTotalList.slice((Events-1)*12,Events*12);
+            }
         }
     }
 </script>

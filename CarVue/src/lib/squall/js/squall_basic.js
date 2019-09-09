@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://127.0.0.1:3003";//http://127.0.0.1:3003 http://oa.nbgis.com
-var squall_data_server = "http://192.168.10.144:8400/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
+var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3003 http://oa.nbgis.com
+var squall_data_server = "http://oa.nbgis.com/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
 
 //动态变量
 var squall_user_info = {};
@@ -657,7 +657,12 @@ var squall_basic_http = new Vue({
 
                             squall_temp_list.push(squall_temp_item);
                         }
-                        that.HistoryList = squall_temp_list;
+
+                        that.HistoryTotalList = squall_temp_list;
+                        that.HistoryList = squall_temp_list.slice(0,12);
+                        
+                        that.TotalPageCount = squall_temp_list.length;
+                        
                     }).catch(function(err){
                         console.log(err);
                     })
@@ -695,6 +700,14 @@ var squall_basic_http = new Vue({
                         squall_where += ")";
 
                     }
+                    if(option.CarID)
+                    {
+                        squall_where += "~and(";
+
+                        squall_where += "(a.carid,eq," + option.CarID + ")"
+
+                        squall_where += ")";
+                    }
                     this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + option.table + ",_j,b.personlist,_j,c.car,_j,d.department&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_on3=(b.departmentid,eq,d.departmentid)&_fields=a.guid,c.车牌号,a.starttime,a.endtime,a.waitpoint,a.aim,a.task,a.driver,b.姓名,d.charger&_where="+squall_where + "&_size=100000000000000",{}).then(function(data){
                         console.log(data.data);
                         //分配一下
@@ -722,7 +735,11 @@ var squall_basic_http = new Vue({
                                 squall_temp_list.push(squall_temp_item);
                             //}     
                         }
-                        that.HistoryList = squall_temp_list;
+
+                        that.HistoryTotalList = squall_temp_list;
+                        that.HistoryList = squall_temp_list.slice(0,12);
+                                
+                        that.TotalPageCount = squall_temp_list.length;
                     }).catch(function(err){
                         console.log(err);
                     })
@@ -794,9 +811,6 @@ var squall_basic_http = new Vue({
                     }).catch(function(err){
                         console.log(err);
                     })
-
-
-
                 }).catch(function(err){
                     console.log(err);
                 })

@@ -611,6 +611,13 @@ class Map extends L.map{
 
             this.global.PointArray = [];
         }
+        
+        this.ChangeLayer = function(LayerName){
+            for(var LayerIndex in squall_LayersList){
+               this.removeLayer(squall_LayersList[LayerIndex]);
+            }
+            squall_LayersList[LayerName].addTo(this);
+        }
 
         this.invalidateSize();
     }
