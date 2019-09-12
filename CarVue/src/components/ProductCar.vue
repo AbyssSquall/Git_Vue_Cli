@@ -146,6 +146,7 @@ export default {
     }
   },
   mounted:function(){
+        //console.log(JSON.stringify(this.basic.squall_user_info));
         this.basic.squall_basic_http.GetInfo(this.basic.squall_user_info.guid,this);
         this.basic.squall_basic_http.GetDepartmentCarList(this.basic.squall_user_info.departmentid,this);
 

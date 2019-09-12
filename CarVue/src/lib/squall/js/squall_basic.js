@@ -233,6 +233,7 @@ var squall_basic_http = new Vue({
         },
         GetGrant:function(xuhao,that){
             this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a.personlist,_j,b.person_role,_j,c.role,_j,d.role_right,_j,e.right&_on1=(a.序号,eq,b.序号)&_on2=(b.roleid,eq,c.roleid)&_on3=(c.roleid,eq,d.roleid)&_on4=(d.rightid,eq,e.rightid)&_fields=e.right&_where=(a.序号,eq," + xuhao + ")&_size=100000000000000").then(function(data){
+                //that.basic.squall_user_info.姓名 = data.data[0].a_姓名;
                 that.basic.squall_user_info.right = {};
                 for(var i=0;i<data.data.length;i++)
                 {
@@ -263,7 +264,7 @@ var squall_basic_http = new Vue({
                 //console.log(that.basic.squall_user_info);
                 //console.log(xuhao);
             }).catch(function(err){
-                alert(JSON.stringify(err));
+                alert(err);
             })
         },
         ExistUser:function(openid,that){
@@ -653,7 +654,8 @@ var squall_basic_http = new Vue({
                             }
 
                             if(option.region=="大市区外")
-                                squall_temp_item.boss = that.basic.squall_user_info.姓名;
+                                squall_temp_item.dealer = that.basic.squall_user_info.姓名;
+                                //squall_temp_item.boss = that.basic.squall_user_info.姓名;
 
                             squall_temp_list.push(squall_temp_item);
                         }
@@ -709,7 +711,7 @@ var squall_basic_http = new Vue({
                         squall_where += ")";
                     }
                     this.$http.get(squall_Database_Host_IP+"/api/xjoin?_join=a." + option.table + ",_j,b.personlist,_j,c.car,_j,d.department&_on1=(a.序号,eq,b.序号)&_on2=(a.carid,eq,c.carid)&_on3=(b.departmentid,eq,d.departmentid)&_fields=a.guid,c.车牌号,a.starttime,a.endtime,a.waitpoint,a.aim,a.task,a.driver,b.姓名,d.charger&_where="+squall_where + "&_size=100000000000000",{}).then(function(data){
-                        console.log(data.data);
+                        //console.log(data.data);
                         //分配一下
                         var squall_temp_list = [];
                         for(var i=0;i<data.data.length;i++)
@@ -729,7 +731,7 @@ var squall_basic_http = new Vue({
                                     "driver":data.data[i].a_driver,
                                     "姓名":data.data[i].b_姓名,
                                     "charger":data.data[i].d_charger,
-                                    "dealer":"刘小康"
+                                    "dealer":that.basic.squall_user_info.姓名
                                 }
 
                                 squall_temp_list.push(squall_temp_item);
