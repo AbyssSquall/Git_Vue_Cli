@@ -3,6 +3,7 @@ var http = require('http');
 var iconv=require('iconv-lite');
 var cheerio = require('cheerio');
 var fs = require('fs');
+var createReport = require('docx-templates');
 
 //全局变量
 var i=0;
@@ -73,5 +74,21 @@ function startRequest(Url){
     })
 }
 
+//利用模板生成word文档
+function WordTemplate(){
+    createReport({
+        template: 'D:/Mike/work/Git_vue_cli/Spider/Data/modal.docx',
+        output: 'D:/Mike/work/Git_vue_cli/Spider/Data/结果.docx',
+        data: {
+          num: '',
+          company: '',
+          ID: '',
+          name: '',
+          type: ''
+        }
+    })
+}
+
 //excute
-fetchPage(squall_URL);
+//fetchPage(squall_URL);
+WordTemplate()
