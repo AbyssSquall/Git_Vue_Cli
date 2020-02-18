@@ -3,8 +3,13 @@
 }
 
 body{
-    height: 800px;
+    margin: 0px;
+    -webkit-overflow-scrolling: touch;
     background-color: #e8ecef;
+}
+
+#app{
+    overflow: scroll !important;
 }
 
 .squall_footer{
@@ -201,11 +206,6 @@ div>.blank{
 
 .squall_card_head_contain{
     margin: 15px
-}
-
-body{
-    margin: 0px;
-    /* -webkit-overflow-scrolling: touch; */
 }
 
 .squall_footer{

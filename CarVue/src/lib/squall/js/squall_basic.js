@@ -1,8 +1,8 @@
 import Vue from 'vue'
 
 //基础变量
-var squall_Database_Host_IP = "http://oa.nbgis.com";//http://127.0.0.1:3003 http://oa.nbgis.com
-var squall_data_server = "http://oa.nbgis.com/page";//http://oa.nbgis.com/page http://192.168.10.144:8400/page
+var squall_Database_Host_IP = "http://car.nbgis.com";//  http://127.0.0.1:3003 http://192.168.10.144:8515/hsgtch 
+var squall_data_server = "http://car.nbgis.com/page";// http://192.168.10.144:8400/page 
 
 //动态变量
 var squall_user_info = {};
@@ -302,7 +302,7 @@ var squall_basic_http = new Vue({
             //需要连表查询，需要申请人名
             var squall_Url = squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,b.部门,b.姓名,b.departmentid&_where=(a.charger,is,null)&_size=1000000000";
             if(table == "official_application")
-                squall_Url = squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.aim,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,a.cartype,b.部门,b.姓名,b.departmentid&_where=(a.charger,is,null)&_size=1000000000";
+                squall_Url = squall_Database_Host_IP+"/api/xjoin?_join=a." + table + ",_j,b.personlist&_on1=(a.序号,eq,b.序号)&_fields=a.序号,a.user,a.aim,a.waitpoint,a.task,a.starttime,a.endtime,a.passtime,a.personpasstime1,a.personpasstime2,a.region,a.guid,a.cartype,b.部门,b.姓名,b.departmentid&_where=(a.charger,is,null)&_size=1000000000";
             this.$http.get(squall_Url,{}).then(function(data){
                 var squall_list = [];
 
@@ -317,6 +317,8 @@ var squall_basic_http = new Vue({
                         //没有审核阻塞的场合
                         // if(squall_now_value<squall_endtime_value)
                         //     squall_list.push(data.data[index]);
+                            
+
                         //需要进行审核阻塞的场合
                         if(data.data[index].a_region=="市区内"&&squall_now_value<squall_endtime_value)
                         {

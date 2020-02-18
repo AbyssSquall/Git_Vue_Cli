@@ -12,6 +12,11 @@
                 </el-select>
                 </el-col>
             </el-form-item>
+            <el-form-item label="使用人" prop="user">
+                <el-col :span="20">
+                    <el-input v-model="squall_form.user"></el-input>
+                </el-col>
+            </el-form-item>
             <el-form-item label="目的地" prop="aim">
                 <el-col :span="20">
                     <el-input v-model="squall_form.aim"></el-input>
@@ -98,6 +103,7 @@ export default {
       page: 'car',
         squall_form:{
             region:"",
+            user:"",
             driver:"",
             startdate:"",
             starttime:"",
@@ -107,6 +113,9 @@ export default {
             waitpoint:""
         },
         rules: {
+            user: [
+                { required: true, message: '请输入使用人', trigger: 'blur' }
+            ],
             aim: [
                 { required: true, message: '请输入目的地', trigger: 'blur' }
             ],

@@ -1,30 +1,28 @@
 var mysql=require("mysql");  
-
-
-var hoststr = "192.168.10.144";
-var userstr = "root";
+var Config = require("./config");
 
 var pool = mysql.createPool({  
-    host : hoststr,
-    user : userstr,
-    password : "123456",
-    database : "carrent",
+    host : Config.MysqlConfig.Host,
+    user : Config.MysqlConfig.User,
+    password : Config.MysqlConfig.Password,
+    database : Config.MysqlConfig.Database,
     multipleStatements: true
 });  
   
-var query=function(sql,options,callback){
+var query=function(sql,options,callback,params){
     pool.getConnection(function(err,conn){  
         if(err){
             callback(err,null,null);  
         }else{  
             conn.query(sql,options,function(err,results,fields){  
                 //事件驱动回调  
-                callback(err,results,fields);  
+                callback(err,results,fields,params);  
             });  
         }  
         //释放连接  
-        console.log("释放链接");
-        conn.release();  
+        //console.log("释放链接");
+        if(conn)
+            conn.release();  
     });  
 };  
   

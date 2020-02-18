@@ -65,6 +65,7 @@ export default new Router({
     {
       path: '/Return',
       name: 'Return',
+      meta: { title: '用车归还' },
       component: Return
     },
     {

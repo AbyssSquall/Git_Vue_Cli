@@ -9,6 +9,10 @@
                     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.b_姓名}}</el-col>
                 </el-row>
                 <el-row>
+                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">使用人：</span></el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_user}}</el-col>
+                </el-row>
+                <el-row>
                     <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">目的地：</span></el-col>
                     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_aim}}</el-col>
                 </el-row>
@@ -21,8 +25,8 @@
                     <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_cartype}}</el-col>
                 </el-row>
                 <el-row>
-                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">用车类型：</span></el-col>
-                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">经营用车</el-col>
+                    <el-col :xs="6" :sm="6" :md="6" :lg="6" :xl="6" class="squall_label"><span class=" squall_label">等候地点：</span></el-col>
+                    <el-col :xs="18" :sm="18" :md="18" :lg="18" :xl="18">{{Application.a_waitpoint}}</el-col>
                 </el-row>
                 <el-row>
                     <el-col :span="20" :offset="2">
