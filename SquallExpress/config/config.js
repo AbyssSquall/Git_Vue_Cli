@@ -1,6 +1,6 @@
 var config = {
     HostIP:"192.168.10.144",
-    port:"1001",
+    Port:3000,
     MapServerIP:"",
     Log:"E:\\Log\\IPM_Log.txt",
     MysqlConfig:{
