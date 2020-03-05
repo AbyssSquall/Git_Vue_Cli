@@ -14,6 +14,7 @@ function squall_guid() {
         return v.toString(16);
     }).toUpperCase();
 }
+
 //日期生成
 var DateString = function(){
     var squall_DateData = new Date();
@@ -59,9 +60,15 @@ var TimeString = function(){
     return squall_DateString + " " + squall_Hours + ":" + squall_Minutes + ":" + squall_Seconds;
 }
 
+function sleep(ms) {
+    return new Promise(resolve => setTimeout(resolve, ms))
+}
+
 module.exports = {
     CheckBlackList:CheckBlackList,
     GetNewGUID:squall_guid,
     DateStr:DateString,
-    TimeStr:TimeString
+    TimeStr:TimeString,
+    Sleep:sleep
 };
+

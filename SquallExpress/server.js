@@ -40,10 +40,24 @@ var server = app.listen(Config.Port,Config.HostIP, function () {
     console.log('Start listening at http://%s:%s', host, port);
 });
 
+//中间件
+app.use("*",function(req,res,next){
+    try{
+		console.log(req.headers['x-wq-realip'] ||req.connection.remoteAddress ||req.socket.remoteAddress ||req.connection.socket.remoteAddress);
+	}catch(e){
+		logger.info("getClientIp error");
+    }
+    next();
+})
 
 //加载路由
 var msdb = require('./router/msdbapi');
 app.use('/msdbapi',msdb);
+
+//主路由
+app.get('/',function(req,res){
+    res.end("Welcome to Squall's world!")
+})
 
 //路由转发,目的是将外部的访问转发到本地
 // app.use('/',function(req,res,next){

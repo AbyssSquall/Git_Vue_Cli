@@ -74,6 +74,26 @@ var MSConFunList = {
     }
 }
 
+function CreateStr(_Table,_Option){
+    if(!CheckRule(_Option))
+        return false;
+        
+    var MSSQL = "CREATE TABLE IF NOT EXISTS `" + _Table + "` (";
+
+    for(var ColIndex in _Option){
+        if(_Option[ColIndex]!=""){
+            MSSQL += ColIndex + " " + _Option[ColIndex] + ",";
+        }
+        else{
+            MSSQL += ColIndex + " varchar(255),";
+        }
+    }
+    MSSQL = MSSQL.substr(0,MSSQL.length-1);
+    MSSQL += ")";
+
+    return MSSQL
+}
+
 function SelectStr(_Table,_Option){
     if(!CheckRule(_Option))
         return false;
@@ -186,5 +206,6 @@ module.exports = {
     InsertStr:InsertStr,
     UpdateStr:UpdateStr,
     DeleteStr:DeleteStr,
-    MultiTableSelectStr:MultiTableSelectStr
+    MultiTableSelectStr:MultiTableSelectStr,
+    CreateStr:CreateStr
 };
