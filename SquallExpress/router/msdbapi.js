@@ -125,7 +125,7 @@ router.get('/delete',async function(req,res){
 
 router.get('/mulsearch',async function(req,res){
     if(req.query.table&&req.query.optionstr&&(MSBlackTableList.indexOf(req.query.table)==-1)){
-        var SQLStr = MSSQLMaker.SelectStr(req.query.table,JSON.parse(decodeURIComponent(req.query.optionstr)));
+        var SQLStr = MSSQLMaker.MultiSelectStr(req.query.table,JSON.parse(decodeURIComponent(req.query.optionstr)));
 
         if(SQLStr){
             try{
@@ -139,6 +139,22 @@ router.get('/mulsearch',async function(req,res){
         }
         else{
             res.end("Wrong Params!");
+        }
+    }
+    else{
+        res.end("Wrong Query!");
+    }
+})
+
+router.get('/queryexcute',async function(req,res){
+    if(req.query.sql){
+        try{
+            var MSResults = await query(req.query.sql,{});
+            res.end(encodeURIComponent(JSON.stringify(MSResults)));
+        }
+        catch(Error){
+            res.end(JSON.stringify(Error));
+            return;
         }
     }
     else{

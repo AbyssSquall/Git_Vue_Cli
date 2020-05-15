@@ -1,0 +1,16 @@
+{
+  "name": "testmodal",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "main",
+    "gdbn": "node GetDrawByName.js"
+  },
+  "author": "MikeSquall",
+  "license": "ISC",
+  "dependencies": {
+    "fast-xml-parser": "^3.16.0",
+    "sync-request": "^6.1.0"
+  }
+}

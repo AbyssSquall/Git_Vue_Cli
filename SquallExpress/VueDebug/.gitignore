@@ -1,5 +1,5 @@
 .DS_Store
 node_modules/
-npm-debug.log
-.editorconfig
 dist/
+npm-debug.log
+example.html

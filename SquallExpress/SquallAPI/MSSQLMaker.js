@@ -21,6 +21,39 @@ var MSConFunList = {
 
         return MSReturn;
     },
+    gt:function(_List){
+        var MSReturn = "(1=1 ";
+
+        for(var ValueIndex in _List){
+            MSReturn += " and " + _List[ValueIndex].split(",")[0] + ">'" + _List[ValueIndex].split(",")[1] + "'"
+        }
+
+        MSReturn += ")";
+
+        return MSReturn;
+    },
+    lt:function(_List){
+        var MSReturn = "(1=1 ";
+
+        for(var ValueIndex in _List){
+            MSReturn += " and " + _List[ValueIndex].split(",")[0] + "<'" + _List[ValueIndex].split(",")[1] + "'"
+        }
+
+        MSReturn += ")";
+
+        return MSReturn;
+    },
+    bt:function(_List){
+        var MSReturn = "(1=1 ";
+
+        for(var ValueIndex in _List){
+            MSReturn += " and " + _List[ValueIndex].split(",")[0] + " BETWEEN '" + _List[ValueIndex].split(",")[1] + "' and '" + _List[ValueIndex].split(",")[2] + "'";
+        }
+
+        MSReturn += ")";
+
+        return MSReturn;
+    },
     like:function(_List){
         var MSReturn = "(1=1 ";
 
@@ -40,6 +73,25 @@ var MSConFunList = {
         }
 
         MSReturn += ")";
+
+        return MSReturn;
+    },
+    ob:function(_List){
+        var MSReturn = " order by ";
+
+        for(var ColIndex in _List){
+            if(_List[ColIndex].split(",").length>1)
+                MSReturn += _List[ColIndex].split(",")[0] + " " + _List[ColIndex].split(",")[1] + ",";
+            else
+                MSReturn += _List[ColIndex].split(",")[0] + " asc,";
+        }
+
+        MSReturn = MSReturn.substr(0,MSReturn.length-1);
+
+        return MSReturn;
+    },
+    size:function(_Size){
+        var MSReturn = " limit 0," + _Size;
 
         return MSReturn;
     },
@@ -71,7 +123,7 @@ var MSConFunList = {
         MSReturn += ")";
 
         return MSReturn;
-    }
+    },
 }
 
 function CreateStr(_Table,_Option){
@@ -109,8 +161,24 @@ function SelectStr(_Table,_Option){
 
     if(MSSQL == "select * from `" + _Table + "` where ")
         MSSQL = MSSQL.substr(0,MSSQL.length-6);
+    return MSSQL;
+}
 
-    console.log(MSSQL);
+function MultiSelectStr(_TableList,_Option){
+    if(!CheckRule(_Option))
+        return false;
+
+    var MSSQL = "select * from `" + _Table + "` where ";
+
+    for(var ModeIndex in _Option){
+        if(MSConFunList[ModeIndex](_Option[ModeIndex]))
+            MSSQL += MSConFunList[ModeIndex](_Option[ModeIndex])
+        else
+            return false
+    }
+
+    if(MSSQL == "select * from `" + _Table + "` where ")
+        MSSQL = MSSQL.substr(0,MSSQL.length-6);
     return MSSQL;
 }
 
@@ -201,6 +269,7 @@ function CheckRule(_Option){
 }
 
 module.exports = {
+    MultiSelectStr:MultiSelectStr,
     SelectStr:SelectStr,
     DisSelectStr:DisSelectStr,
     InsertStr:InsertStr,

@@ -1,18 +1,9 @@
 var express = require('express');
 var app = express();
 var Config = require('./config/config');
-var http = require('http');
-var fs = require('fs');
-
-var squall_HttpGet = {
-	hostname: '127.0.0.1', 
-    port: 10086, 
-    path: '/pay/pay_callback?parem=1', 
-    method: 'GET' 
-}
 
 //虚拟路径
-app.use(express.static('E:\\地图模板\\WebApp'));
+app.use(express.static('web'));
 
 
 //地图数据库
