@@ -60,7 +60,7 @@
                     // },
                     {
                         icon: 'el-icon-lx-copy',
-                        index: 'tabs',
+                        index: 'pcr',
                         title: 'Pcr',
                         subs: [
                             {
@@ -77,11 +77,11 @@
                             }
                         ]
                     },
-                    // {
-                    //     icon: 'el-icon-lx-copy',
-                    //     index: 'tabs',
-                    //     title: 'tab选项卡'
-                    // },
+                    {
+                        icon: 'el-icon-lx-copy',
+                        index: 'tabs',
+                        title: 'tab选项卡'
+                    },
                     // {
                     //     icon: 'el-icon-lx-calendar',
                     //     index: '3',

@@ -46,8 +46,6 @@ function startRequest(Url){
             var buf=new Buffer(html,'binary');
             var str=iconv.decode(buf,'GBK');
 
-            console.log(str);
-
             var $ = cheerio.load(str); //采用cheerio模块解析html
             var news_item = {
                 //获取文章的标题

@@ -45,6 +45,10 @@ app.use("*",function(req,res,next){
 var msdb = require('./router/msdbapi');
 app.use('/msdbapi',msdb);
 
+var spider = require('./router/spider');
+app.use('/spider',spider);
+
+
 //主路由
 app.get('/',function(req,res){
     res.end("Welcome to Squall's world!")

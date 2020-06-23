@@ -49,7 +49,9 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('img/[name].[hash:7].[ext]')
+          //outputPath:"assets/image",
+          name: utils.assetsPath('img/[name].[hash:7].[ext]'),
+          publicPath: '../../'
         }
       },
       {
@@ -65,7 +67,8 @@ module.exports = {
         loader: 'url-loader',
         options: {
           limit: 10000,
-          name: utils.assetsPath('fonts/[name].[hash:7].[ext]')
+          name: utils.assetsPath('fonts/[name].[hash:7].[ext]'),
+          publicPath: '../../'
         }
       },
       //webpack4 adder
@@ -75,7 +78,10 @@ module.exports = {
           devMode ?  MiniCssExtractPlugin.loader : 'vue-style-loader',
           {
             loader: 'css-loader',
-            options: { importLoaders: 1 }
+            options: {
+              importLoaders: 1,
+              //publicPath: '../../' 
+            }
           },
           'postcss-loader'
         ]
